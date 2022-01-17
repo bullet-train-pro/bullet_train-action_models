@@ -1,6 +1,6 @@
 module Actions::TargetsOne
   extend ActiveSupport::Concern
-  include Actions::TrueBase
+  include Actions::Base
 
   included do
   end

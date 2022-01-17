@@ -1,0 +1,10 @@
+<% if can? :read, Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction.new(team: current_team) %>
+  <%= render 'account/shared/menu/item', {
+    url: main_app.polymorphic_path([:account, current_team, :scaffolding_completely_concrete_tangible_things_targets_many_actions]),
+    label: t('scaffolding/completely_concrete/tangible_things/targets_many_actions.navigation.label'),
+  } do |p| %>
+    <% p.content_for :icon do %>
+      <i class="<%= t('scaffolding/completely_concrete/tangible_things/targets_many_actions.navigation.icon') %>"></i>
+    <% end %>
+  <% end %>
+<% end %>

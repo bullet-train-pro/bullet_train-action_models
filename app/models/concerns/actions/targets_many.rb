@@ -1,6 +1,6 @@
 module Actions::TargetsMany
   extend ActiveSupport::Concern
-  include Actions::TrueBase
+  include Actions::Base
 
   included do
   end
