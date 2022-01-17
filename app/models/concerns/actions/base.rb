@@ -5,9 +5,6 @@ module Actions::Base
     after_commit :dispatch, on: [:create]
   end
 
-  module ClassMethods
-  end
-
   def dispatch
     perform
   end

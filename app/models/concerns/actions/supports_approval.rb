@@ -6,9 +6,6 @@ module Actions::SupportsApproval
     validates :approved_by, scope: true
   end
 
-  module ClassMethods
-  end
-
   def valid_approved_bys
     team.memberships
   end

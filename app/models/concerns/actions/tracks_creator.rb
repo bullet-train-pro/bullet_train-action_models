@@ -6,9 +6,6 @@ module Actions::TracksCreator
     validates :created_by, scope: true
   end
 
-  module ClassMethods
-  end
-
   def valid_created_bys
     team.memberships
   end

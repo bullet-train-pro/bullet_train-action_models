@@ -12,10 +12,6 @@ module Actions::Legacy::Base
     after_commit :dispatch, on: [:create]
   end
 
-  # define class methods.
-  module ClassMethods
-  end
-
   def valid_targets
     raise "You need to implement `valid_targets` in this model."
   end

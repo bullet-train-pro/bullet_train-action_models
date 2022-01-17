@@ -2,12 +2,6 @@ module Actions::TargetsMany
   extend ActiveSupport::Concern
   include Actions::Base
 
-  included do
-  end
-
-  module ClassMethods
-  end
-
   def valid_targets
     raise "You need to implement `valid_targets` in this model."
   end

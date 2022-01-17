@@ -1,12 +1,6 @@
 module Actions::HasProgress
   extend ActiveSupport::Concern
 
-  included do
-  end
-
-  module ClassMethods
-  end
-
   def completion_percent
     return 0 unless target_count
     (performed_count.to_f / target_count.to_f) * 100.0
