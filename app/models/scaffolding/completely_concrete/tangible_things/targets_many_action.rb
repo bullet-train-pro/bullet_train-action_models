@@ -3,8 +3,8 @@ class Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction < Appli
   def self.table_name
     "sc_completely_concrete_tangible_things_targets_many_actions"
   end
-
   # 🚅 stop any skipping we're doing now.
+
   include Actions::TargetsMany
   include Actions::SupportsScheduling
   include Actions::HasProgress
