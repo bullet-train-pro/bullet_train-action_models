@@ -29,6 +29,7 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
     assert_equal DateTime.parse(targets_one_action_data["started_at"]), targets_one_action.started_at
     assert_equal DateTime.parse(targets_one_action_data["completed_at"]), targets_one_action.completed_at
     assert_equal targets_one_action_data["delay"], targets_one_action.delay
+    assert_equal targets_one_action_data["emoji"], targets_one_action.emoji
     # 🚅 super scaffolding will insert new fields above this line.
 
     assert_equal targets_one_action_data["tangible_thing_id"], targets_one_action.tangible_thing_id
@@ -90,6 +91,7 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
       target_count: "Alternative String Value",
       performed_count: "Alternative String Value",
       delay: "Alternative String Value",
+      emoji: "Alternative String Value",
       # 🚅 super scaffolding will also insert new fields above this line.
     }
 
@@ -103,6 +105,7 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
     assert_equal @targets_one_action.target_count, "Alternative String Value"
     assert_equal @targets_one_action.performed_count, "Alternative String Value"
     assert_equal @targets_one_action.delay, "Alternative String Value"
+    assert_equal @targets_one_action.emoji, "Alternative String Value"
     # 🚅 super scaffolding will additionally insert new fields above this line.
 
     # Also ensure we can't do that same action as another user.

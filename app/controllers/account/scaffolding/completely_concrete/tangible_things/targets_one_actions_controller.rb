@@ -85,6 +85,7 @@ class Account::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
       :started_at,
       :completed_at,
       :delay,
+      :emoji,
       # 🚅 super scaffolding will insert new fields above this line.
       # 🚅 super scaffolding will insert new arrays above this line.
     )

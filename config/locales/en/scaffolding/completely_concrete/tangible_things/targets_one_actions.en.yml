@@ -73,6 +73,10 @@ en:
         _: &delay Delay
         label: *delay
         heading: *delay
+      emoji:
+        _: &emoji Emoji
+        label: *emoji
+        heading: *emoji
       # 🚅 super scaffolding will insert new fields above this line.
       created_at:
         _: &created_at Added
@@ -141,6 +145,7 @@ en:
         started_at: *started_at
         completed_at: *completed_at
         delay: *delay
+        emoji: *emoji
         # 🚅 super scaffolding will insert new activerecord attributes above this line.
         created_at: *created_at
         updated_at: *updated_at

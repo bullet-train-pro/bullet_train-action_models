@@ -29,6 +29,7 @@
                 <th><%= t('.fields.started_at.heading') %></th>
                 <th><%= t('.fields.completed_at.heading') %></th>
                 <th><%= t('.fields.delay.heading') %></th>
+                <th><%= t('.fields.emoji.heading') %></th>
                 <%# 🚅 super scaffolding will insert new field headers above this line. %>
                 <th><%= t('.fields.created_at.heading') %></th>
                 <th class="text-right"></th>
@@ -48,6 +49,7 @@
                     <td><%= render 'shared/attributes/date_and_time', attribute: :started_at %></td>
                     <td><%= render 'shared/attributes/date_and_time', attribute: :completed_at %></td>
                     <td><%= render 'shared/attributes/text', attribute: :delay %></td>
+                    <td><%= render 'shared/attributes/text', attribute: :emoji %></td>
                     <%# 🚅 super scaffolding will insert new fields above this line. %>
                     <td><%= render 'shared/attributes/date_and_time', attribute: :created_at %></td>
                     <td class="buttons">

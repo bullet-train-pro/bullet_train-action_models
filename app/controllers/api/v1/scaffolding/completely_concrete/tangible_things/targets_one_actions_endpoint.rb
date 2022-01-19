@@ -9,15 +9,10 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
     end
 
     params :targets_one_action do
-      optional :keep_receipt, type: Boolean, desc: Api.heading(:keep_receipt)
-      optional :target_count, type: String, desc: Api.heading(:target_count)
-      optional :performed_count, type: String, desc: Api.heading(:performed_count)
-      optional :created_by, type: String, desc: Api.heading(:created_by)
-      optional :approved_by, type: String, desc: Api.heading(:approved_by)
-      optional :scheduled_for, type: DateTime, desc: Api.heading(:scheduled_for)
-      optional :started_at, type: DateTime, desc: Api.heading(:started_at)
-      optional :completed_at, type: DateTime, desc: Api.heading(:completed_at)
       optional :delay, type: String, desc: Api.heading(:delay)
+      optional :keep_receipt, type: Boolean, desc: Api.heading(:keep_receipt)
+      optional :scheduled_for, type: DateTime, desc: Api.heading(:scheduled_for)
+      optional :emoji, type: String, desc: Api.heading(:emoji)
       # 🚅 super scaffolding will insert new fields above this line.
       # 🚅 super scaffolding will insert new arrays above this line.
 
