@@ -1,7 +1,7 @@
 class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneActionsEndpoint < Api::V1::Root
   helpers do
-    params :absolutely_abstract_creative_concept_id do
-      requires :absolutely_abstract_creative_concept_id, type: Integer, allow_blank: false, desc: "Creative Concept ID"
+    params :tangible_thing_id do
+      requires :tangible_thing_id, type: Integer, allow_blank: false, desc: "Tangible Thing ID"
     end
 
     params :id do
@@ -9,20 +9,23 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
     end
 
     params :targets_one_action do
+      optional :keep_receipt, type: Boolean, desc: Api.heading(:keep_receipt)
+      optional :target_count, type: String, desc: Api.heading(:target_count)
+      optional :performed_count, type: String, desc: Api.heading(:performed_count)
+      optional :created_by, type: String, desc: Api.heading(:created_by)
+      optional :approved_by, type: String, desc: Api.heading(:approved_by)
+      optional :scheduled_for, type: DateTime, desc: Api.heading(:scheduled_for)
+      optional :started_at, type: DateTime, desc: Api.heading(:started_at)
+      optional :completed_at, type: DateTime, desc: Api.heading(:completed_at)
+      optional :delay, type: String, desc: Api.heading(:delay)
       # 🚅 super scaffolding will insert new fields above this line.
       # 🚅 super scaffolding will insert new arrays above this line.
-
-      optional :target_all, type: Boolean, desc: Api.heading(:target_all)
-      optional :keep_receipt, type: Boolean, desc: Api.heading(:keep_receipt)
-      optional :scheduled_for, type: DateTime, desc: Api.heading(:scheduled_for)
-      optional :delay, type: String, desc: Api.heading(:delay)
-      optional :target_ids, type: Array, desc: Api.heading(:target_ids)
 
       # 🚅 super scaffolding will insert processing for new fields above this line.
     end
   end
 
-  resource "scaffolding/absolutely_abstract/creative_concepts", desc: Api.title(:collection_actions) do
+  resource "scaffolding/completely_concrete/tangible_things", desc: Api.title(:collection_actions) do
     after_validation do
       load_and_authorize_api_resource Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
     end
@@ -33,11 +36,11 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
 
     desc Api.title(:index), &Api.index_desc
     params do
-      use :absolutely_abstract_creative_concept_id
+      use :tangible_thing_id
     end
     oauth2
     paginate per_page: 100
-    get "/:absolutely_abstract_creative_concept_id/completely_concrete/tangible_things/targets_one_actions" do
+    get "/:tangible_thing_id/targets_one_actions" do
       @paginated_targets_one_actions = paginate @targets_one_actions
       render @paginated_targets_one_actions, serializer: Api.serializer
     end
@@ -48,12 +51,12 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
 
     desc Api.title(:create), &Api.create_desc
     params do
-      use :absolutely_abstract_creative_concept_id
+      use :tangible_thing_id
       use :targets_one_action
     end
     route_setting :api_resource_options, permission: :create
     oauth2 "write"
-    post "/:absolutely_abstract_creative_concept_id/completely_concrete/tangible_things/targets_one_actions" do
+    post "/:tangible_thing_id/targets_one_actions" do
       if @targets_one_action.save
         render @targets_one_action, serializer: Api.serializer
       else

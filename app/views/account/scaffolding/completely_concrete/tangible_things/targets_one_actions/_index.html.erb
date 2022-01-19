@@ -1,91 +1,98 @@
-<% absolutely_abstract_creative_concept = @absolutely_abstract_creative_concept || @creative_concept %>
-<% context ||= absolutely_abstract_creative_concept %>
-<% collection ||= :completely_concrete_tangible_things_targets_one_actions %>
+<% tangible_thing = @tangible_thing || @tangible_thing %>
+<% context ||= tangible_thing %>
+<% collection ||= :targets_one_actions %>
 <% hide_actions ||= false %>
 <% hide_back ||= false %>
 
-<% targets_one_actions = targets_one_actions.order("scheduled_for DESC, created_at DESC") %>
+<% targets_one_actions = targets_one_actions.order(:created_at) %>
 
-<%= updates_for context, collection do %>
-  <% if targets_one_actions.any? %>
-    <div class="border-t">
-      <%= render 'account/shared/box', no_background: true, title_size: "text-base" do |p| %>
-        <% p.content_for :title, t(".contexts.#{context.class.name.underscore}.header") %>
-        <% p.content_for :description do %>
-          <%= t(".contexts.#{context.class.name.underscore}.description") %>
-        <% end %>
+<%= action_model_select_controller do %>
+  <%= updates_for context, collection do %>
+    <%= render 'account/shared/box' do |p| %>
+      <% p.content_for :title, t(".contexts.#{context.class.name.underscore}.header") %>
+      <% p.content_for :description do %>
+        <%= t(".contexts.#{context.class.name.underscore}.description#{"_empty" unless targets_one_actions.any?}") %>
+      <% end %>
 
-        <% p.content_for :table do %>
-          <div class="divide-y divide-gray-900 divide-opacity-5 border-t">
-            <% targets_one_actions.each do |targets_one_action| %>
-              <div class="py-4 px-8 w-full space-y-3">
-                <div class="flex space-x-4">
-                  <div class="flex-0">
-                    <%= render "shared/memberships/photo", membership: targets_one_action.created_by, size: 7 %>
-                  </div>
-                  <div class="flex-1">
-                    <div class="flex">
-                      <div class="flex-1 space-y-4 py-1">
-                        <div>
-                          <%= targets_one_action.label_string %> to
-                          <% if targets_one_action.target_all? %>
-                            all Tangible Things
-                          <% else %>
-                            <% if targets_one_action.target_ids.one? %>
-                              <%= targets_one_action.targeted.first.label_string %>
-                            <% else %>
-                              <%= targets_one_action.target_ids.count %> <%= "Tangible Thing".pluralize(targets_one_action.target_ids.count) %>
-                            <% end %>
-                          <% end %>
-                        </div>
-                      </div>
-                      <div class="flex-0">
+      <% p.content_for :table do %>
+        <% if targets_one_actions.any? %>
+          <table class="table">
+            <thead>
+              <tr>
+                <%= render "shared/tables/select_all" %>
+                <th  class="text-center"><%= t('.fields.keep_receipt.heading') %></th>
+                <th><%= t('.fields.target_count.heading') %></th>
+                <th><%= t('.fields.performed_count.heading') %></th>
+                <th><%= t('.fields.created_by.heading') %></th>
+                <th><%= t('.fields.approved_by.heading') %></th>
+                <th><%= t('.fields.scheduled_for.heading') %></th>
+                <th><%= t('.fields.started_at.heading') %></th>
+                <th><%= t('.fields.completed_at.heading') %></th>
+                <th><%= t('.fields.delay.heading') %></th>
+                <%# 🚅 super scaffolding will insert new field headers above this line. %>
+                <th><%= t('.fields.created_at.heading') %></th>
+                <th class="text-right"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% targets_one_actions.each do |targets_one_action| %>
+                <% with_attribute_settings object: targets_one_action do %>
+                  <tr data-id="<%= targets_one_action.id %>">
+                    <%= render "shared/tables/checkbox", object: targets_one_action %>
+                    <td class="text-center"><%= render 'shared/attributes/boolean', attribute: :keep_receipt, url: [:account, targets_one_action] %></td>
+                    <td><%= render 'shared/attributes/text', attribute: :target_count %></td>
+                    <td><%= render 'shared/attributes/text', attribute: :performed_count %></td>
+                    <td><%= render 'shared/attributes/option', attribute: :created_by %></td>
+                    <td><%= render 'shared/attributes/option', attribute: :approved_by %></td>
+                    <td><%= render 'shared/attributes/date_and_time', attribute: :scheduled_for %></td>
+                    <td><%= render 'shared/attributes/date_and_time', attribute: :started_at %></td>
+                    <td><%= render 'shared/attributes/date_and_time', attribute: :completed_at %></td>
+                    <td><%= render 'shared/attributes/text', attribute: :delay %></td>
+                    <%# 🚅 super scaffolding will insert new fields above this line. %>
+                    <td><%= render 'shared/attributes/date_and_time', attribute: :created_at %></td>
+                    <td class="buttons">
+                      <% unless hide_actions %>
                         <% if can? :edit, targets_one_action %>
                           <%= link_to t('.buttons.shorthand.edit'), [:edit, :account, targets_one_action], class: 'button-secondary button-smaller' %>
                         <% end %>
                         <% if can? :destroy, targets_one_action %>
                           <%= button_to t('.buttons.shorthand.destroy'), [:account, targets_one_action], method: :delete, data: { confirm: t('.buttons.confirmations.destroy', model_locales(targets_one_action)) }, class: 'button-secondary button-smaller' %>
                         <% end %>
-                        <% if can? :approve, targets_one_action %>
-                          <%= button_to t('.buttons.shorthand.approve'), [:approve, :account, targets_one_action], method: :post, class: 'button-secondary button-smaller' %>
-                        <% end %>
-                        <%= link_to t('.buttons.shorthand.show'), [:edit, :account, targets_one_action], class: 'button-secondary button-smaller' %>
-                      </div>
-                    </div>
-
-                    <% if targets_one_action.completed_at.present? %>
-                      <div class="uppercase text-xs text-gray-400">
-                        Processed <%= targets_one_action.performed_count %> of <%= targets_one_action.target_count %> <%= display_date_and_time(targets_one_action.completed_at) %>
-                      </div>
-                    <% elsif targets_one_action.started_at.present? %>
-                      <div class="mt-3 h-4 bg-gray-100 shadow-inner rounded w-full">
-                        <div class="h-4 animate-pulse bg-blue rounded" style="width: <%= targets_one_action.completion_percent %>%"></div>
-                      </div>
-
-                      <div class="mt-2 uppercase text-xs text-gray-400">
-                        Processing <%= targets_one_action.performed_count %> of <%= targets_one_action.target_count %>
-                      </div>
-                    <% else %>
-                      <div class="uppercase text-xs text-gray-400">
-                        Scheduled for <%= display_date_and_time(targets_one_action.scheduled_for) %>
-                      </div>
-                    <% end %>
-                  </div>
-                </div>
-              </div>
-            <% end %>
-          </div>
-
+                        <%= render "account/scaffolding/completely_concrete/tangible_things/targets_one_actions/targets_one_actions/new_button_one", tangible_thing: tangible_thing, targets_one_action: targets_one_action %>
+                        <%# 🚅 super scaffolding will insert new action model buttons above this line. %>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              <% end %>
+            </tbody>
+          </table>
         <% end %>
+      <% end %>
 
-        <% p.content_for :actions do %>
-          <% unless hide_actions %>
-            <% unless hide_back %>
-              <%= link_to t('global.buttons.back'), [:account, context], class: "#{first_button_primary(:completely_concrete_tangible_things_targets_one_action)} back" %>
+      <% p.content_for :actions do %>
+        <% unless hide_actions %>
+          <% if context == tangible_thing %>
+            <% if can? :create, Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction.new(tangible_thing: tangible_thing) %>
+              <%= link_to t('.buttons.new'), [:new, :account, tangible_thing, :targets_one_action], class: "#{first_button_primary(:targets_one_action)} new" %>
             <% end %>
+          <% end %>
+          <%= render "account/scaffolding/completely_concrete/tangible_things/targets_one_actions/targets_one_actions/new_button_many", tangible_thing: tangible_thing %>
+          <%# 🚅 super scaffolding will insert new bulk action model buttons above this line. %>
+
+
+          <%= render "shared/bulk_action_select" %>
+
+          <% unless hide_back %>
+            <%= link_to t('global.buttons.back'), [:account, context], class: "#{first_button_primary(:targets_one_action)} back" %>
           <% end %>
         <% end %>
       <% end %>
-    </div>
+
+      <% p.content_for :raw_footer do %>
+        <%= render 'account/scaffolding/completely_concrete/tangible_things/targets_one_actions/targets_one_actions/index', targets_one_actions: context.targets_one_actions_targets_one_actions, hide_back: true %>
+        <%# 🚅 super scaffolding will insert new action model index views above this line. %>
+      <% end %>
+    <% end %>
   <% end %>
 <% end %>

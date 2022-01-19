@@ -2,15 +2,12 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
   set_type "scaffolding/completely_concrete/tangible_things/targets_one_action"
 
   attributes :id,
-    :absolutely_abstract_creative_concept_id,
-    :target_all,
-    :target_ids,
-    :emoji,
+    :tangible_thing_id,
     :keep_receipt,
     :target_count,
     :performed_count,
-    :created_by_id,
-    :approved_by_id,
+    :created_by,
+    :approved_by,
     :scheduled_for,
     :started_at,
     :completed_at,
@@ -19,5 +16,5 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
     :created_at,
     :updated_at
 
-  belongs_to :absolutely_abstract_creative_concept, serializer: Api::V1::Scaffolding::AbsolutelyAbstract::CreativeConceptSerializer
+  belongs_to :tangible_thing, serializer: Api::V1::Scaffolding::CompletelyConcrete::TangibleThingSerializer
 end

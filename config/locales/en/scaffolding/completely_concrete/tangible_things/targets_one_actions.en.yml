@@ -8,84 +8,60 @@ en:
       icon: fal fa-puzzle-piece
     buttons: &buttons
       new: Add New Targets One Action
-      create: Targets One
+      create: Create Targets One Action
       edit: Edit Targets One Action
       update: Update Targets One Action
       destroy: Remove Targets One Action
-      approve: Approve Targets One Action
       shorthand:
-        show: Details
         edit: Edit
         destroy: Delete
-        approve: Approve
-        create: Targets One
       confirmations:
         # TODO customize for your use-case.
         destroy: Are you sure you want to remove %{targets_one_action_name}? This will also remove it's associated data. This can't be undone.
     fields: &fields
       id:
         heading: Targets One Action ID
-      absolutely_abstract_creative_concept_id:
-        heading: Creative Concept ID
-      target_all:
-        _: &target_all Target All
-        label: *target_all
-        heading: *target_all
-        options:
-          yes: "Yes"
-          no: "No"
-      target_ids: &targets
-        _: &target_ids Targets
-        label: *target_ids
-        heading: *target_ids
-        placeholder: None
-      targets: *targets
-      emoji:
-        _: &emoji Emoji
-        label: Which emoji would you like to append to the label of the Tangible Things?
-        heading: *emoji
-        options:
-          thumbs_up: 👍
-          hands_raised: 🙌
-          flex: 💪
-          star: ⭐️
-          heart_eyes: 😍
-          party_face: 🥳
+      tangible_thing_id:
+        heading: Tangible Thing ID
       keep_receipt:
         _: &keep_receipt Keep Receipt
-        label: Should we keep a receipt of this action around after it's completed?
+        label: *keep_receipt
         heading: *keep_receipt
         options:
           yes: "Yes"
           no: "No"
-        help: By default, Action Models will call <code>destroy</code> on themselves after they've completed. However, you can configure an Action Model to skip this and the resulting record can serve as a history or audit trail of operations that have been performed.
       target_count:
-        _: &target_count Total Count
+        _: &target_count Target Count
         label: *target_count
         heading: *target_count
       performed_count:
-        _: &performed_count Progress Count
+        _: &performed_count Performed Count
         label: *performed_count
         heading: *performed_count
-      created_by_id: &created_by
-        _: &created_by_id Created By
-        label: *created_by_id
-        heading: *created_by_id
+      created_by:
+        _: &created_by Created By
+        label: *created_by
+        heading: *created_by
         placeholder: None
-      created_by: *created_by
-      approved_by_id: &approved_by
-        _: &approved_by_id Approved By
-        label: *approved_by_id
-        heading: *approved_by_id
+        options:
+          one: One
+          two: Two
+          three: Three
+      approved_by:
+        _: &approved_by Approved By
+        label: *approved_by
+        heading: *approved_by
         placeholder: None
-      approved_by: *approved_by
+        options:
+          one: One
+          two: Two
+          three: Three
       scheduled_for:
         _: &scheduled_for Scheduled For
-        label: "Would you like this action to be performed at a future time?"
+        label: *scheduled_for
         heading: *scheduled_for
-        help: Leave this blank if you would like the action to take place immediately.
       started_at:
-        _: &started_at Began At
+        _: &started_at Started At
         label: *started_at
         heading: *started_at
       completed_at:
@@ -94,9 +70,8 @@ en:
         heading: *completed_at
       delay:
         _: &delay Delay
-        label: "How many seconds should we pause between each record being processed?"
+        label: *delay
         heading: *delay
-        help: "This is a great way of seeing how Action Models behave when performing long-running operations in the background."
       # 🚅 super scaffolding will insert new fields above this line.
       created_at:
         _: &created_at Added
@@ -116,28 +91,28 @@ en:
       destroy: "Delete a Targets One Action"
       fields: *fields
     index:
-      section: "%{creative_concepts_possessive} Targets One Actions"
+      section: "%{tangible_things_possessive} Targets One Actions"
       contexts:
-        scaffolding/absolutely_abstract/creative_concept:
-          header: Current and Scheduled Targets One Operations
-          description: Below is a list of previously scheduled or performed operations to Targetsone one or more Tangible Things of %{creative_concept_name}. Operations will only appear here if they are scheduled for the future, currently in progress, or specifically were configured to retain their receipt after completion.
-          description_empty: No Targets One Actions have been added for %{creative_concept_name}.
+        scaffolding/completely_concrete/tangible_thing:
+          header: Targets One Actions
+          description: Below is a list of Targets One Actions that have been added for %{tangible_thing_name}.
+          description_empty: No Targets One Actions have been added for %{tangible_thing_name}.
       fields: *fields
       buttons: *buttons
     show:
       section: "%{targets_one_action_name}"
       header: Targets One Action Details
       description: Below are the details we have for %{targets_one_action_name}.
-      manage_description: You'll also find options for updating these details or removing %{targets_one_action_name} from %{creative_concept_name} entirely.
+      manage_description: You'll also find options for updating these details or removing %{targets_one_action_name} from %{tangible_thing_name} entirely.
       fields: *fields
       buttons: *buttons
     form: &form
       buttons: *buttons
       fields: *fields
     new:
-      section: "Targets One Tangible Things of %{creative_concept_name}"
-      header: Targets One Tangible Things
-      description: The following options are available for this operation.
+      section: "New Targets One Action for %{tangible_thing_name}"
+      header: New Targets One Action Details
+      description: Please provide the details of the new Targets One Action you'd like to add to %{tangible_thing_name}.
       form: *form
     edit:
       section: "%{targets_one_action_name}"
@@ -148,7 +123,6 @@ en:
       created: Targets One Action was successfully created.
       updated: Targets One Action was successfully updated.
       destroyed: Targets One Action was successfully destroyed.
-      approved: Targets One Action was successfully approved.
   account:
     scaffolding:
       completely_concrete:
@@ -157,17 +131,15 @@ en:
   activerecord:
     attributes:
       scaffolding/completely_concrete/tangible_things/targets_one_action:
-        target_all: *target_all
-        target_ids: *target_ids
-        # 🚅 super scaffolding will insert new activerecord attributes above this line.
         keep_receipt: *keep_receipt
         target_count: *target_count
         performed_count: *performed_count
-        created_by_id: *created_by_id
-        approved_by_id: *approved_by_id
+        created_by: *created_by
+        approved_by: *approved_by
         scheduled_for: *scheduled_for
         started_at: *started_at
         completed_at: *completed_at
         delay: *delay
+        # 🚅 super scaffolding will insert new activerecord attributes above this line.
         created_at: *created_at
         updated_at: *updated_at

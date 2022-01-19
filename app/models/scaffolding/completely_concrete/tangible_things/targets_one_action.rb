@@ -25,6 +25,7 @@ class Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction < Applic
   # 🚅 skip this section when scaffolding.
   validates :emoji, presence: true
   # 🚅 stop any skipping we're doing now.
+  validates :keep_receipt, presence: true
   # 🚅 add validations above.
 
   # 🚅 add callbacks above.
