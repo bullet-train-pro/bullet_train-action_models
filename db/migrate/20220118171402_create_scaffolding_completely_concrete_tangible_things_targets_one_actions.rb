@@ -12,7 +12,7 @@ class CreateScaffoldingCompletelyConcreteTangibleThingsTargetsOneActions < Activ
       t.datetime :started_at
       t.datetime :completed_at
       t.string :sidekiq_jid
-      t.integer :delay
+      t.integer :delay, default: 1
 
       t.timestamps
     end

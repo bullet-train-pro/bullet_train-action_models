@@ -15,7 +15,13 @@ module Actions::Base
   def after_completion
   end
 
+  def before_each
+  end
+
+  def after_each
+  end
+
   def perform
-    raise "You need to define `perform`. Did you forget to include `Actions::TargetsMany` or `Actions::TargetsMany`?"
+    raise "You need to define `perform`. Did you forget to include `Actions::TargetsMany` or `Actions::TargetsOne`?"
   end
 end

@@ -32,6 +32,10 @@ class Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction < Applic
 
   # 🚅 add delegations above.
 
+  def targeted
+    tangible_thing
+  end
+
   # 🚅 skip this section when scaffolding.
   def emoji_label
     I18n.t("scaffolding/completely_concrete/tangible_things/targets_one_actions.fields.emoji.options.#{emoji}")
@@ -54,9 +58,10 @@ class Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction < Applic
   def perform_on_target(tangible_thing)
     # 🚅 skip this section when scaffolding.
     3.times do
+      before_each
       sleep delay
-
       tangible_thing.update(text_field_value: tangible_thing.text_field_value + " " + emoji_label)
+      after_each
     end
 
     return

@@ -19,7 +19,6 @@
           <table class="table">
             <thead>
               <tr>
-                <%= render "shared/tables/select_all" %>
                 <th><%= t('.fields.emoji.heading') %></th>
                 <th class="text-center"><%= t('.fields.keep_receipt.heading') %></th>
                 <th><%= t('.fields.target_count.heading') %></th>
@@ -39,7 +38,6 @@
               <% targets_one_actions.each do |targets_one_action| %>
                 <% with_attribute_settings object: targets_one_action do %>
                   <tr data-id="<%= targets_one_action.id %>">
-                    <%= render "shared/tables/checkbox", object: targets_one_action %>
                     <td><%= render 'shared/attributes/text', attribute: :emoji %></td>
                     <td><%= render 'shared/attributes/text', attribute: :delay %></td>
                     <td class="text-center"><%= render 'shared/attributes/boolean', attribute: :keep_receipt, url: [:account, targets_one_action] %></td>
