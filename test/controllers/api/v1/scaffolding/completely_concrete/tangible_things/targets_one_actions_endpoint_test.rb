@@ -1,3 +1,4 @@
+require "sidekiq/testing"
 require "test_helper"
 require "controllers/api/test"
 
@@ -8,10 +9,18 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
     # See `test/controllers/api/test.rb` for common set up for API tests.
     super
 
+    Sidekiq::Testing.inline!
+
     @absolutely_abstract_creative_concept = create(:scaffolding_absolutely_abstract_creative_concept, team: @team)
     @tangible_thing = create(:scaffolding_completely_concrete_tangible_thing, absolutely_abstract_creative_concept: @absolutely_abstract_creative_concept)
     @targets_one_action = create(:scaffolding_completely_concrete_tangible_things_targets_one_action, tangible_thing: @tangible_thing)
     @other_targets_one_actions = create_list(:scaffolding_completely_concrete_tangible_things_targets_one_action, 3)
+  end
+
+  def teardown
+    super
+
+    Sidekiq::Testing.fake!
   end
 
   # This assertion is written in such a way that new attributes won't cause the tests to start failing, but removing

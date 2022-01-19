@@ -8,9 +8,17 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
     # See `test/controllers/api/test.rb` for common set up for API tests.
     super
 
+    Sidekiq::Testing.inline!
+
     @absolutely_abstract_creative_concept = create(:scaffolding_absolutely_abstract_creative_concept, team: @team)
     @targets_many_action = create(:scaffolding_completely_concrete_tangible_things_targets_many_action, absolutely_abstract_creative_concept: @absolutely_abstract_creative_concept)
     @other_targets_many_actions = create_list(:scaffolding_completely_concrete_tangible_things_targets_many_action, 3)
+  end
+
+  def teardown
+    super
+
+    Sidekiq::Testing.fake!
   end
 
   # This assertion is written in such a way that new attributes won't cause the tests to start failing, but removing
