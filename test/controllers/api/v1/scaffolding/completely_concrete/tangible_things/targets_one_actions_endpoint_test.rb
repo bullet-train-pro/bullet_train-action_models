@@ -9,8 +9,8 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
     super
 
     @absolutely_abstract_creative_concept = create(:scaffolding_absolutely_abstract_creative_concept, team: @team)
-    @tangible_thing = create(:scaffolding_completely_concrete_tangible_thing, tangible_thing: @tangible_thing)
-    @targets_one_action = create(:scaffolding_completely_concrete_tangible_things_targets_one_action, targets_one_action: @targets_one_action)
+    @tangible_thing = create(:scaffolding_completely_concrete_tangible_thing, absolutely_abstract_creative_concept: @absolutely_abstract_creative_concept)
+    @targets_one_action = create(:scaffolding_completely_concrete_tangible_things_targets_one_action, tangible_thing: @tangible_thing)
     @other_targets_one_actions = create_list(:scaffolding_completely_concrete_tangible_things_targets_one_action, 3)
   end
 
@@ -25,9 +25,9 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
     assert_equal targets_one_action_data["performed_count"], targets_one_action.performed_count
     assert_equal targets_one_action_data["created_by"], targets_one_action.created_by
     assert_equal targets_one_action_data["approved_by"], targets_one_action.approved_by
-    assert_equal DateTime.parse(targets_one_action_data["scheduled_for"]), targets_one_action.scheduled_for
-    assert_equal DateTime.parse(targets_one_action_data["started_at"]), targets_one_action.started_at
-    assert_equal DateTime.parse(targets_one_action_data["completed_at"]), targets_one_action.completed_at
+    assert_equal targets_one_action.scheduled_for.nil? ? nil : DateTime.parse(targets_one_action_data["scheduled_for"]), targets_one_action.scheduled_for
+    assert_equal targets_one_action.started_at.nil? ? nil : DateTime.parse(targets_one_action_data["started_at"]), targets_one_action.started_at
+    assert_equal targets_one_action.completed_at.nil? ? nil : DateTime.parse(targets_one_action_data["completed_at"]), targets_one_action.completed_at
     assert_equal targets_one_action_data["delay"], targets_one_action.delay
     assert_equal targets_one_action_data["emoji"], targets_one_action.emoji
     # 🚅 super scaffolding will insert new fields above this line.
@@ -88,9 +88,7 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
     # Post an attribute update ensure nothing is seriously broken.
     put "/api/v1/scaffolding/completely_concrete/tangible_things/targets_one_actions/#{@targets_one_action.id}", params: {
       access_token: access_token,
-      target_count: "Alternative String Value",
-      performed_count: "Alternative String Value",
-      delay: "Alternative String Value",
+      delay: 5,
       emoji: "Alternative String Value",
       # 🚅 super scaffolding will also insert new fields above this line.
     }
@@ -102,9 +100,7 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
 
     # But we have to manually assert the value was properly updated.
     @targets_one_action.reload
-    assert_equal @targets_one_action.target_count, "Alternative String Value"
-    assert_equal @targets_one_action.performed_count, "Alternative String Value"
-    assert_equal @targets_one_action.delay, "Alternative String Value"
+    assert_equal @targets_one_action.delay, 5
     assert_equal @targets_one_action.emoji, "Alternative String Value"
     # 🚅 super scaffolding will additionally insert new fields above this line.
 

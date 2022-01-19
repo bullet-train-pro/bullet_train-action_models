@@ -52,6 +52,10 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
     route_setting :api_resource_options, permission: :create
     oauth2 "write"
     post "/:tangible_thing_id/targets_one_actions" do
+      # TODO We should probably employ Current Attributes in Rails and set this in the model, so the same thing is
+      # happening automatically when we create an action via the web controller as well.
+      @targets_one_action.created_by = current_membership
+
       if @targets_one_action.save
         render @targets_one_action, serializer: Api.serializer
       else

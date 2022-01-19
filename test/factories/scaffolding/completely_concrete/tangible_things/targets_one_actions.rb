@@ -1,8 +1,6 @@
 FactoryBot.define do
   factory :scaffolding_completely_concrete_tangible_things_targets_one_action, class: "Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction" do
-    association :absolutely_abstract_creative_concept, factory: :scaffolding_absolutely_abstract_creative_concept
-    target_all { false }
-    target_ids { "" }
+    association :tangible_thing, factory: :scaffolding_completely_concrete_tangible_thing
     emoji { "MyString" }
     keep_receipt { false }
     target_count { "" }

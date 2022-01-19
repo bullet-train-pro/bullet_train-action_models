@@ -6,7 +6,7 @@ class CreateScaffoldingCompletelyConcreteTangibleThingsTargetsOneActions < Activ
       t.boolean :keep_receipt, default: true
       t.integer :target_count
       t.integer :performed_count, default: 0
-      t.references :created_by, null: false, foreign_key: {to_table: "memberships"}, index: {name: "index_targets_ones_on_created_by_id"}
+      t.references :created_by, null: true, foreign_key: {to_table: "memberships"}, index: {name: "index_targets_ones_on_created_by_id"}
       t.references :approved_by, null: true, foreign_key: {to_table: "memberships"}, index: {name: "index_targets_ones_on_approved_by_id"}
       t.datetime :scheduled_for
       t.datetime :started_at
