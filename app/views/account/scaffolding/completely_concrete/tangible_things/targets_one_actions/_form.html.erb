@@ -1,0 +1,50 @@
+<%= form_with model: targets_one_action, url: (targets_one_action.persisted? ? [:account, targets_one_action] : [:account, @absolutely_abstract_creative_concept, :completely_concrete_tangible_things_targets_one_actions]), local: true, class: 'form' do |form| %>
+  <%= render 'account/shared/forms/errors', form: form %>
+
+  <%= render "shared/alert" do %>
+    <% if @targets_one_action.target_all? %>
+      We're preparing to Targetsone <strong>all Tangible Things</strong> of <strong><%= @absolutely_abstract_creative_concept.name %></strong>.
+    <% else %>
+      We're preparing to Targetsone <strong><%= targets_one_action.target_ids.count %> <%= "Tangible Thing".pluralize(targets_one_action.target_ids.count) %></strong> of <strong><%= @absolutely_abstract_creative_concept.name %></strong>.
+    <% end %>
+  <% end %>
+
+  <% with_field_settings form: form do %>
+
+    <div class="inline hidden">
+      <%= render 'shared/fields/buttons', method: :target_all, html_options: {autofocus: true} %>
+      <%= render 'shared/fields/super_select', method: :target_ids, html_options: {multiple: true},
+        choices: @targets_one_action.valid_targets.map { |targets_one_action| [targets_one_action.label_string, targets_one_action.id] } %>
+    </div>
+
+
+    <%= render "shared/well" do |p| %>
+      <% p.content_for :title, "Miscellaneous Action Model Feature Demonstrations" %>
+      <% p.content_for :description, "Users don't typically see these options, (they're usually configured per-Action-Model by developers,) but we've exposed them here and made them configurable on a per-run basis so you can see the different ways Action Models can be configured to behave." %>
+      <% p.content_for :body do %>
+        <%= render 'shared/fields/text_field', method: :delay %>
+        <%= render 'shared/fields/buttons', method: :keep_receipt %>
+      <% end %>
+    <% end %>
+
+    <%= render "shared/well" do |p| %>
+      <% p.content_for :title, "Scheduling" %>
+      <% p.content_for :description, "When this feature is enabled for an Action Model, end users can schedule operations to happen at a later date." %>
+      <% p.content_for :body do %>
+        <%= render 'shared/fields/date_and_time_field', method: :scheduled_for %>
+      <% end %>
+    <% end %>
+
+    <%# 🚅 super scaffolding will insert new fields above this line. %>
+  <% end %>
+
+  <div class="buttons">
+    <%= form.submit (form.object.persisted? ? t('.buttons.update') : t('.buttons.create')), class: "button" %>
+    <% if form.object.persisted? %>
+    <%= link_to t('global.buttons.cancel'), [:account, targets_one_action], class: "button-secondary" %>
+    <% else %>
+    <%= link_to t('global.buttons.cancel'), [:account, @absolutely_abstract_creative_concept, :completely_concrete_tangible_things_targets_one_actions], class: "button-secondary" %>
+    <% end %>
+  </div>
+
+<% end %>

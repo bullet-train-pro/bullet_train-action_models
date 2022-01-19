@@ -45,13 +45,15 @@ class Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction < Appli
     "Targets Many Action"
   end
 
-  # This is the actual operation we want to perform on each targeted object.
   def perform_on_target(tangible_thing)
+    # This is where you implement the operation you want to perform on each target.
+    # 🚅 skip this section when scaffolding.
     # This is just an example option to help illustrate long-running jobs.
     # Unless we're just getting started, sleep 5 seconds between each targeted record.
     sleep delay
 
     tangible_thing.update(text_field_value: tangible_thing.text_field_value + " " + emoji_label)
+    # 🚅 stop any skipping we're doing now.
   end
 
   # 🚅 add methods above.
