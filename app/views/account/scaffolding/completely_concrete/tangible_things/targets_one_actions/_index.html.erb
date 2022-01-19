@@ -58,7 +58,6 @@
                         <% if can? :destroy, targets_one_action %>
                           <%= button_to t('.buttons.shorthand.destroy'), [:account, targets_one_action], method: :delete, data: { confirm: t('.buttons.confirmations.destroy', model_locales(targets_one_action)) }, class: 'button-secondary button-smaller' %>
                         <% end %>
-                        <%= render "account/scaffolding/completely_concrete/tangible_things/targets_one_actions/targets_one_actions/new_button_one", tangible_thing: tangible_thing, targets_one_action: targets_one_action %>
                         <%# 🚅 super scaffolding will insert new action model buttons above this line. %>
                       <% end %>
                     </td>
@@ -77,11 +76,6 @@
               <%= link_to t('.buttons.new'), [:new, :account, tangible_thing, :targets_one_action], class: "#{first_button_primary(:targets_one_action)} new" %>
             <% end %>
           <% end %>
-          <%= render "account/scaffolding/completely_concrete/tangible_things/targets_one_actions/targets_one_actions/new_button_many", tangible_thing: tangible_thing %>
-          <%# 🚅 super scaffolding will insert new bulk action model buttons above this line. %>
-
-
-          <%= render "shared/bulk_action_select" %>
 
           <% unless hide_back %>
             <%= link_to t('global.buttons.back'), [:account, context], class: "#{first_button_primary(:targets_one_action)} back" %>
@@ -90,7 +84,6 @@
       <% end %>
 
       <% p.content_for :raw_footer do %>
-        <%= render 'account/scaffolding/completely_concrete/tangible_things/targets_one_actions/targets_one_actions/index', targets_one_actions: context.targets_one_actions_targets_one_actions, hide_back: true %>
         <%# 🚅 super scaffolding will insert new action model index views above this line. %>
       <% end %>
     <% end %>

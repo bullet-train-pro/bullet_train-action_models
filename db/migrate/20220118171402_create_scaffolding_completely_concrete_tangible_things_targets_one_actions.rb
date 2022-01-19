@@ -1,7 +1,7 @@
 class CreateScaffoldingCompletelyConcreteTangibleThingsTargetsOneActions < ActiveRecord::Migration[7.0]
   def change
     create_table :sc_completely_concrete_tangible_things_targets_one_actions do |t|
-      t.references :tangible_thing, null: false, foreign_key: {to_table: "tangible_thing"}
+      t.references :tangible_thing, null: false, foreign_key: {to_table: "scaffolding_completely_concrete_tangible_things"}, index: { name: "index_tangible_things_targets_one_actions_on_tangible_thing_id" }
       t.boolean :keep_receipt, default: true
       t.integer :target_count
       t.integer :performed_count, default: 0

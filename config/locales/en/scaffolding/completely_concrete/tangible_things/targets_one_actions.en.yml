@@ -13,6 +13,7 @@ en:
       update: Update Targets One Action
       destroy: Remove Targets One Action
       shorthand:
+        create: Targets One Action
         edit: Edit
         destroy: Delete
       confirmations:
