@@ -2,10 +2,10 @@
   <%= render 'account/shared/forms/errors', form: form %>
 
   <% with_field_settings form: form do %>
-    <%= render 'shared/fields/date_and_time_field', method: :scheduled_for %>
+    <%= render 'shared/fields/buttons', method: :emoji %>
     <%= render 'shared/fields/text_field', method: :delay %>
-    <%= render 'shared/fields/buttons', method: :keep_receipt, html_options: {autofocus: true} %>
-    <%= render 'shared/fields/text_field', method: :emoji %>
+    <%= render 'shared/fields/date_and_time_field', method: :scheduled_for %>
+    <%= render 'shared/fields/buttons', method: :keep_receipt %>
     <%# 🚅 super scaffolding will insert new fields above this line. %>
   <% end %>
 

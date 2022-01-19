@@ -20,7 +20,8 @@
             <thead>
               <tr>
                 <%= render "shared/tables/select_all" %>
-                <th  class="text-center"><%= t('.fields.keep_receipt.heading') %></th>
+                <th><%= t('.fields.emoji.heading') %></th>
+                <th class="text-center"><%= t('.fields.keep_receipt.heading') %></th>
                 <th><%= t('.fields.target_count.heading') %></th>
                 <th><%= t('.fields.performed_count.heading') %></th>
                 <th><%= t('.fields.created_by.heading') %></th>
@@ -29,7 +30,6 @@
                 <th><%= t('.fields.started_at.heading') %></th>
                 <th><%= t('.fields.completed_at.heading') %></th>
                 <th><%= t('.fields.delay.heading') %></th>
-                <th><%= t('.fields.emoji.heading') %></th>
                 <%# 🚅 super scaffolding will insert new field headers above this line. %>
                 <th><%= t('.fields.created_at.heading') %></th>
                 <th class="text-right"></th>
@@ -40,16 +40,16 @@
                 <% with_attribute_settings object: targets_one_action do %>
                   <tr data-id="<%= targets_one_action.id %>">
                     <%= render "shared/tables/checkbox", object: targets_one_action %>
+                    <td><%= render 'shared/attributes/text', attribute: :emoji %></td>
+                    <td><%= render 'shared/attributes/text', attribute: :delay %></td>
                     <td class="text-center"><%= render 'shared/attributes/boolean', attribute: :keep_receipt, url: [:account, targets_one_action] %></td>
                     <td><%= render 'shared/attributes/text', attribute: :target_count %></td>
                     <td><%= render 'shared/attributes/text', attribute: :performed_count %></td>
-                    <td><%= render 'shared/attributes/option', attribute: :created_by %></td>
-                    <td><%= render 'shared/attributes/option', attribute: :approved_by %></td>
+                    <td><%= render 'shared/attributes/belongs_to', attribute: :created_by %></td>
+                    <td><%= render 'shared/attributes/belongs_to', attribute: :approved_by %></td>
                     <td><%= render 'shared/attributes/date_and_time', attribute: :scheduled_for %></td>
                     <td><%= render 'shared/attributes/date_and_time', attribute: :started_at %></td>
                     <td><%= render 'shared/attributes/date_and_time', attribute: :completed_at %></td>
-                    <td><%= render 'shared/attributes/text', attribute: :delay %></td>
-                    <td><%= render 'shared/attributes/text', attribute: :emoji %></td>
                     <%# 🚅 super scaffolding will insert new fields above this line. %>
                     <td><%= render 'shared/attributes/date_and_time', attribute: :created_at %></td>
                     <td class="buttons">

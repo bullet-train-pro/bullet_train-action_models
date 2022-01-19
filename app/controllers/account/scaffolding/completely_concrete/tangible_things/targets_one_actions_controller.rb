@@ -37,6 +37,10 @@ class Account::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
   # POST /account/scaffolding/completely_concrete/tangible_things/:tangible_thing_id/targets_one_actions.json
   def create
     respond_to do |format|
+      # TODO We should probably employ Current Attributes in Rails and set this in the model, so the same thing is
+      # happening automatically when we create an action via the API endpoint as well.
+      @targets_one_action.created_by = current_membership
+
       if @targets_one_action.save
         format.html { redirect_to [:account, @tangible_thing, :targets_one_actions], notice: I18n.t("scaffolding/completely_concrete/tangible_things/targets_one_actions.notifications.created") }
         format.json { render :show, status: :created, location: [:account, @targets_one_action] }
