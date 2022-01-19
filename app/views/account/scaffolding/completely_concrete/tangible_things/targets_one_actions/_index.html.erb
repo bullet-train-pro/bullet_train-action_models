@@ -1,4 +1,4 @@
-<% tangible_thing = @tangible_thing || @tangible_thing %>
+<% tangible_thing = @tangible_thing %>
 <% context ||= tangible_thing %>
 <% collection ||= :targets_one_actions %>
 <% hide_actions ||= false %>
@@ -18,63 +18,9 @@
         <% p.content_for :table do %>
           <div class="divide-y divide-gray-900 divide-opacity-5 border-t">
             <% targets_one_actions.each do |targets_one_action| %>
-              <div class="py-4 px-8 w-full space-y-3">
-                <div class="flex space-x-4">
-                  <div class="flex-0">
-                    <%= render "shared/memberships/photo", membership: targets_one_action.created_by, size: 7 %>
-                  </div>
-                  <div class="flex-1">
-                    <div class="flex">
-                      <div class="flex-1 space-y-4 py-1">
-                        <div>
-                          <%= targets_one_action.label_string %> to <%= targets_one_action.targeted.label_string %>
-                        </div>
-                      </div>
-                      <div class="flex-0">
-                        <% if can? :edit, targets_one_action %>
-                          <%= link_to t('.buttons.shorthand.edit'), [:edit, :account, targets_one_action], class: 'button-secondary button-smaller' %>
-                        <% end %>
-                        <% if can? :destroy, targets_one_action %>
-                          <%= button_to t('.buttons.shorthand.destroy'), [:account, targets_one_action], method: :delete, data: { confirm: t('.buttons.confirmations.destroy', model_locales(targets_one_action)) }, class: 'button-secondary button-smaller' %>
-                        <% end %>
-                        <% if can? :approve, targets_one_action %>
-                          <%= button_to t('.buttons.shorthand.approve'), [:approve, :account, targets_one_action], method: :post, class: 'button-secondary button-smaller' %>
-                        <% end %>
-                        <%= link_to t('.buttons.shorthand.show'), [:edit, :account, targets_one_action], class: 'button-secondary button-smaller' %>
-                      </div>
-                    </div>
-
-                    <% if targets_one_action.completed_at.present? %>
-                      <div class="uppercase text-xs text-gray-400">
-                        Processed <%= targets_one_action.performed_count %> of <%= targets_one_action.target_count %> <%= display_date_and_time(targets_one_action.completed_at) %>
-                      </div>
-                    <% elsif targets_one_action.started_at.present? %>
-                      <div class="mt-3 h-4 bg-gray-100 shadow-inner rounded w-full">
-                        <div class="h-4 animate-pulse bg-blue rounded" style="width: <%= targets_one_action.completion_percent %>%"></div>
-                      </div>
-
-                      <div class="mt-2 uppercase text-xs text-gray-400">
-                        Processing <%= targets_one_action.performed_count %> of <%= targets_one_action.target_count %>
-                      </div>
-                    <% else %>
-                      <div class="uppercase text-xs text-gray-400">
-                        Scheduled for <%= display_date_and_time(targets_one_action.scheduled_for) %>
-                      </div>
-                    <% end %>
-                  </div>
-                </div>
-              </div>
+              <%= render "shared/actions/action", action: targets_one_action %>
             <% end %>
           </div>
-
-        <% end %>
-
-        <% p.content_for :actions do %>
-          <% unless hide_actions %>
-            <% unless hide_back %>
-              <%= link_to t('global.buttons.back'), [:account, context], class: "#{first_button_primary(:completely_concrete_tangible_things_targets_one_action)} back" %>
-            <% end %>
-          <% end %>
         <% end %>
       <% end %>
     </div>

@@ -1,0 +1,59 @@
+<div class="py-4 px-8 w-full space-y-3">
+  <div class="flex space-x-4">
+    <div class="flex-0">
+      <%= render "shared/memberships/photo", membership: action.created_by, size: 7 %>
+    </div>
+    <div class="flex-1">
+      <div class="flex">
+        <div class="flex-1 space-y-4 py-1">
+          <div>
+            <%= action.label_string %> to
+            <% if action.respond_to?(:target_all?) %>
+              <% if action.target_all? %>
+                all Tangible Things
+              <% else %>
+                <% if action.target_ids.one? %>
+                  <%= action.targeted.first.label_string %>
+                <% else %>
+                  <%= action.target_ids.count %> <%= "Tangible Thing".pluralize(action.target_ids.count) %>
+                <% end %>
+              <% end %>
+            <% else %>
+              <%= action.targeted.label_string %>
+            <% end %>
+          </div>
+        </div>
+        <div class="flex-0">
+          <% if can? :edit, action %>
+            <%= link_to t("#{action.class.name.pluralize.underscore}.buttons.shorthand.edit"), [:edit, :account, action], class: 'button-secondary button-smaller' %>
+          <% end %>
+          <% if can? :destroy, action %>
+            <%= button_to t("#{action.class.name.pluralize.underscore}.buttons.shorthand.destroy"), [:account, action], method: :delete, data: { confirm: t("#{action.class.name.pluralize.underscore}.buttons.confirmations.destroy", model_locales(action)) }, class: 'button-secondary button-smaller' %>
+          <% end %>
+          <% if can? :approve, action %>
+            <%= button_to t("#{action.class.name.pluralize.underscore}.buttons.shorthand.approve"), [:approve, :account, action], method: :post, class: 'button-secondary button-smaller' %>
+          <% end %>
+          <%= link_to t("#{action.class.name.pluralize.underscore}.buttons.shorthand.show"), [:edit, :account, action], class: 'button-secondary button-smaller' %>
+        </div>
+      </div>
+
+      <% if action.completed_at.present? %>
+        <div class="uppercase text-xs text-gray-400">
+          Processed <%= action.performed_count %> of <%= action.target_count %> <%= display_date_and_time(action.completed_at) %>
+        </div>
+      <% elsif action.started_at.present? %>
+        <div class="mt-3 h-4 bg-gray-100 shadow-inner rounded w-full">
+          <div class="h-4 animate-pulse bg-blue rounded" style="width: <%= action.completion_percent %>%"></div>
+        </div>
+
+        <div class="mt-2 uppercase text-xs text-gray-400">
+          Processing <%= action.performed_count %> of <%= action.target_count %>
+        </div>
+      <% else %>
+        <div class="uppercase text-xs text-gray-400">
+          Scheduled for <%= display_date_and_time(action.scheduled_for) %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

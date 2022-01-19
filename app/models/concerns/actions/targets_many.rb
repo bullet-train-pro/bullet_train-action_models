@@ -10,6 +10,11 @@ module Actions::TargetsMany
     target_all ? valid_targets : valid_targets.where(id: target_ids)
   end
 
+  # This is _not_ the same as targeted. This is for when we want a collection-esque look at what is in `target_ids`.
+  def targets
+    target_all ? [] : valid_targets.where(id: target_ids)
+  end
+
   def set_target_count
     update(target_count: targeted.count)
   end
