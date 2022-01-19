@@ -22,16 +22,17 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
     assert_equal targets_many_action_data["target_all"], targets_many_action.target_all
     assert_equal targets_many_action_data["target_ids"], targets_many_action.target_ids
     assert_equal targets_many_action_data["emoji"], targets_many_action.emoji
+    assert_equal targets_many_action_data["delay"], targets_many_action.delay
     assert_equal targets_many_action_data["keep_receipt"], targets_many_action.keep_receipt
     assert_equal targets_many_action_data["target_count"], targets_many_action.target_count
     assert_equal targets_many_action_data["performed_count"], targets_many_action.performed_count
     assert_equal targets_many_action_data["created_by_id"], targets_many_action.created_by_id
     assert_equal targets_many_action_data["approved_by_id"], targets_many_action.approved_by_id
-    # TODO Get these date comparisons working?
-    # assert_equal targets_many_action_data["scheduled_for"], targets_many_action.scheduled_for
-    # assert_equal targets_many_action_data["started_at"], targets_many_action.started_at
-    # assert_equal targets_many_action_data["completed_at"], targets_many_action.completed_at
-    assert_equal targets_many_action_data["delay"], targets_many_action.delay
+    # TODO We need to introduce a `assert_date_and_time_equal_enough` helper that works with `nil` and ignores
+    # milliseconds for the following attributes:
+    # assert_equal targets_one_action_data["scheduled_for"], targets_one_action.scheduled_for
+    # assert_equal targets_one_action_data["started_at"], targets_one_action.started_at
+    # assert_equal targets_one_action_data["completed_at"], targets_one_action.completed_at
     # 🚅 super scaffolding will insert new fields above this line.
 
     assert_equal targets_many_action_data["absolutely_abstract_creative_concept_id"], targets_many_action.absolutely_abstract_creative_concept_id
@@ -93,9 +94,7 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
     # Post an attribute update ensure nothing is seriously broken.
     put "/api/v1/scaffolding/completely_concrete/tangible_things/targets_many_actions/#{@targets_many_action.id}", params: {
       access_token: access_token,
-      # target_count: "Alternative String Value",
-      # performed_count: "Alternative String Value",
-      delay: "Alternative String Value",
+      delay: 1,
       # 🚅 super scaffolding will also insert new fields above this line.
     }
 
@@ -106,9 +105,7 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
 
     # But we have to manually assert the value was properly updated.
     @targets_many_action.reload
-    assert_equal @targets_many_action.target_count, "Alternative String Value"
-    assert_equal @targets_many_action.performed_count, "Alternative String Value"
-    assert_equal @targets_many_action.delay, "Alternative String Value"
+    assert_equal @targets_many_action.delay, 1
     # 🚅 super scaffolding will additionally insert new fields above this line.
 
     # Also ensure we can't do that same action as another user.
