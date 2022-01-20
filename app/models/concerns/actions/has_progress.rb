@@ -1,5 +1,6 @@
 module Actions::HasProgress
   extend ActiveSupport::Concern
+  include Actions::ProcessesAsync
 
   def completion_percent
     return 0 unless target_count
@@ -11,25 +12,19 @@ module Actions::HasProgress
     update(performed_count: performed_count + 1)
   end
 
-  def set_target_count
+  def target_count
     unless defined?(super)
-      raise "You need to define `set_target_count`. Did you forget to include `Actions::TargetsMany`?"
+      raise "You need to define `target_count`. Did you forget to include `Actions::TargetsMany`?"
     end
   end
 
   def before_start
-    update(started_at: Time.zone.now)
-    set_target_count
+    update(target_count: target_count)
     super
   end
 
   def after_each
     increment_performed_count
-    super
-  end
-
-  def after_completion
-    update(completed_at: Time.zone.now)
     super
   end
 end

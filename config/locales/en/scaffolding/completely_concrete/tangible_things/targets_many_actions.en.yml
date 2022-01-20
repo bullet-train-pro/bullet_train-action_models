@@ -120,8 +120,7 @@ en:
       contexts:
         scaffolding/absolutely_abstract/creative_concept:
           header: Current and Scheduled Targets Many Operations
-          description: Below is a list of previously scheduled or performed operations to append an emoji to one or more Tangible Things of %{creative_concept_name}. Operations will only appear here if they are scheduled for the future, currently in progress, or specifically were configured to retain their receipt after completion.
-          description_empty: No Targets Many Actions have been added for %{creative_concept_name}.
+          description: Below is a list of previously scheduled or performed operations to perform an action on one or more Tangible Things of %{creative_concept_name}. Operations will only appear here if they are scheduled for the future, currently in progress, or specifically were configured to retain their receipt after completion.
       fields: *fields
       buttons: *buttons
     show:

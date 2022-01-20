@@ -9,7 +9,8 @@ class Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction < Applic
   include Actions::SupportsScheduling
   include Actions::HasProgress
   include Actions::TracksCreator
-  include Actions::SupportsApproval
+  # TODO Temporarily disabling until we improve Bullet Train Roles to support simple attribute based conditions.
+  include Actions::RequiresApproval
   # 🚅 add concerns above.
 
   belongs_to :tangible_thing, class_name: "Scaffolding::CompletelyConcrete::TangibleThing"
@@ -45,7 +46,7 @@ class Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction < Applic
     "Targets One Action"
   end
 
-  def set_target_count
+  def target_count
     # 🚅 skip this section when scaffolding.
     return 3
     # 🚅 stop any skipping we're doing now.

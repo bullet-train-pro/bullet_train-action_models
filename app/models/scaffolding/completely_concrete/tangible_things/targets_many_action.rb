@@ -9,7 +9,8 @@ class Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction < Appli
   include Actions::SupportsScheduling
   include Actions::HasProgress
   include Actions::TracksCreator
-  include Actions::SupportsApproval
+  # TODO Temporarily disabling until we improve Bullet Train Roles to support simple attribute based conditions.
+  include Actions::RequiresApproval
   # 🚅 add concerns above.
 
   belongs_to :absolutely_abstract_creative_concept, class_name: "Scaffolding::AbsolutelyAbstract::CreativeConcept"

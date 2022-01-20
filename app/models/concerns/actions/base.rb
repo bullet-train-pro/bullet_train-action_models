@@ -10,9 +10,19 @@ module Actions::Base
   end
 
   def before_start
+    update(started_at: Time.zone.now)
+  end
+
+  def started?
+    started_at.present?
   end
 
   def after_completion
+    update(completed_at: Time.zone.now)
+  end
+
+  def completed?
+    completed_at.present?
   end
 
   def before_each

@@ -24,7 +24,7 @@ class Account::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
   # POST /account/scaffolding/completely_concrete/tangible_things/targets_many_actions/:id/approve
   def approve
     respond_to do |format|
-      if @targets_many_action.update(approved_by: current_membership)
+      if @targets_many_action.approve_by(current_membership)
         format.html { redirect_to [:account, @targets_many_action], notice: I18n.t("scaffolding/completely_concrete/tangible_things/targets_many_actions.notifications.approved") }
         format.json { render :show, status: :ok, location: [:account, @targets_many_action] }
       else

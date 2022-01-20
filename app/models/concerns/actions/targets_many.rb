@@ -15,19 +15,10 @@ module Actions::TargetsMany
     target_all ? [] : valid_targets.where(id: target_ids)
   end
 
-  def set_target_count
-    update(target_count: targeted.count)
+  def target_count
+    targeted.count
   end
 
-  def dispatch
-    sidekiq_jid = if scheduled_for.present?
-      Actions::ScheduledActionWorker.perform_at(scheduled_for, self.class.name, id)
-    else
-      Actions::BackgroundActionWorker.perform_async(self.class.name, id)
-    end
-
-    update(sidekiq_jid: sidekiq_jid)
-  end
 
   # This is the batch-level control logic that iterates over the collection of targeted objects.
   def perform

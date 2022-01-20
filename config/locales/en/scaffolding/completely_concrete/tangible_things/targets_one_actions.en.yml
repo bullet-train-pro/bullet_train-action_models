@@ -15,8 +15,8 @@ en:
       shorthand:
         create: Targets One
         approve: Approve
-        show: Settings
-        edit: Edit
+        show: Details
+        edit: Settings
         destroy: Delete
       confirmations:
         # TODO customize for your use-case.
@@ -112,9 +112,8 @@ en:
       section: "%{tangible_things_possessive} Targets One Actions"
       contexts:
         scaffolding/completely_concrete/tangible_thing:
-          header: Targets One Actions
-          description: Below is a list of Targets One Actions that have been added for %{tangible_thing_name}.
-          description_empty: No Targets One Actions have been added for %{tangible_thing_name}.
+          header: Current and Scheduled Targets One Operations
+          description: Below is a list of previously scheduled or performed operations to perform an action on %{tangible_thing_name}. Operations will only appear here if they are scheduled for the future, currently in progress, or specifically were configured to retain their receipt after completion.
       fields: *fields
       buttons: *buttons
     show:
