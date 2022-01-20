@@ -7,7 +7,7 @@ module ActionModelTargetsOneScaffolder
     puts ""
     puts "E.g. a schedulable Publish action for one Listing:"
     puts "  # You do not need to `rails g model`, we'll create the models!"
-    puts "  bin/super-scaffold action-model:targets-one Publish Listing Listing"
+    puts "  bin/super-scaffold action-model:targets-one Publish Listing"
     puts ""
     puts "E.g. a CSV Importer that creates many Listings on a Team:"
     puts "  # You do not need to `rails g model`, we'll create the models!"
