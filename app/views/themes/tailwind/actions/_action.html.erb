@@ -28,18 +28,20 @@
           </div>
         </div>
         <div class="flex-0">
+          <% if action.is_a?(Actions::RequiresApproval) %>
+            <% if can? :approve, action %>
+              <%= button_to t("#{action.class.name.pluralize.underscore}.buttons.shorthand.approve"), [:approve, :account, action], method: :post, class: 'button-secondary button-smaller' %>
+            <% end %>
+          <% end %>
+          <% if can? :read, action %>
+            <%= link_to t("#{action.class.name.pluralize.underscore}.buttons.shorthand.show"), [:account, action], class: 'button-secondary button-smaller' %>
+          <% end %>
           <% if can? :edit, action %>
             <%= link_to t("#{action.class.name.pluralize.underscore}.buttons.shorthand.edit"), [:edit, :account, action], class: 'button-secondary button-smaller' %>
           <% end %>
           <% if can? :destroy, action %>
             <%= button_to t("#{action.class.name.pluralize.underscore}.buttons.shorthand.destroy"), [:account, action], method: :delete, data: { confirm: t("#{action.class.name.pluralize.underscore}.buttons.confirmations.destroy", model_locales(action)) }, class: 'button-secondary button-smaller' %>
           <% end %>
-          <% if action.is_a?(Actions::RequiresApproval) %>
-            <% if can? :approve, action %>
-              <%= button_to t("#{action.class.name.pluralize.underscore}.buttons.shorthand.approve"), [:approve, :account, action], method: :post, class: 'button-secondary button-smaller' %>
-            <% end %>
-          <% end %>
-          <%= link_to t("#{action.class.name.pluralize.underscore}.buttons.shorthand.show"), [:edit, :account, action], class: 'button-secondary button-smaller' %>
         </div>
       </div>
 

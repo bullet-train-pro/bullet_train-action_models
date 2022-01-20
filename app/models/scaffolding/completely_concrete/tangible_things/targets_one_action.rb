@@ -9,8 +9,8 @@ class Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction < Applic
   include Actions::SupportsScheduling
   include Actions::HasProgress
   include Actions::TracksCreator
-  # TODO Temporarily disabling until we improve Bullet Train Roles to support simple attribute based conditions.
   include Actions::RequiresApproval
+  include Actions::CleansUp
   # 🚅 add concerns above.
 
   belongs_to :tangible_thing, class_name: "Scaffolding::CompletelyConcrete::TangibleThing"

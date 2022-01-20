@@ -24,7 +24,7 @@ class Account::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
   def approve
     respond_to do |format|
       if @targets_one_action.approve_by(current_membership)
-        format.html { redirect_to [:account, @targets_one_action], notice: I18n.t("scaffolding/completely_concrete/tangible_things/targets_one_actions.notifications.approved") }
+        format.html { redirect_to [:account, @tangible_thing, :targets_one_actions], notice: I18n.t("scaffolding/completely_concrete/tangible_things/targets_one_actions.notifications.approved") }
         format.json { render :show, status: :ok, location: [:account, @targets_one_action] }
       else
         format.html { render :show, status: :unprocessable_entity }
