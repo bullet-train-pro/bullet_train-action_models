@@ -147,7 +147,7 @@ en:
       created: Targets Many Action was successfully created.
       updated: Targets Many Action was successfully updated.
       destroyed: Targets Many Action was successfully destroyed.
-      approved: Targets Many Action was successfully approved.
+      approved: Targets Many Action was approved.
   account:
     # 🚅 skip this section when scaffolding.
     scaffolding:

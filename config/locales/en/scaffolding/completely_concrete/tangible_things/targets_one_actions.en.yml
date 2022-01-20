@@ -141,6 +141,7 @@ en:
       created: Targets One Action was successfully created.
       updated: Targets One Action was successfully updated.
       destroyed: Targets One Action was successfully destroyed.
+      approved: Targets One Action was approved.
   account:
     scaffolding:
       completely_concrete:
