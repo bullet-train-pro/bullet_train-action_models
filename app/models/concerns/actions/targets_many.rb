@@ -19,7 +19,6 @@ module Actions::TargetsMany
     targeted.count
   end
 
-
   # This is the batch-level control logic that iterates over the collection of targeted objects.
   def perform
     before_start
