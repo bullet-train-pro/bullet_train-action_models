@@ -24,7 +24,10 @@ module ActionModelTargetsOneScaffolder
 
   def scaffold_action_model_targets_one(args)
     action_model, target_model, parent_models = args
-    # action_model += "Action" unless action_model.match?(/Action$/)
+
+    # E.g. `bin/super-scaffold action-model:targets-one Publish Listing`
+    parent_models ||= target_model
+
     parent_models = parent_models.split(",")
     parent_models += ["Team"]
     parent_models = parent_models.map(&:classify).uniq
@@ -44,7 +47,7 @@ module ActionModelTargetsOneScaffolder
     legacy_replace_in_file(migration_file_name, "t.references :tangible_thing, null: false, foreign_key: true", "t.references :tangible_thing, null: false, foreign_key: {to_table: \"scaffolding_completely_concrete_tangible_things\"}")
     legacy_replace_in_file(migration_file_name, "t.integer :performed_count", "t.integer :performed_count, default: 0")
 
-    transformer.scaffold_action_model_targets_one
+    transformer.scaffold_action_model
 
     # # TODO I don't think we need this? Or we need something else?
     # # If the target model belongs directly to Team, we end up with delegate :team, to :team in the model file so we remove it here.
