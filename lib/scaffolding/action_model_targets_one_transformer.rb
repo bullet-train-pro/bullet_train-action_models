@@ -1,6 +1,6 @@
 require_relative "transformer"
 
-class Scaffolding::ActionModelTargetsManyTransformer < Scaffolding::Transformer
+class Scaffolding::ActionModelTargetsOneTransformer < Scaffolding::Transformer
   attr_accessor :action
 
   def initialize(action, child, parents, cli_options = {})

@@ -1,4 +1,4 @@
-require_relative "action_model_transformer"
+require_relative "action_model_targets_many_transformer"
 
 module ActionModelTargetsManyScaffolder
   def display_action_model_targets_many_help
