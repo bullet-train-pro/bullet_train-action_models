@@ -1,7 +1,3 @@
 <% if can? :create, Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParentAction.new(absolutely_abstract_creative_concept: absolutely_abstract_creative_concept) %>
-  <%= button_to t('scaffolding/completely_concrete/tangible_things/targets_one_parent_actions.buttons.shorthand.create'), [:new, :account, absolutely_abstract_creative_concept, :completely_concrete_tangible_things_targets_one_parent_action, scaffolding_completely_concrete_tangible_things_targets_one_parent_action: {target_ids: [tangible_thing.id]}], method: :get, class: 'button-secondary button-smaller',
-    form: {
-      class: 'bulk-action-single button_to'
-    }
-  %>
+  <%= link_to t('scaffolding/completely_concrete/tangible_things/targets_one_parent_actions.buttons.shorthand.create'), [:new, :account, absolutely_abstract_creative_concept, :completely_concrete_tangible_things_targets_one_parent_action], class: 'button-secondary button-smaller' %>
 <% end %>

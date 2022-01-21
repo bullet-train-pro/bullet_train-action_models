@@ -2,8 +2,6 @@ class CreateScaffoldingCompletelyConcreteTangibleThingsTargetsOneParentActions <
   def change
     create_table :scaffolding_completely_concrete_tangible_things_targets_one_parent_actions do |t|
       t.references :absolutely_abstract_creative_concept, null: false, foreign_key: {to_table: "scaffolding_absolutely_abstract_creative_concepts"}, index: {name: "index_targets_one_parent_actions_on_creative_concept_id"}
-      t.boolean :target_all, default: false
-      t.jsonb :target_ids, default: []
       t.datetime :started_at
       t.datetime :completed_at
       t.integer :target_count

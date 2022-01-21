@@ -3,9 +3,9 @@
 
   <%= render "shared/alert" do %>
     <% if @targets_many_action.target_all? %>
-      We're preparing to append an emoji to <strong>all Tangible Things</strong> of <strong><%= @absolutely_abstract_creative_concept.name %></strong>.
+      We're preparing to Targets Many to <strong>all Tangible Things</strong> of <strong><%= @absolutely_abstract_creative_concept.name %></strong>.
     <% else %>
-      We're preparing to append an emoji to <strong><%= targets_many_action.target_ids.count %> <%= "Tangible Thing".pluralize(targets_many_action.target_ids.count) %></strong> of <strong><%= @absolutely_abstract_creative_concept.name %></strong>.
+      We're preparing to Targets Many to <strong><%= targets_many_action.target_ids.count %> <%= "Tangible Thing".pluralize(targets_many_action.target_ids.count) %></strong> of <strong><%= @absolutely_abstract_creative_concept.name %></strong>.
     <% end %>
   <% end %>
 

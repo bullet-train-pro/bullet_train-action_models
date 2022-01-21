@@ -1,6 +1,5 @@
 class Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParentAction < ApplicationRecord
-
-  include Actions::TargetsMany
+  include Actions::TargetsOne
   include Actions::SupportsScheduling
   include Actions::HasProgress
   include Actions::TracksCreator
@@ -24,16 +23,15 @@ class Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParentAction < 
 
   # 🚅 add delegations above.
 
-  def valid_targets
-    absolutely_abstract_creative_concept.completely_concrete_tangible_things
+  def targeted
+    absolutely_abstract_creative_concept
   end
-
 
   def label_string
     "Targets One Parent Action"
   end
 
-  def perform_on_target(tangible_thing)
+  def perform_on_target(absolutely_abstract_creative_concept)
     # This is where you implement the operation you want to perform on each target.
   end
 
