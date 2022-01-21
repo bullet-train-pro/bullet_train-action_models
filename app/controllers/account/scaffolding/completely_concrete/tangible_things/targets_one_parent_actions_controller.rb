@@ -5,7 +5,7 @@ class Account::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParent
   # GET /account/scaffolding/absolutely_abstract/creative_concepts/:absolutely_abstract_creative_concept_id/completely_concrete/tangible_things/targets_one_parent_actions.json
   def index
     # if you only want these objects shown on their parent's show page, uncomment this:
-    redirect_to [:account, @absolutely_abstract_creative_concept]
+    redirect_to [:account, @absolutely_abstract_creative_concept, :completely_concrete_tangible_things]
   end
 
   # GET /account/scaffolding/completely_concrete/tangible_things/targets_one_parent_actions/:id
@@ -25,7 +25,7 @@ class Account::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParent
   def approve
     respond_to do |format|
       if @targets_one_parent_action.approve_by(current_membership)
-        format.html { redirect_to [:account, @absolutely_abstract_creative_concept], notice: I18n.t("scaffolding/completely_concrete/tangible_things/targets_one_parent_actions.notifications.approved") }
+        format.html { redirect_to [:account, @absolutely_abstract_creative_concept, :completely_concrete_tangible_things], notice: I18n.t("scaffolding/completely_concrete/tangible_things/targets_one_parent_actions.notifications.approved") }
         format.json { render :show, status: :ok, location: [:account, @targets_one_parent_action] }
       else
         format.html { render :show, status: :unprocessable_entity }
