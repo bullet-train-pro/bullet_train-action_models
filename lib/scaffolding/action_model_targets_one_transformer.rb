@@ -32,8 +32,6 @@ class Scaffolding::ActionModelTargetsOneTransformer < Scaffolding::Transformer
   RUBY_NEW_ACTION_MODEL_INDEX_VIEWS_PROCESSING_HOOK = "<%# 🚅 super scaffolding will insert new action model index views above this line. %>"
 
   def scaffold_action_model
-    add_parent_model_action_model_hooks
-
     files = [
       "./app/models/scaffolding/completely_concrete/tangible_things/targets_one_action.rb",
       "./app/serializers/api/v1/scaffolding/completely_concrete/tangible_things/targets_one_action_serializer.rb",
@@ -56,7 +54,7 @@ class Scaffolding::ActionModelTargetsOneTransformer < Scaffolding::Transformer
 
     add_locale_helper_export_fix
 
-    # Add the action button to the target _index partial
+    # Add the action button to the target index partial.
     target_index_file = "./app/views/account/scaffolding/completely_concrete/tangible_things/_index.html.erb"
     scaffold_add_line_to_file(
       target_index_file,
@@ -65,14 +63,22 @@ class Scaffolding::ActionModelTargetsOneTransformer < Scaffolding::Transformer
       prepend: true
     )
 
-    # TODO I think this needs to be the show view, yes?
-    # # Add the action index partial to the target _index partial
-    # scaffold_add_line_to_file(
-    #   target_index_file,
-    #   "<%= render 'account/scaffolding/completely_concrete/tangible_things/targets_one_actions/index', targets_one_actions: context.completely_concrete_tangible_things_targets_one_actions, hide_back: true %>",
-    #   RUBY_NEW_ACTION_MODEL_INDEX_VIEWS_PROCESSING_HOOK,
-    #   prepend: true
-    # )
+    # Add the action button to the target show partial.
+    target_show_file = "./app/views/account/scaffolding/completely_concrete/tangible_things/show.html.erb"
+    scaffold_add_line_to_file(
+      target_show_file,
+      "<%= render \"account/scaffolding/completely_concrete/tangible_things/targets_one_actions/new_button_one\", tangible_thing: @tangible_thing %>",
+      RUBY_NEW_ACTION_MODEL_BUTTONS_PROCESSING_HOOK,
+      prepend: true
+    )
+
+    # Add the action index partial to the target show view.
+    scaffold_add_line_to_file(
+      target_show_file,
+      "<%= render 'account/scaffolding/completely_concrete/tangible_things/targets_one_actions/index', tangible_thing: @tangible_thing, targets_one_actions: @tangible_thing.targets_one_actions %>",
+      RUBY_NEW_ACTION_MODEL_INDEX_VIEWS_PROCESSING_HOOK,
+      prepend: true
+    )
 
     # Add the has_many to the target model.
     scaffold_add_line_to_file(
