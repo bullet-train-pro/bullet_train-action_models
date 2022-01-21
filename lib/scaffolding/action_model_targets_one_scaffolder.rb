@@ -23,10 +23,10 @@ module ActionModelTargetsOneScaffolder
   end
 
   def scaffold_action_model_targets_one(args)
-    action_model, target_model, parent_models = args
+    action_model, target_model = args
 
     # E.g. `bin/super-scaffold action-model:targets-one Publish Listing`
-    parent_models ||= target_model
+    parent_models ||= "ShouldNotOccur"
 
     parent_models = parent_models.split(",")
     parent_models += ["Team"]
@@ -46,6 +46,14 @@ module ActionModelTargetsOneScaffolder
 
     legacy_replace_in_file(migration_file_name, "t.references :tangible_thing, null: false, foreign_key: true", "t.references :tangible_thing, null: false, foreign_key: {to_table: \"scaffolding_completely_concrete_tangible_things\"}")
     legacy_replace_in_file(migration_file_name, "t.integer :performed_count", "t.integer :performed_count, default: 0")
+
+    created_by_index_name = transformer.transform_string("index_scaffolding_completely_concrete_tangible_things_#{action_model.pluralize.underscore.downcase}_on_created_by_id")
+    created_by_index_name = "index_#{action_model.pluralize.underscore.downcase}_on_created_by_id" if created_by_index_name.length > 63
+    legacy_replace_in_file(migration_file_name, "t.references :created_by, null: false, foreign_key: true", "t.references :created_by, null: false, foreign_key: {to_table: \"memberships\"}, index: {name: \"#{created_by_index_name}\"}")
+
+    approved_by_index_name = transformer.transform_string("index_scaffolding_completely_concrete_tangible_things_#{action_model.pluralize.underscore.downcase}_on_approved_by_id")
+    approved_by_index_name = "index_#{action_model.pluralize.underscore.downcase}_on_approved_by_id" if approved_by_index_name.length > 63
+    legacy_replace_in_file(migration_file_name, "t.references :approved_by, null: false, foreign_key: true", "t.references :approved_by, null: true, foreign_key: {to_table: \"memberships\"}, index: {name: \"#{approved_by_index_name}\"}")
 
     transformer.scaffold_action_model
 

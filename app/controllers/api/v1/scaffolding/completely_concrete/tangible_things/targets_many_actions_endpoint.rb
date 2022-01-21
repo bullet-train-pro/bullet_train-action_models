@@ -16,7 +16,6 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
       # 🚅 super scaffolding will insert new arrays above this line.
 
       optional :target_all, type: Boolean, desc: Api.heading(:target_all)
-      optional :keep_receipt, type: Boolean, desc: Api.heading(:keep_receipt)
       optional :scheduled_for, type: DateTime, desc: Api.heading(:scheduled_for)
       optional :delay, type: String, desc: Api.heading(:delay)
       optional :target_ids, type: Array, desc: Api.heading(:target_ids)

@@ -87,7 +87,6 @@ class Account::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
       # 🚅 stop any skipping we're doing now.
       # 🚅 super scaffolding will insert new fields above this line.
       # 🚅 super scaffolding will insert new arrays above this line.
-      :keep_receipt,
       :scheduled_for,
       :delay,
       target_ids: [],
@@ -97,7 +96,6 @@ class Account::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
 
     assign_boolean(strong_params, :target_all)
     assign_select_options(strong_params, :target_ids)
-    assign_boolean(strong_params, :keep_receipt)
     assign_date_and_time(strong_params, :scheduled_for)
 
     strong_params

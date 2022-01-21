@@ -30,7 +30,6 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
     targets_one_action = Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction.find(targets_one_action_data["id"])
     assert_equal targets_one_action_data["delay"], targets_one_action.delay
     assert_equal targets_one_action_data["emoji"], targets_one_action.emoji
-    assert_equal targets_one_action_data["keep_receipt"], targets_one_action.keep_receipt
     assert_equal targets_one_action_data["target_count"], targets_one_action.target_count
     # TODO This doesn't work on the `create` test because the response comes back `0`, but by the time we get to this
     # check the background job has updated it to `3` in the model. Not sure how to fix this.

@@ -80,7 +80,6 @@ class Account::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
   # Never trust parameters from the scary internet, only allow the white list through.
   def targets_one_action_params
     strong_params = params.require(:scaffolding_completely_concrete_tangible_things_targets_one_action).permit(
-      :keep_receipt,
       :target_count,
       :performed_count,
       :created_by,
@@ -94,7 +93,6 @@ class Account::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
       # 🚅 super scaffolding will insert new arrays above this line.
     )
 
-    assign_boolean(strong_params, :keep_receipt)
     assign_date_and_time(strong_params, :scheduled_for)
     assign_date_and_time(strong_params, :started_at)
     assign_date_and_time(strong_params, :completed_at)

@@ -11,8 +11,10 @@
 
         <% p.content_for :body do %>
           <% with_attribute_settings object: @targets_one_action, strategy: :label do %>
+            <%# 🚅 skip this section when scaffolding. %>
             <%= render 'shared/attributes/option', attribute: :emoji %>
-            <%= render 'shared/attributes/boolean', attribute: :keep_receipt %>
+            <%= render 'shared/attributes/text', attribute: :delay %>
+            <%# 🚅 stop any skipping we're doing now. %>
             <%= render 'shared/attributes/text', attribute: :target_count %>
             <%= render 'shared/attributes/text', attribute: :performed_count %>
             <%= render 'shared/attributes/belongs_to', attribute: :created_by %>
@@ -20,7 +22,6 @@
             <%= render 'shared/attributes/date_and_time', attribute: :scheduled_for %>
             <%= render 'shared/attributes/date_and_time', attribute: :started_at %>
             <%= render 'shared/attributes/date_and_time', attribute: :completed_at %>
-            <%= render 'shared/attributes/text', attribute: :delay %>
             <%# 🚅 super scaffolding will insert new fields above this line. %>
           <% end %>
         <% end %>

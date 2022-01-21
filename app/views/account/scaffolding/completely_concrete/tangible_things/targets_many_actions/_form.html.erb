@@ -19,26 +19,19 @@
 
     <%# 🚅 skip this section when scaffolding. %>
     <%= render 'shared/fields/buttons', method: :emoji %>
+    <%= render 'shared/fields/text_field', method: :delay %>
     <%# 🚅 stop any skipping we're doing now. %>
-
-    <%= render "shared/well" do |p| %>
-      <% p.content_for :title, "Miscellaneous Action Model Feature Demonstrations" %>
-      <% p.content_for :description, "Users don't typically see these options, (they're usually configured per-Action-Model by developers,) but we've exposed them here and made them configurable on a per-run basis so you can see the different ways Action Models can be configured to behave." %>
-      <% p.content_for :body do %>
-        <%= render 'shared/fields/text_field', method: :delay %>
-        <%= render 'shared/fields/buttons', method: :keep_receipt %>
-      <% end %>
-    <% end %>
-
-    <%= render "shared/well" do |p| %>
-      <% p.content_for :title, "Scheduling" %>
-      <% p.content_for :description, "When this feature is enabled for an Action Model, end users can schedule operations to happen at a later date." %>
-      <% p.content_for :body do %>
-        <%= render 'shared/fields/date_and_time_field', method: :scheduled_for %>
-      <% end %>
-    <% end %>
-
     <%# 🚅 super scaffolding will insert new fields above this line. %>
+
+    <% if form.object.is_a?(Actions::SupportsScheduling) %>
+      <%= render "shared/well" do |p| %>
+        <% p.content_for :title, "Scheduling" %>
+        <% p.content_for :description, "When this feature is enabled for an Action Model, end users can schedule operations to happen at a later date." %>
+        <% p.content_for :body do %>
+          <%= render 'shared/fields/date_and_time_field', method: :scheduled_for %>
+        <% end %>
+      <% end %>
+    <% end %>
   <% end %>
 
   <div class="buttons">

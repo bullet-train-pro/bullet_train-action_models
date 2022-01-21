@@ -22,9 +22,9 @@ class Scaffolding::ActionModelTargetsOneTransformer < Scaffolding::Transformer
       indentation += spacer
     end
 
-    lines_to_add << transform_string("#{indentation}targets_many_actions: *targets_many_actions")
+    lines_to_add << transform_string("#{indentation}targets_one_actions: *targets_one_actions")
 
-    scaffold_replace_line_in_file("./config/locales/en/scaffolding/completely_concrete/tangible_things/targets_many_actions.en.yml", lines_to_add.join("\n"), namespaced_locale_export_hook)
+    scaffold_replace_line_in_file("./config/locales/en/scaffolding/completely_concrete/tangible_things/targets_one_actions.en.yml", lines_to_add.join("\n"), namespaced_locale_export_hook)
   end
 
   RUBY_NEW_ACTION_MODEL_BUTTONS_PROCESSING_HOOK = "<%# 🚅 super scaffolding will insert new action model buttons above this line. %>"
@@ -35,15 +35,15 @@ class Scaffolding::ActionModelTargetsOneTransformer < Scaffolding::Transformer
     add_parent_model_action_model_hooks
 
     files = [
-      "./app/models/scaffolding/completely_concrete/tangible_things/targets_many_action.rb",
-      "./app/serializers/api/v1/scaffolding/completely_concrete/tangible_things/targets_many_action_serializer.rb",
-      "./app/controllers/api/v1/scaffolding/completely_concrete/tangible_things/targets_many_actions_endpoint.rb",
-      "./app/controllers/account/scaffolding/completely_concrete/tangible_things/targets_many_actions_controller.rb",
-      "./app/views/account/scaffolding/completely_concrete/tangible_things/targets_many_actions",
-      "./test/models/scaffolding/completely_concrete/tangible_things/targets_many_action_test.rb",
-      "./test/factories/scaffolding/completely_concrete/tangible_things/targets_many_actions.rb",
-      "./test/controllers/api/v1/scaffolding/completely_concrete/tangible_things/targets_many_actions_endpoint_test.rb",
-      "./config/locales/en/scaffolding/completely_concrete/tangible_things/targets_many_actions.en.yml",
+      "./app/models/scaffolding/completely_concrete/tangible_things/targets_one_action.rb",
+      "./app/serializers/api/v1/scaffolding/completely_concrete/tangible_things/targets_one_action_serializer.rb",
+      "./app/controllers/api/v1/scaffolding/completely_concrete/tangible_things/targets_one_actions_endpoint.rb",
+      "./app/controllers/account/scaffolding/completely_concrete/tangible_things/targets_one_actions_controller.rb",
+      "./app/views/account/scaffolding/completely_concrete/tangible_things/targets_one_actions",
+      "./test/models/scaffolding/completely_concrete/tangible_things/targets_one_action_test.rb",
+      "./test/factories/scaffolding/completely_concrete/tangible_things/targets_one_actions.rb",
+      "./test/controllers/api/v1/scaffolding/completely_concrete/tangible_things/targets_one_actions_endpoint_test.rb",
+      "./config/locales/en/scaffolding/completely_concrete/tangible_things/targets_one_actions.en.yml",
     ]
 
     files.each do |name|
@@ -60,52 +60,39 @@ class Scaffolding::ActionModelTargetsOneTransformer < Scaffolding::Transformer
     target_index_file = "./app/views/account/scaffolding/completely_concrete/tangible_things/_index.html.erb"
     scaffold_add_line_to_file(
       target_index_file,
-      "<%= render \"account/scaffolding/completely_concrete/tangible_things/targets_many_actions/new_button_one\", absolutely_abstract_creative_concept: absolutely_abstract_creative_concept, tangible_thing: tangible_thing %>",
+      "<%= render \"account/scaffolding/completely_concrete/tangible_things/targets_one_actions/new_button_one\", tangible_thing: tangible_thing %>",
       RUBY_NEW_ACTION_MODEL_BUTTONS_PROCESSING_HOOK,
       prepend: true
     )
 
-    # Add the bulk action button to the target _index partial
-    scaffold_add_line_to_file(
-      target_index_file,
-      "<%= render \"account/scaffolding/completely_concrete/tangible_things/targets_many_actions/new_button_many\", absolutely_abstract_creative_concept: absolutely_abstract_creative_concept %>",
-      RUBY_NEW_BULK_ACTION_MODEL_BUTTONS_PROCESSING_HOOK,
-      prepend: true
-    )
+    # TODO I think this needs to be the show view, yes?
+    # # Add the action index partial to the target _index partial
+    # scaffold_add_line_to_file(
+    #   target_index_file,
+    #   "<%= render 'account/scaffolding/completely_concrete/tangible_things/targets_one_actions/index', targets_one_actions: context.completely_concrete_tangible_things_targets_one_actions, hide_back: true %>",
+    #   RUBY_NEW_ACTION_MODEL_INDEX_VIEWS_PROCESSING_HOOK,
+    #   prepend: true
+    # )
 
-    # Add the action index partial to the target _index partial
+    # Add the has_many to the target model.
     scaffold_add_line_to_file(
-      target_index_file,
-      "<%= render 'account/scaffolding/completely_concrete/tangible_things/targets_many_actions/index', targets_many_actions: context.completely_concrete_tangible_things_targets_many_actions, hide_back: true %>",
-      RUBY_NEW_ACTION_MODEL_INDEX_VIEWS_PROCESSING_HOOK,
-      prepend: true
-    )
-
-    # Add the has_many to the parent model (not the target)
-    scaffold_add_line_to_file(
-      "./app/models/scaffolding/absolutely_abstract/creative_concept.rb",
-      "has_many :completely_concrete_tangible_things_targets_many_actions, class_name: \"Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction\", dependent: :destroy, foreign_key: :absolutely_abstract_creative_concept_id, enable_updates: true, inverse_of: :absolutely_abstract_creative_concept",
+      "./app/models/scaffolding/completely_concrete/tangible_thing.rb",
+      "has_many :targets_one_actions, class_name: \"Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction\", dependent: :destroy, foreign_key: :tangible_thing_id, enable_updates: true, inverse_of: :tangible_thing",
       HAS_MANY_HOOK,
       prepend: true
     )
 
     # Update the ability file
-    ability_transformer = Scaffolding::Transformer.new(transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction"), parents)
-    ability_line_one = ability_transformer.build_ability_line(actions: "[:create, :read, :destroy]")[0]
-    ability_line_two = ability_transformer.build_ability_line(actions: "[:update]")[0] + ", started_at: nil, approved_by_id: nil"
-    ability_line_three = ability_transformer.build_ability_line(actions: "[:approve]")[0] + ", started_at: nil, approved_by_id: nil"
-    ability_file = "./app/models/ability.rb"
-    ability_hook = "# the following abilities were added by super scaffolding."
-    add_line_to_file(ability_file, ability_line_three, ability_hook)
-    add_line_to_file(ability_file, ability_line_two, ability_hook)
-    add_line_to_file(ability_file, ability_line_one, ability_hook)
-    add_line_to_file(ability_file, transform_string("# The following are the permissions for the Scaffolding::CompletelyConcrete::TangibleThing TargetsMany Action"), ability_hook)
+    add_line_to_file("app/models/ability.rb", transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction,"), "# 🚅 add action models above.", prepend: true)
+
+    # Add the concern we have to add manually because otherwise it gets transformed.
+    add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/targets_one_action.rb"), "include Actions::TargetsOne", "include Actions::SupportsScheduling", prepend: true)
 
     # Restart the server to pick up the translation files
     restart_server
 
     # Update the routes to add the namespace and action routes
-    routes_manipulator = Scaffolding::RoutesFileManipulator.new("config/routes.rb", transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction"), transform_string("Scaffolding::AbsolutelyAbstract::CreativeConcept"))
+    routes_manipulator = Scaffolding::RoutesFileManipulator.new("config/routes.rb", transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction"), transform_string("Scaffolding::CompletelyConcrete::TangibleThing"))
     routes_manipulator.apply(["account"])
     # TODO We need this to also add `post :approve` to the resource block as well. Do we support that already?
     routes_manipulator.write
@@ -124,11 +111,11 @@ class Scaffolding::ActionModelTargetsOneTransformer < Scaffolding::Transformer
     string = super(string)
 
     [
-      "Targets Many to",
+      "Targets One to",
       "append an emoji to",
-      "TargetsMany",
-      "targets_many",
-      "Targets Many",
+      "TargetsOne",
+      "targets_one",
+      "Targets One",
     ].each do |needle|
       # TODO There might be more to do here?
       # What method is this calling?
@@ -140,19 +127,19 @@ class Scaffolding::ActionModelTargetsOneTransformer < Scaffolding::Transformer
   def replacement_for(string)
     case string
     # Some weird edge cases we unwittingly introduced in the emoji example.
-    when "Targets Many to"
+    when "Targets One to"
       # e.g. "Archive"
-      # If someone wants language like "Targets Many to", they have to add it manually or name their model that.
+      # If someone wants language like "Targets One to", they have to add it manually or name their model that.
       action.titlecase
     when "append an emoji to"
       # e.g. "archive"
       # If someone wants language like "append an emoji to", they have to add it manually.
       action.humanize
-    when "TargetsMany"
+    when "TargetsOne"
       action
-    when "targets_many"
+    when "targets_one"
       action.underscore
-    when "Targets Many"
+    when "Targets One"
       action.titlecase
     else
       "🛑"
@@ -168,13 +155,7 @@ class Scaffolding::ActionModelTargetsOneTransformer < Scaffolding::Transformer
     index_file = transform_string "./app/views/account/scaffolding/completely_concrete/tangible_things/_index.html.erb"
     return if File.read(index_file).include?("<%= action_model_select_controller do %>")
     block_manipulator = Scaffolding::BlockManipulator.new(index_file)
-    block_manipulator.wrap_block(starting: "<%= updates_for context, collection", with: ["<%= action_model_select_controller do %>", "<% end %>"])
-    block_manipulator.insert('  <%= render "shared/tables/select_all" %>', within: transform_string("<% if tangible_things.any?"), after: "<tr>")
-    block_manipulator.insert(transform_string('  <%= render "shared/tables/checkbox", object: tangible_thing %>'), within: transform_string("<% with_attribute_settings object: tangible_thing"), after: "<tr")
-    block_manipulator.insert("<%# 🚅 super scaffolding will insert new bulk action model buttons above this line. %>", after_block: transform_string("<% if context == absolutely_abstract_creative_concept"))
     block_manipulator.insert("<%# 🚅 super scaffolding will insert new action model buttons above this line. %>", after_block: transform_string("<% if can? :destroy, tangible_thing"))
-    block_manipulator.insert_block(["<% p.content_for :raw_footer do %>", "<% end %>"], after_block: "<% p.content_for :actions do")
-    block_manipulator.insert("  <%# 🚅 super scaffolding will insert new action model index views above this line. %>", within: "<% p.content_for :raw_footer do")
     block_manipulator.write
   end
 end

@@ -5,7 +5,7 @@ class Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction < Appli
   end
   # 🚅 stop any skipping we're doing now.
 
-  include Actions::TargetsMany
+  include Actions::TargetsMany # 🚅 skip when scaffolding.
   include Actions::SupportsScheduling
   include Actions::HasProgress
   include Actions::TracksCreator

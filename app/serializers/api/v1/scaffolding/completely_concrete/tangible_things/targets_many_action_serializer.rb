@@ -6,7 +6,6 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
     :target_all,
     :target_ids,
     :emoji,
-    :keep_receipt,
     :target_count,
     :performed_count,
     :created_by_id,

@@ -1,7 +1,6 @@
 json.extract! targets_one_action,
   :id,
   :tangible_thing_id,
-  :keep_receipt,
   :target_count,
   :performed_count,
   :created_by,

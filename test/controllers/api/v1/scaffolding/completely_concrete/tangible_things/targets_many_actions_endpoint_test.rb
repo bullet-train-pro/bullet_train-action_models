@@ -31,7 +31,6 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
     assert_equal targets_many_action_data["target_ids"], targets_many_action.target_ids
     assert_equal targets_many_action_data["emoji"], targets_many_action.emoji
     assert_equal targets_many_action_data["delay"], targets_many_action.delay
-    assert_equal targets_many_action_data["keep_receipt"], targets_many_action.keep_receipt
     assert_equal targets_many_action_data["target_count"], targets_many_action.target_count
     assert_equal targets_many_action_data["performed_count"], targets_many_action.performed_count
     assert_equal targets_many_action_data["created_by_id"], targets_many_action.created_by_id

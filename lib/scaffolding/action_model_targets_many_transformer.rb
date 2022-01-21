@@ -89,16 +89,10 @@ class Scaffolding::ActionModelTargetsManyTransformer < Scaffolding::Transformer
     )
 
     # Update the ability file
-    ability_transformer = Scaffolding::Transformer.new(transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction"), parents)
-    ability_line_one = ability_transformer.build_ability_line(actions: "[:create, :read, :destroy]")[0]
-    ability_line_two = ability_transformer.build_ability_line(actions: "[:update]")[0] + ", started_at: nil, approved_by_id: nil"
-    ability_line_three = ability_transformer.build_ability_line(actions: "[:approve]")[0] + ", started_at: nil, approved_by_id: nil"
-    ability_file = "./app/models/ability.rb"
-    ability_hook = "# the following abilities were added by super scaffolding."
-    add_line_to_file(ability_file, ability_line_three, ability_hook)
-    add_line_to_file(ability_file, ability_line_two, ability_hook)
-    add_line_to_file(ability_file, ability_line_one, ability_hook)
-    add_line_to_file(ability_file, transform_string("# The following are the permissions for the Scaffolding::CompletelyConcrete::TangibleThing TargetsMany Action"), ability_hook)
+    add_line_to_file("app/models/ability.rb", transform_string("Scaffolding::CompletelyConcrete::TangibleThing"), "# 🚅 add action models above.")
+
+    # Add the concern we have to add manually because otherwise it gets transformed.
+    add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/targets_one_action.rb"), "include Actions::TargetsMany", "include Actions::SupportsScheduling", prepend: true)
 
     # Restart the server to pick up the translation files
     restart_server

@@ -3,7 +3,6 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
 
   attributes :id,
     :tangible_thing_id,
-    :keep_receipt,
     :target_count,
     :performed_count,
     :created_by,

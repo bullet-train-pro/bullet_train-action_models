@@ -28,8 +28,8 @@ module ActionModelTargetsManyScaffolder
     transformer = Scaffolding::ActionModelTargetsManyTransformer.new(action_model, target_model, parent_models)
 
     # It should belong to the parent instead:
-    # output = `bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction" )} #{transformer.transform_string("scaffolding_completely_concrete_tangible_thing")}:references target_all:boolean target_ids:jsonb keep_receipt:boolean target_count:integer performed_count:integer created_by:references approved_by:references scheduled_for:datetime started_at:datetime completed_at:datetime sidekiq_jid:string #{attributes.join(" ")}`
-    output = `bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction")} #{transformer.transform_string("absolutely_abstract_creative_concept")}:references target_all:boolean target_ids:jsonb keep_receipt:boolean target_count:integer performed_count:integer created_by:references approved_by:references scheduled_for:datetime started_at:datetime completed_at:datetime sidekiq_jid:string delay:integer`
+    # output = `bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction" )} #{transformer.transform_string("scaffolding_completely_concrete_tangible_thing")}:references target_all:boolean target_ids:jsonb target_count:integer performed_count:integer created_by:references approved_by:references scheduled_for:datetime started_at:datetime completed_at:datetime sidekiq_jid:string #{attributes.join(" ")}`
+    output = `bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction")} #{transformer.transform_string("absolutely_abstract_creative_concept")}:references target_all:boolean target_ids:jsonb target_count:integer performed_count:integer created_by:references approved_by:references scheduled_for:datetime started_at:datetime completed_at:datetime sidekiq_jid:string delay:integer`
 
     if output.include?("conflict") || output.include?("identical")
       puts "\n👆 No problem! Looks like you're re-running this Super Scaffolding command. We can work with the model already generated!\n".green
@@ -41,7 +41,6 @@ module ActionModelTargetsManyScaffolder
     legacy_replace_in_file(migration_file_name, "t.boolean :target_all", "t.boolean :target_all, default: false")
     legacy_replace_in_file(migration_file_name, "t.jsonb :target_ids", "t.jsonb :target_ids, default: []")
     legacy_replace_in_file(migration_file_name, "t.integer :performed_count", "t.integer :performed_count, default: 0")
-    legacy_replace_in_file(migration_file_name, "t.boolean :keep_receipt", "t.boolean :keep_receipt, default: true")
 
     created_by_index_name = transformer.transform_string("index_scaffolding_completely_concrete_tangible_things_#{action_model.pluralize.underscore.downcase}_on_created_by_id")
     created_by_index_name = "index_#{action_model.pluralize.underscore.downcase}_on_created_by_id" if created_by_index_name.length > 63

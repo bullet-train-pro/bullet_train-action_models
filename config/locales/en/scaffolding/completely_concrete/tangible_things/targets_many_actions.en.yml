@@ -51,14 +51,6 @@ en:
           star: ⭐️
           heart_eyes: 😍
           party_face: 🥳
-      keep_receipt:
-        _: &keep_receipt Keep Receipt
-        label: Should we keep a receipt of this action around after it's completed?
-        heading: *keep_receipt
-        options:
-          yes: "Yes"
-          no: "No"
-        help: By default, Action Models will call <code>destroy</code> on themselves after they've completed. However, you can configure an Action Model to skip this and the resulting record can serve as a history or audit trail of operations that have been performed.
       target_count:
         _: &target_count Total Count
         label: *target_count
@@ -165,7 +157,6 @@ en:
         emoji: *emoji
         # 🚅 stop any skipping we're doing now.
         # 🚅 super scaffolding will insert new activerecord attributes above this line.
-        keep_receipt: *keep_receipt
         target_count: *target_count
         performed_count: *performed_count
         created_by_id: *created_by_id

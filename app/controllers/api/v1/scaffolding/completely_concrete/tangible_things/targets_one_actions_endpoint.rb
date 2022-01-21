@@ -10,7 +10,6 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
 
     params :targets_one_action do
       optional :delay, type: String, desc: Api.heading(:delay)
-      optional :keep_receipt, type: Boolean, desc: Api.heading(:keep_receipt)
       optional :scheduled_for, type: DateTime, desc: Api.heading(:scheduled_for)
       optional :emoji, type: String, desc: Api.heading(:emoji)
       # 🚅 super scaffolding will insert new fields above this line.

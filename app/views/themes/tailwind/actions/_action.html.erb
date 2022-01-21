@@ -9,7 +9,7 @@
       <div class="flex">
         <div class="flex-1 space-y-4 py-1">
           <div>
-            Perform action on
+            <%= action.label_string %> on
             <%= target_description = capture do %>
               <% if action.is_a?(Actions::TargetsMany) %>
                 <% if action.target_all? %>
