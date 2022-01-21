@@ -103,6 +103,26 @@ class Scaffolding::ActionModelTargetsOneTransformer < Scaffolding::Transformer
     # TODO We need this to also add `post :approve` to the resource block as well. Do we support that already?
     routes_manipulator.write
 
+    # TODO This is a hack. Replace with Adam's real version of this upstream.
+    lines = File.read("config/routes.rb").lines.map(&:chomp)
+
+    lines.each_with_index do |line, index|
+      if line.match?(transform_string("resources :targets_one_actions, except: collection_actions"))
+        unless line.match? /do$/
+          lines[index] = "#{line} do\nmember do\npost :approve\nend\nend\n"
+        end
+      end
+    end
+
+    File.open("config/routes.rb", "w") do |file|
+      file.write(lines.join("\n"))
+    end
+
+    puts `standardrb --fix ./config/routes.rb ./app/models/memberships/revoke_action.rb`
+    # TODO End of the hack.
+
+    add_locale_helper_export_fix
+
     add_additional_step :yellow, "We've generated a new model and migration file for you, so make sure to run `rake db:migrate`."
 
     additional_steps.each_with_index do |additional_step, index|

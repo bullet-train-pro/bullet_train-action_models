@@ -1,6 +1,5 @@
 module Actions::HasProgress
   extend ActiveSupport::Concern
-  include Actions::ProcessesAsync
 
   def completion_percent
     return 0 unless target_count
