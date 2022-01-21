@@ -145,17 +145,4 @@ class Scaffolding::ActionModelTargetsOneTransformer < Scaffolding::Transformer
       "🛑"
     end
   end
-
-  #
-  # This method adds the hooks to the parent model class if they don't already exist
-  # This could happen if someone scaffolds some initial models using the base version of Bullet Train, then they
-  # upgrade to the action_models extension.  If that happens, we need to add the action_model hooks in manually.
-  #
-  def add_parent_model_action_model_hooks
-    index_file = transform_string "./app/views/account/scaffolding/completely_concrete/tangible_things/_index.html.erb"
-    return if File.read(index_file).include?("<%= action_model_select_controller do %>")
-    block_manipulator = Scaffolding::BlockManipulator.new(index_file)
-    block_manipulator.insert("<%# 🚅 super scaffolding will insert new action model buttons above this line. %>", after_block: transform_string("<% if can? :destroy, tangible_thing"))
-    block_manipulator.write
-  end
 end

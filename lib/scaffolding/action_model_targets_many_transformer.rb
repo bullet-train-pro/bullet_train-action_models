@@ -31,7 +31,7 @@ class Scaffolding::ActionModelTargetsManyTransformer < Scaffolding::Transformer
   RUBY_NEW_ACTION_MODEL_INDEX_VIEWS_PROCESSING_HOOK = "<%# 🚅 super scaffolding will insert new action model index views above this line. %>"
 
   def scaffold_action_model
-    add_parent_model_action_model_hooks
+    check_for_hooks
 
     files = [
       "./app/models/scaffolding/completely_concrete/tangible_things/targets_many_action.rb",
@@ -150,24 +150,5 @@ class Scaffolding::ActionModelTargetsManyTransformer < Scaffolding::Transformer
     else
       "🛑"
     end
-  end
-
-  #
-  # This method adds the hooks to the parent model class if they don't already exist
-  # This could happen if someone scaffolds some initial models using the base version of Bullet Train, then they
-  # upgrade to the action_models extension.  If that happens, we need to add the action_model hooks in manually.
-  #
-  def add_parent_model_action_model_hooks
-    index_file = transform_string "./app/views/account/scaffolding/completely_concrete/tangible_things/_index.html.erb"
-    return if File.read(index_file).include?("<%= action_model_select_controller do %>")
-    block_manipulator = Scaffolding::BlockManipulator.new(index_file)
-    block_manipulator.wrap_block(starting: "<%= updates_for context, collection", with: ["<%= action_model_select_controller do %>", "<% end %>"])
-    block_manipulator.insert('  <%= render "shared/tables/select_all" %>', within: transform_string("<% if tangible_things.any?"), after: "<tr>")
-    block_manipulator.insert(transform_string('  <%= render "shared/tables/checkbox", object: tangible_thing %>'), within: transform_string("<% with_attribute_settings object: tangible_thing"), after: "<tr")
-    block_manipulator.insert("<%# 🚅 super scaffolding will insert new bulk action model buttons above this line. %>", after_block: transform_string("<% if context == absolutely_abstract_creative_concept"))
-    block_manipulator.insert("<%# 🚅 super scaffolding will insert new action model buttons above this line. %>", after_block: transform_string("<% if can? :destroy, tangible_thing"))
-    block_manipulator.insert_block(["<% p.content_for :raw_footer do %>", "<% end %>"], after_block: "<% p.content_for :actions do")
-    block_manipulator.insert("  <%# 🚅 super scaffolding will insert new action model index views above this line. %>", within: "<% p.content_for :raw_footer do")
-    block_manipulator.write
   end
 end
