@@ -12,9 +12,9 @@ module Actions::HasProgress
     update(performed_count: performed_count + 1)
   end
 
-  def target_count
+  def calculate_target_count
     unless defined?(super)
-      raise "You need to define `target_count`. Did you forget to include `Actions::TargetsMany`?"
+      raise "You need to define `calculate_target_count`. Did you forget to include `Actions::TargetsMany`?"
     end
   end
 

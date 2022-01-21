@@ -2,8 +2,8 @@ module Actions::TargetsOne
   extend ActiveSupport::Concern
   include Actions::Base
 
-  def target_count
-    raise "You need to define `target_count`."
+  def calculate_target_count
+    raise "You need to define `calculate_target_count`."
   end
 
   # This is the batch-level control logic that iterates over the collection of targeted objects.

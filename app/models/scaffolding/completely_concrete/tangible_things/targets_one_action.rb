@@ -46,13 +46,13 @@ class Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction < Applic
     "Targets One Action"
   end
 
-  def target_count
+  def calculate_target_count
     # 🚅 skip this section when scaffolding.
     return 3
     # 🚅 stop any skipping we're doing now.
 
     # This is where you calculate the total number of items that are going to be processed.
-    raise "You need to define `set_target_count`."
+    raise "You need to define `calculate_target_count`."
   end
 
   def perform_on_target(tangible_thing)

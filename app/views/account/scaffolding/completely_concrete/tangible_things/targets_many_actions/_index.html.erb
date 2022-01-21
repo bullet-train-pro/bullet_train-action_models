@@ -8,7 +8,7 @@
 
 <%= updates_for context, collection do %>
   <% if targets_many_actions.any? %>
-    <div class="border-t">
+    <div class="border-t dark:border-sealBlue-500">
       <%= render 'account/shared/box', no_background: true, title_size: "text-base" do |p| %>
         <% p.content_for :title, t(".contexts.#{context.class.name.underscore}.header") %>
         <% p.content_for :description do %>
@@ -16,7 +16,7 @@
         <% end %>
 
         <% p.content_for :table do %>
-          <div class="divide-y divide-gray-900 divide-opacity-5 border-t">
+          <div class="divide-y divide-gray-900 divide-opacity-5 border-t dark:border-sealBlue-500">
             <% targets_many_actions.each do |targets_many_action| %>
               <%= render "shared/actions/action", action: targets_many_action %>
             <% end %>

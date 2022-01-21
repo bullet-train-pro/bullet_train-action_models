@@ -15,7 +15,7 @@ module Actions::TargetsMany
     target_all ? [] : valid_targets.where(id: target_ids)
   end
 
-  def target_count
+  def calculate_target_count
     targeted.count
   end
 
