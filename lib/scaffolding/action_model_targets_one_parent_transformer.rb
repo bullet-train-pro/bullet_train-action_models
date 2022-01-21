@@ -82,9 +82,9 @@ class Scaffolding::ActionModelTargetsOneParentTransformer < Scaffolding::Transfo
     add_line_to_file("app/models/ability.rb", transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParentAction,"), "# 🚅 add action models above.", prepend: true)
     # Update the ability file
 
-    # Add the concern we have to add manually because otherwise it gets transformed.
-    add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/targets_one_parent_action.rb"), "include Actions::TargetsOneParent", "include Actions::SupportsScheduling", prepend: true)
-
+    # # Add the concern we have to add manually because otherwise it gets transformed.
+    # add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/targets_one_parent_action.rb"), "include Actions::TargetsOne", "include Actions::SupportsScheduling", prepend: true)
+    
     # Restart the server to pick up the translation files
     restart_server
 

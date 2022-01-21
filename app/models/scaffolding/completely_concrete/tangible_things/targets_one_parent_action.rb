@@ -1,4 +1,10 @@
 class Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParentAction < ApplicationRecord
+  # 🚅 skip this section when scaffolding.
+  def self.table_name
+    "sc_co_concrete_tangible_things_targets_one_parent_actions"
+  end
+  # 🚅 stop any skipping we're doing now.
+
   include Actions::TargetsOne
   include Actions::SupportsScheduling
   include Actions::HasProgress
