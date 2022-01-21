@@ -33,12 +33,24 @@ class Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParentAction < 
     absolutely_abstract_creative_concept
   end
 
+  # def calculate_target_count
+  #   # Implement a calculation here.
+  # end
+
   def label_string
     "Targets One Parent Action"
   end
 
   def perform_on_target(absolutely_abstract_creative_concept)
-    # This is where you implement the operation you want to perform on each target.
+    # This is where you implement the operation you want to perform on the target.
+
+    # If you want to track progress over many items within the one target, uncomment and implement
+    # `calculate_target_count` above, and be sure to call `before_each` and `after_each` like demonstrated below:
+    #
+    # some_iterator.each do |item|
+    #   before_each
+    #   after_each
+    # end
   end
 
   # 🚅 add methods above.
