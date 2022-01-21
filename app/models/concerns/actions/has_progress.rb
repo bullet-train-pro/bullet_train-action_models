@@ -19,7 +19,7 @@ module Actions::HasProgress
   end
 
   def before_start
-    update(target_count: target_count)
+    update(target_count: calculate_target_count)
     super
   end
 
