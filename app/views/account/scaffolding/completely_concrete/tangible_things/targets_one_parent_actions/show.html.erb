@@ -1,0 +1,37 @@
+<%= render 'account/shared/page' do |p| %>
+  <% p.content_for :title, t('.section') %>
+  <% p.content_for :body do %>
+    <%= updates_for @targets_one_parent_action do %>
+      <%= render 'account/shared/box', divider: true do |p| %>
+        <% p.content_for :title, t('.header') %>
+        <% p.content_for :description do %>
+          <%= t('.description') %>
+          <%= t('.manage_description') if can? :manage, @targets_one_parent_action %>
+        <% end %>
+
+        <% p.content_for :body do %>
+          <% with_attribute_settings object: @targets_one_parent_action, strategy: :label do %>
+            <%= render 'shared/attributes/boolean', attribute: :target_all %>
+            <%= render 'shared/attributes/has_many', attribute: :targets %>
+            <%= render 'shared/attributes/text', attribute: :target_count %>
+            <%= render 'shared/attributes/text', attribute: :performed_count %>
+            <%= render 'shared/attributes/belongs_to', attribute: :created_by %>
+            <%= render 'shared/attributes/belongs_to', attribute: :approved_by %>
+            <%= render 'shared/attributes/date_and_time', attribute: :scheduled_for %>
+            <%= render 'shared/attributes/date_and_time', attribute: :started_at %>
+            <%= render 'shared/attributes/date_and_time', attribute: :completed_at %>
+            <%# 🚅 super scaffolding will insert new fields above this line. %>
+          <% end %>
+        <% end %>
+
+        <% p.content_for :actions do %>
+          <%= link_to t('.buttons.edit'), [:edit, :account, @targets_one_parent_action], class: first_button_primary if can? :edit, @targets_one_parent_action %>
+          <%= button_to t('.buttons.destroy'), [:account, @targets_one_parent_action], method: :delete, class: first_button_primary, data: { confirm: t('.buttons.confirmations.destroy', model_locales(@targets_one_parent_action)) } if can? :destroy, @targets_one_parent_action %>
+          <%= link_to t('global.buttons.back'), [:account, @absolutely_abstract_creative_concept, :completely_concrete_tangible_things_targets_one_parent_actions], class: first_button_primary %>
+        <% end %>
+      <% end %>
+
+      <%# 🚅 super scaffolding will insert new children above this line. %>
+    <% end %>
+  <% end %>
+<% end %>

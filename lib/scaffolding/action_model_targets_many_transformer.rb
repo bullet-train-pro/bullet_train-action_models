@@ -31,8 +31,6 @@ class Scaffolding::ActionModelTargetsManyTransformer < Scaffolding::Transformer
   RUBY_NEW_ACTION_MODEL_INDEX_VIEWS_PROCESSING_HOOK = "<%# 🚅 super scaffolding will insert new action model index views above this line. %>"
 
   def scaffold_action_model
-    check_for_hooks
-
     files = [
       "./app/models/scaffolding/completely_concrete/tangible_things/targets_many_action.rb",
       "./app/serializers/api/v1/scaffolding/completely_concrete/tangible_things/targets_many_action_serializer.rb",
@@ -75,7 +73,7 @@ class Scaffolding::ActionModelTargetsManyTransformer < Scaffolding::Transformer
     # Add the action index partial to the target _index partial
     scaffold_add_line_to_file(
       target_index_file,
-      "<%= render 'account/scaffolding/completely_concrete/tangible_things/targets_many_actions/index', targets_many_actions: context.completely_concrete_tangible_things_targets_many_actions, hide_back: true %>",
+      "<%= render 'account/scaffolding/completely_concrete/tangible_things/targets_many_actions/index', targets_many_actions: context.completely_concrete_tangible_things_targets_many_actions %>",
       RUBY_NEW_ACTION_MODEL_INDEX_VIEWS_PROCESSING_HOOK,
       prepend: true
     )
@@ -89,10 +87,11 @@ class Scaffolding::ActionModelTargetsManyTransformer < Scaffolding::Transformer
     )
 
     # Update the ability file
-    add_line_to_file("app/models/ability.rb", transform_string("Scaffolding::CompletelyConcrete::TangibleThing"), "# 🚅 add action models above.")
+    add_line_to_file("app/models/ability.rb", transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction,"), "# 🚅 add action models above.", prepend: true)
+    # Update the ability file
 
     # Add the concern we have to add manually because otherwise it gets transformed.
-    add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/targets_one_action.rb"), "include Actions::TargetsMany", "include Actions::SupportsScheduling", prepend: true)
+    add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/targets_many_action.rb"), "include Actions::TargetsMany", "include Actions::SupportsScheduling", prepend: true)
 
     # Restart the server to pick up the translation files
     restart_server
