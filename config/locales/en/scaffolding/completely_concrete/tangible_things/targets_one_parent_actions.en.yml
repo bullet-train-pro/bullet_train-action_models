@@ -141,10 +141,13 @@ en:
       destroyed: Targets One Parent Action was successfully destroyed.
       approved: Targets One Parent Action was approved.
   account:
+    # 🚅 skip this section when scaffolding.
     scaffolding:
       completely_concrete:
         tangible_things:
           targets_one_parent_actions: *targets_one_parent_actions
+    # 🚅 stop any skipping we're doing now.
+    # 🚅 super scaffolding will insert the export for the locale view helper here.
   activerecord:
     attributes:
       scaffolding/completely_concrete/tangible_things/targets_one_parent_action:

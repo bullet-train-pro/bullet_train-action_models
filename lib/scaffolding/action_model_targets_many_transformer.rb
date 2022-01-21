@@ -102,6 +102,22 @@ class Scaffolding::ActionModelTargetsManyTransformer < Scaffolding::Transformer
     # TODO We need this to also add `post :approve` to the resource block as well. Do we support that already?
     routes_manipulator.write
 
+    # TODO This is a hack. Replace with Adam's real version of this upstream.
+    lines = File.read("config/routes.rb").lines.map(&:chomp)
+
+    lines.each_with_index do |line, index|
+      if line.include?(transform_string("resources :targets_many_actions"))
+        lines[index] = "#{line} do\nmember do\npost :approve\nend\nend\n"
+        break
+      end
+    end
+
+    File.open("config/routes.rb", "w") do |file|
+      file.write(lines.join("\n"))
+    end
+
+    puts `standardrb --fix ./config/routes.rb #{transform_string("./app/models/scaffolding/completely_concrete/tangible_things/targets_many_action.rb")}`
+
     add_additional_step :yellow, "We've generated a new model and migration file for you, so make sure to run `rake db:migrate`."
 
     additional_steps.each_with_index do |additional_step, index|

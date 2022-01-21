@@ -2,12 +2,6 @@
   <%= render 'account/shared/forms/errors', form: form %>
 
   <% with_field_settings form: form do %>
-    <div class="inline hidden">
-      <%= render 'shared/fields/buttons', method: :target_all, html_options: {autofocus: true} %>
-      <%= render 'shared/fields/super_select', method: :target_ids, html_options: {multiple: true},
-        choices: @targets_one_parent_action.valid_targets.map { |targets_one_parent_action| [targets_one_parent_action.label_string, targets_one_parent_action.id] } %>
-    </div>
-
     <%# 🚅 super scaffolding will insert new fields above this line. %>
 
     <% if form.object.is_a?(Actions::SupportsScheduling) %>

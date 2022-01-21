@@ -57,7 +57,7 @@ class Scaffolding::ActionModelTargetsOneParentTransformer < Scaffolding::Transfo
     target_index_file = "./app/views/account/scaffolding/completely_concrete/tangible_things/_index.html.erb"
     scaffold_add_line_to_file(
       target_index_file,
-      "<%= render \"account/scaffolding/completely_concrete/tangible_things/targets_one_parent_actions/new_button_one\", absolutely_abstract_creative_concept: absolutely_abstract_creative_concept, tangible_thing: tangible_thing %>",
+      "<%= render \"account/scaffolding/completely_concrete/tangible_things/targets_one_parent_actions/new_button_one\", absolutely_abstract_creative_concept: absolutely_abstract_creative_concept %>",
       RUBY_NEW_BULK_ACTION_MODEL_BUTTONS_PROCESSING_HOOK,
       prepend: true
     )
@@ -68,6 +68,13 @@ class Scaffolding::ActionModelTargetsOneParentTransformer < Scaffolding::Transfo
       "<%= render 'account/scaffolding/completely_concrete/tangible_things/targets_one_parent_actions/index', targets_one_parent_actions: context.completely_concrete_tangible_things_targets_one_parent_actions %>",
       RUBY_NEW_ACTION_MODEL_INDEX_VIEWS_PROCESSING_HOOK,
       prepend: true
+    )
+
+    # TODO Is there a better way to do this without getting "No need to update './app/models/memberships/import_action.rb'. It already has ''."?
+    scaffold_replace_line_in_file(
+      "./app/models/scaffolding/completely_concrete/tangible_things/targets_one_parent_action.rb",
+      "                             ",
+      "has_one :team, through: :team"
     )
 
     # Add the has_many to the parent model (not the target)
@@ -84,7 +91,7 @@ class Scaffolding::ActionModelTargetsOneParentTransformer < Scaffolding::Transfo
 
     # # Add the concern we have to add manually because otherwise it gets transformed.
     # add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/targets_one_parent_action.rb"), "include Actions::TargetsOne", "include Actions::SupportsScheduling", prepend: true)
-    
+
     # Restart the server to pick up the translation files
     restart_server
 
@@ -93,6 +100,25 @@ class Scaffolding::ActionModelTargetsOneParentTransformer < Scaffolding::Transfo
     routes_manipulator.apply(["account"])
     # TODO We need this to also add `post :approve` to the resource block as well. Do we support that already?
     routes_manipulator.write
+
+    # TODO This is a hack. Replace with Adam's real version of this upstream.
+    lines = File.read("config/routes.rb").lines.map(&:chomp)
+
+    lines.each_with_index do |line, index|
+      if line.include?(transform_string("resources :targets_one_parent_actions"))
+        lines[index] = "#{line} do\nmember do\npost :approve\nend\nend\n"
+        break
+      end
+    end
+
+    File.open("config/routes.rb", "w") do |file|
+      file.write(lines.join("\n"))
+    end
+
+    puts `standardrb --fix ./config/routes.rb #{transform_string("./app/models/scaffolding/completely_concrete/tangible_things/targets_one_parent_action.rb")}`
+    # TODO End of the hack.
+
+    add_locale_helper_export_fix
 
     add_additional_step :yellow, "We've generated a new model and migration file for you, so make sure to run `rake db:migrate`."
 

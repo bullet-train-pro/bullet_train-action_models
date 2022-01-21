@@ -118,7 +118,7 @@ class Scaffolding::ActionModelTargetsOneTransformer < Scaffolding::Transformer
       file.write(lines.join("\n"))
     end
 
-    puts `standardrb --fix ./config/routes.rb ./app/models/memberships/revoke_action.rb`
+    puts `standardrb --fix ./config/routes.rb #{transform_string("./app/models/scaffolding/completely_concrete/tangible_things/targets_one_action.rb")}`
     # TODO End of the hack.
 
     add_locale_helper_export_fix
