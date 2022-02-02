@@ -1,6 +1,3 @@
-require_relative "transformer"
-require_relative "block_manipulator"
-
 class Scaffolding::ActionModelTargetsOneTransformer < Scaffolding::Transformer
   attr_accessor :action
 

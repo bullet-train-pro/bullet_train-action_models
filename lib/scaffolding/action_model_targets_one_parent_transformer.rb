@@ -1,5 +1,3 @@
-require_relative "transformer"
-
 class Scaffolding::ActionModelTargetsOneParentTransformer < Scaffolding::Transformer
   attr_accessor :action
 
