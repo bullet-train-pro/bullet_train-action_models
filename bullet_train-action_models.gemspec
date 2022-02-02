@@ -1,4 +1,4 @@
-require_relative "lib/bullet_train/action_models/version"
+require "lib/bullet_train/action_models/version"
 
 Gem::Specification.new do |spec|
   spec.name = "bullet_train-action_models"
