@@ -1,8 +1,8 @@
-# require "lib/bullet_train/action_models/version"
+require_relative "lib/bullet_train/action_models/version"
 
 Gem::Specification.new do |spec|
   spec.name = "bullet_train-action_models"
-  spec.version = "1.0.0" # BulletTrain::ActionModels::VERSION
+  spec.version = BulletTrain::ActionModels::VERSION
   spec.authors = ["Andrew Culver"]
   spec.email = ["andrew.culver@gmail.com"]
   spec.homepage = "https://github.com/andrewculver/bullet_train-action_models"
