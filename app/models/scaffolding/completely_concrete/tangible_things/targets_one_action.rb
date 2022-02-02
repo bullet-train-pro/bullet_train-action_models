@@ -64,7 +64,7 @@ class Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction < Applic
       after_each
     end
 
-    return
+    nil
     # 🚅 stop any skipping we're doing now.
 
     # This is where you implement the operation you want to perform on the action's target.

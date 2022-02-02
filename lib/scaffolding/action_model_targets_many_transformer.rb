@@ -112,9 +112,7 @@ class Scaffolding::ActionModelTargetsManyTransformer < Scaffolding::Transformer
       end
     end
 
-    File.open("config/routes.rb", "w") do |file|
-      file.write(lines.join("\n"))
-    end
+    File.write("config/routes.rb", lines.join("\n"))
 
     puts `standardrb --fix ./config/routes.rb #{transform_string("./app/models/scaffolding/completely_concrete/tangible_things/targets_many_action.rb")}`
 

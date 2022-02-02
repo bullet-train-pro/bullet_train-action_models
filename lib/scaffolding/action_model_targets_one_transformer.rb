@@ -114,9 +114,7 @@ class Scaffolding::ActionModelTargetsOneTransformer < Scaffolding::Transformer
       end
     end
 
-    File.open("config/routes.rb", "w") do |file|
-      file.write(lines.join("\n"))
-    end
+    File.write("config/routes.rb", lines.join("\n"))
 
     puts `standardrb --fix ./config/routes.rb #{transform_string("./app/models/scaffolding/completely_concrete/tangible_things/targets_one_action.rb")}`
     # TODO End of the hack.

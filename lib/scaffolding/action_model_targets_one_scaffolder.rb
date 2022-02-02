@@ -34,13 +34,7 @@ module ActionModelTargetsOneScaffolder
 
     transformer = Scaffolding::ActionModelTargetsOneTransformer.new(action_model, target_model, parent_models)
 
-    output = `bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction")} #{transformer.transform_string("tangible_thing")}:references started_at:datetime completed_at:datetime target_count:integer performed_count:integer scheduled_for:datetime sidekiq_jid:string created_by:references approved_by:references`
-
-    # TODO I think this matches `identical` files from namespace generation, meaning it shows up 100% of the time you're
-    # scaffolding into an existing namespace.
-    # if output.include?("conflict") || output.include?("identical")
-    #   puts "\n👆 No problem! Looks like you're re-running this Super Scaffolding command. We can work with the model already generated!\n".green
-    # end
+    `bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction")} #{transformer.transform_string("tangible_thing")}:references started_at:datetime completed_at:datetime target_count:integer performed_count:integer scheduled_for:datetime sidekiq_jid:string created_by:references approved_by:references`
 
     migration_file_name = `grep "create_table :#{transformer.transform_string("scaffolding_completely_concrete_tangible_things_targets_one_actions")} do |t|" db/migrate/*`.split(":").first
 
