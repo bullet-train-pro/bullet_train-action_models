@@ -11,8 +11,6 @@
 
         <% p.content_for :body do %>
           <% with_attribute_settings object: @targets_one_parent_action, strategy: :label do %>
-            <%= render 'shared/attributes/boolean', attribute: :target_all %>
-            <%= render 'shared/attributes/has_many', attribute: :targets %>
             <%= render 'shared/attributes/text', attribute: :target_count %>
             <%= render 'shared/attributes/text', attribute: :performed_count %>
             <%= render 'shared/attributes/belongs_to', attribute: :created_by %>
