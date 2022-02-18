@@ -37,7 +37,7 @@ module BulletTrain
 
           transformer = Scaffolding::ActionModelTargetsOneTransformer.new(action_model, target_model, parent_models)
 
-          `bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction")} #{transformer.transform_string("tangible_thing")}:references started_at:datetime completed_at:datetime target_count:integer performed_count:integer scheduled_for:datetime sidekiq_jid:string created_by:references approved_by:references`
+          `yes n | bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction")} #{transformer.transform_string("tangible_thing")}:references started_at:datetime completed_at:datetime target_count:integer performed_count:integer scheduled_for:datetime sidekiq_jid:string created_by:references approved_by:references`
 
           migration_file_name = `grep "create_table :#{transformer.transform_string("scaffolding_completely_concrete_tangible_things_targets_one_actions")} do |t|" db/migrate/*`.split(":").first
 

@@ -42,7 +42,7 @@ class Scaffolding::ActionModelTargetsOneTransformer < Scaffolding::Transformer
     ]
 
     files.each do |name|
-      if File.directory?(name)
+      if File.directory?(resolve_template_path(name))
         scaffold_directory(name)
       else
         scaffold_file(name)
