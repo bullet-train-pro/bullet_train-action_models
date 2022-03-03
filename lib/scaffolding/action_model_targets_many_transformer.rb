@@ -94,11 +94,18 @@ class Scaffolding::ActionModelTargetsManyTransformer < Scaffolding::Transformer
     # Restart the server to pick up the translation files
     restart_server
 
-    # Update the routes to add the namespace and action routes
-    routes_manipulator = Scaffolding::RoutesFileManipulator.new("config/routes.rb", transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction"), transform_string("Scaffolding::AbsolutelyAbstract::CreativeConcept"))
-    routes_manipulator.apply(["account"])
-    # TODO We need this to also add `post :approve` to the resource block as well. Do we support that already?
-    routes_manipulator.write
+    begin
+      # Update the routes to add the namespace and action routes
+      routes_manipulator = Scaffolding::RoutesFileManipulator.new("config/routes.rb", transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction"), transform_string("Scaffolding::AbsolutelyAbstract::CreativeConcept"))
+      routes_manipulator.apply(["account"])
+      # TODO We need this to also add `post :approve` to the resource block as well. Do we support that already?
+      routes_manipulator.write
+    rescue BulletTrain::SuperScaffolding::CannotFindParentResourceException => exception
+      # TODO It would be great if we could automatically generate whatever the structure of the route needs to be and
+      # tell them where to try and inject it. Obviously we can't calculate the line number, otherwise the robots would
+      # have already inserted the routes, but at least we can try to do some of the complicated work for them.
+      add_additional_step :red, "We were not able to generate the routes for your Action Model automatically because: \"#{exception.message}\" You'll need to add them manually, which admittedly can be complicated. See https://blog.bullettrain.co/nested-namespaced-rails-routing-examples/ for guidance. 🙇🏻‍♂️"
+    end
 
     # TODO This is a hack. Replace with Adam's real version of this upstream.
     lines = File.read("config/routes.rb").lines.map(&:chomp)
