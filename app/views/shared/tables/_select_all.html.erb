@@ -1,0 +1,13 @@
+<th class="bulk-actions-checkbox-cell">
+  <label style="line-height: 0;">
+    <%= check_box_tag :bulk_actions_select_all, 'select-all', false, data: { 'bulk-actions-target': 'selectAllCheckbox', 'action': 'bulk-actions#selectAllOrNone' }, class: "focus:ring-blue h-4 w-4 text-blue border-gray-300 rounded -mt-1" %>
+    <span class="hidden"
+      data-bulk-actions-target="selectAllLabel"
+      data-controller="text-toggle"
+      data-text-toggle-label-value="Select All"
+      data-text-toggle-label-alternate-value="Select None"
+      data-text-toggle-use-alternate-value="false"
+      data-action="toggle->text-toggle#toggle"
+    >Select All</span>
+  </label>
+</th>

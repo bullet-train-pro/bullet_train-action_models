@@ -1,0 +1,6 @@
+<td class="bulk-actions-checkbox-cell">
+  <label>
+    <%= check_box_tag :bulk_actions_ids, object.id, false, data: { 'bulk-actions-target': 'checkbox', 'action': 'bulk-actions#updateSelectedIds' }, class: "focus:ring-blue h-4 w-4 text-blue border-gray-300 rounded -mt-0.5" %>
+    <span class="hidden"><%= object.label_string %></span>
+  </label>
+</td>
