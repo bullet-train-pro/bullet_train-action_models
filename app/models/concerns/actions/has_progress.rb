@@ -22,9 +22,8 @@ module Actions::HasProgress
   end
 
   def calculate_target_count
-    unless defined?(super)
-      raise "You need to define `calculate_target_count`. Did you forget to include `Actions::TargetsMany`?"
-    end
+    return super if defined?(super)
+    raise "You need to define `calculate_target_count`. Did you forget to include `Actions::TargetsMany`?"
   end
 
   def before_start

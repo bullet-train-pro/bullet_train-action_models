@@ -11,7 +11,7 @@ module BulletTrain
             puts ""
             puts "E.g. an Archive action for Projects on a Team:"
             puts "  # You do not need to `rails g model`, we'll create the models!"
-            puts "  bin/super-scaffold action-model Archive Project Team"
+            puts "  bin/super-scaffold action-model:targets-many Archive Project Team"
             puts ""
             puts "Also: After scaffolding your action model, you can add custom fields to it the same way you would a regular model."
             puts ""
