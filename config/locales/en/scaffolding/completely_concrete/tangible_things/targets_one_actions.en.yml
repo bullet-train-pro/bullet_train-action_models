@@ -9,7 +9,7 @@ en:
     buttons: &buttons
       approve: Approve and Perform
       new: Add New Targets One Action
-      create: Create Targets One Action
+      create: Perform Targets One Action
       edit: Edit Targets One Action
       update: Update Targets One Action
       destroy: Remove Targets One Action

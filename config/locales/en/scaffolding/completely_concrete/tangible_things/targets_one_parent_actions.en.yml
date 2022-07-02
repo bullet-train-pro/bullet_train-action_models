@@ -8,7 +8,7 @@ en:
       icon: fal fa-puzzle-piece
     buttons: &buttons
       new: Add New Targets One Parent Action
-      create: Perform or Schedule Targets One Parent Action
+      create: Perform Targets One Parent Action
       edit: Edit Targets One Parent Action
       update: Update Targets One Parent Action
       destroy: Remove Targets One Parent Action

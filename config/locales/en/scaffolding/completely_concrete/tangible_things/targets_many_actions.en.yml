@@ -8,7 +8,7 @@ en:
       icon: fal fa-puzzle-piece
     buttons: &buttons
       new: Add New Targets Many Action
-      create: Perform or Schedule Targets Many Action
+      create: Perform Targets Many Action
       edit: Edit Targets Many Action
       update: Update Targets Many Action
       destroy: Remove Targets Many Action
