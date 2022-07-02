@@ -9,7 +9,7 @@ module Actions::TargetsMany
     elsif target_ids.one?
       "#{super} on #{targeted.first.label_string}"
     else
-      "#{super} on #{target_ids.count} #{"Tangible Thing".pluralize(target_ids.count)}"
+      "#{super} on #{target_ids.count} #{valid_targets.arel_table.name.titleize.pluralize(target_ids.count)}"
     end
   end
 
