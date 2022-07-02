@@ -34,7 +34,7 @@ class Scaffolding::ActionModelTargetsManyTransformer < Scaffolding::ActionModelT
     )
 
     # Add the concern we have to add manually because otherwise it gets transformed.
-    add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb"), "include Actions::TargetsMany", "include Actions::SupportsScheduling", prepend: true)
+    add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb"), "include Actions::TargetsMany", "include Actions::ProcessesAsync", prepend: true)
 
     # Restart the server to pick up the translation files
     restart_server

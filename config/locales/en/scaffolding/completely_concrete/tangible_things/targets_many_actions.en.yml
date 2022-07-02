@@ -16,12 +16,12 @@ en:
       shorthand:
         show: Details
         edit: Edit
-        destroy: Delete
+        destroy: Clear
         approve: Approve
         create: Targets Many
       confirmations:
         # TODO customize for your use-case.
-        destroy: Are you sure you want to remove %{targets_many_action_name}? This will also remove it's associated data. This can't be undone.
+        destroy: Are you sure you want to remove this operation receipt?
     fields: &fields
       id:
         heading: Targets Many Action ID
@@ -113,6 +113,11 @@ en:
         scaffolding/absolutely_abstract/creative_concept:
           header: Current and Scheduled Targets Many Operations
           description: Below is a list of previously scheduled or performed operations to perform an action on one or more Tangible Things of %{creative_concept_name}. Operations will only appear here if they are scheduled for the future, currently in progress, or specifically were configured to retain their receipt after completion.
+          headers:
+            active: Active Targets Many Operations
+            scheduled: Scheduled Targets Many Operations
+            awaiting_approval: Targets Many Operations Awaiting Approval
+            completed: Completed Targets Many Operations
       fields: *fields
       buttons: *buttons
     show:

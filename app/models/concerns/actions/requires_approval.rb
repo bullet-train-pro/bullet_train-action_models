@@ -4,6 +4,7 @@ module Actions::RequiresApproval
   included do
     belongs_to :approved_by, class_name: "Membership", optional: true
     validates :approved_by, scope: true
+    scope :awaiting_approval, -> { where(approved_by: nil, started_at: nil, completed_at: nil) }
   end
 
   def valid_approved_bys

@@ -6,10 +6,11 @@ class Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction < Appli
   # 🚅 stop any skipping we're doing now.
 
   include Actions::TargetsMany # 🚅 skip when scaffolding.
-  include Actions::SupportsScheduling
+  include Actions::ProcessesAsync
+  # include Actions::SupportsScheduling
   include Actions::HasProgress
   include Actions::TracksCreator
-  include Actions::RequiresApproval
+  # include Actions::RequiresApproval
   include Actions::CleansUp
   # 🚅 add concerns above.
 
@@ -41,10 +42,6 @@ class Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction < Appli
     I18n.t("scaffolding/completely_concrete/tangible_things/targets_many_actions.fields.emoji.options.#{emoji}")
   end
   # 🚅 stop any skipping we're doing now.
-
-  def label_string
-    "Targets Many Action"
-  end
 
   def perform_on_target(tangible_thing)
     # This is where you implement the operation you want to perform on each target.

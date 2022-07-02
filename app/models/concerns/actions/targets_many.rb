@@ -2,6 +2,17 @@ module Actions::TargetsMany
   extend ActiveSupport::Concern
   include Actions::Base
 
+  # TODO Improve the localization of this.
+  def label_string
+    if target_all?
+      "#{super} on all #{valid_targets.arel_table.name.titleize}"
+    elsif target_ids.one?
+      "#{super} on #{targeted.first.label_string}"
+    else
+      "#{super} on #{target_ids.count} #{"Tangible Thing".pluralize(target_ids.count)}"
+    end
+  end
+
   def valid_targets
     raise "You need to implement `valid_targets` in this model."
   end

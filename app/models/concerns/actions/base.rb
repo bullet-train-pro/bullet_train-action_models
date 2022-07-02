@@ -3,6 +3,12 @@ module Actions::Base
 
   included do
     after_commit :dispatch, on: [:create]
+    scope :active, -> { where.not(started_at: nil).where(completed_at: nil) }
+    scope :completed, -> { where.not(completed_at: nil) }
+  end
+
+  def label_string
+    self.class.name.underscore.titleize.split("/").last
   end
 
   def dispatch
