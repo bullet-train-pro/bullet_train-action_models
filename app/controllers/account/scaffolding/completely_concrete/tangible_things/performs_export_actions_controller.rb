@@ -85,6 +85,7 @@ class Account::Scaffolding::CompletelyConcrete::TangibleThings::PerformsExportAc
       :scheduled_for,
       # 🚅 super scaffolding will insert new fields above this line.
       target_ids: [],
+      fields: [],
       # 🚅 super scaffolding will insert new arrays above this line.
     )
 

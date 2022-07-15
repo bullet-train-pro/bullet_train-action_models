@@ -1,5 +1,5 @@
 <% if can? :create, Scaffolding::CompletelyConcrete::TangibleThings::PerformsExportAction.new(absolutely_abstract_creative_concept: absolutely_abstract_creative_concept) %>
-  <%= button_to "Targets Many Action to All", [:new, :account, absolutely_abstract_creative_concept, :completely_concrete_tangible_things_performs_export_action, scaffolding_completely_concrete_tangible_things_performs_export_action: {target_all: true}], method: :get, class: 'button-secondary', data: { 'bulk-action-form-target': 'button' },
+  <%= button_to "Performs Export of All", [:new, :account, absolutely_abstract_creative_concept, :completely_concrete_tangible_things_performs_export_action, scaffolding_completely_concrete_tangible_things_performs_export_action: {target_all: true}], method: :get, class: 'button-secondary', data: { 'bulk-action-form-target': 'button' },
     form: {
       class: 'bulk-action button_to',
       data: {
@@ -7,8 +7,8 @@
         'bulk-actions-target': 'action',
         'bulk-action-form-hidden-class': 'bulk-action-unavailable',
         # TODO We need to localize these.
-        'bulk-action-form-button-if-all-value': 'Targets Many (All)',
-        'bulk-action-form-button-if-ids-value': 'Targets Many ({num})',
+        'bulk-action-form-button-if-all-value': 'Performs Export (All)',
+        'bulk-action-form-button-if-ids-value': 'Performs Export ({num})',
         'bulk-action-form-ids-value': '[]',
         'bulk-action-form-all-value': 'false',
         'bulk-action-form-object-name-value': 'scaffolding_completely_concrete_tangible_things_performs_export_action',
