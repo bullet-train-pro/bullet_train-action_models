@@ -1,0 +1,170 @@
+en:
+  scaffolding/completely_concrete/tangible_things/performs_export_actions: &performs_export_actions
+    label: &label Performs Export Actions
+    breadcrumbs:
+      label: *label
+    navigation:
+      label: *label
+      icon: fal fa-puzzle-piece
+    buttons: &buttons
+      new: Add New Performs Export Action
+      create: Perform Performs Export Action
+      edit: Edit Performs Export Action
+      update: Update Performs Export Action
+      destroy: Remove Performs Export Action
+      approve: Approve Performs Export Action
+      shorthand:
+        show: Details
+        edit: Edit
+        destroy: Clear
+        approve: Approve
+        create: Performs Export
+      confirmations:
+        # TODO customize for your use-case.
+        destroy: Are you sure you want to remove this operation receipt?
+    fields: &fields
+      id:
+        heading: Performs Export Action ID
+      absolutely_abstract_creative_concept_id:
+        heading: Creative Concept ID
+      target_all:
+        _: &target_all Target All
+        label: *target_all
+        heading: *target_all
+        options:
+          yes: "Yes"
+          no: "No"
+      target_ids: &targets
+        _: &target_ids Targets
+        label: *target_ids
+        heading: *target_ids
+        placeholder: None
+      targets: *targets
+      emoji:
+        _: &emoji Emoji
+        label: Which emoji would you like to append to the label of the Tangible Things?
+        heading: *emoji
+        options:
+          thumbs_up: 👍
+          hands_raised: 🙌
+          flex: 💪
+          star: ⭐️
+          heart_eyes: 😍
+          party_face: 🥳
+      target_count:
+        _: &target_count Total Count
+        label: *target_count
+        heading: *target_count
+      performed_count:
+        _: &performed_count Progress Count
+        label: *performed_count
+        heading: *performed_count
+      created_by_id: &created_by
+        _: &created_by_id Created By
+        label: *created_by_id
+        heading: *created_by_id
+        placeholder: None
+      created_by: *created_by
+      approved_by_id: &approved_by
+        _: &approved_by_id Approved By
+        label: *approved_by_id
+        heading: *approved_by_id
+        placeholder: None
+      approved_by: *approved_by
+      scheduled_for:
+        _: &scheduled_for Scheduled For
+        label: "Would you like this action to be performed at a future time?"
+        heading: *scheduled_for
+        help: Leave this blank if you would like the action to take place immediately.
+      started_at:
+        _: &started_at Began At
+        label: *started_at
+        heading: *started_at
+      completed_at:
+        _: &completed_at Completed At
+        label: *completed_at
+        heading: *completed_at
+      delay:
+        _: &delay Delay
+        label: "How many seconds should we pause between each record being processed?"
+        heading: *delay
+        help: "This is a great way of seeing how Action Models behave when performing long-running operations in the background."
+      # 🚅 super scaffolding will insert new fields above this line.
+      created_at:
+        _: &created_at Added
+        label: *created_at
+        heading: *created_at
+      updated_at:
+        _: &updated_at Updated
+        label: *updated_at
+        heading: *updated_at
+    api:
+      collection_actions: "Collection Actions for Performs Export Actions"
+      index: "List Performs Export Actions"
+      create: "Add a New Performs Export Action"
+      member_actions: "Actions for an Individual Performs Export Action"
+      show: "Retrieve a Performs Export Action"
+      update: "Update a Performs Export Action"
+      destroy: "Delete a Performs Export Action"
+      fields: *fields
+    index:
+      section: "%{creative_concepts_possessive} Performs Export Actions"
+      contexts:
+        scaffolding/absolutely_abstract/creative_concept:
+          header: Current and Scheduled Performs Export Operations
+          description: Below is a list of previously scheduled or performed operations to perform an action on one or more Tangible Things of %{creative_concept_name}. Operations will only appear here if they are scheduled for the future, currently in progress, or specifically were configured to retain their receipt after completion.
+          headers:
+            active: Active Performs Export Operations
+            scheduled: Scheduled Performs Export Operations
+            awaiting_approval: Performs Export Operations Awaiting Approval
+            completed: Completed Performs Export Operations
+      fields: *fields
+      buttons: *buttons
+    show:
+      section: "%{performs_export_action_name}"
+      header: Performs Export Action Details
+      description: Below are the details we have for %{performs_export_action_name}.
+      manage_description: You'll also find options for updating these details or removing %{performs_export_action_name} from %{creative_concept_name} entirely.
+      fields: *fields
+      buttons: *buttons
+    form: &form
+      buttons: *buttons
+      fields: *fields
+    new:
+      section: "Performs Export to Tangible Things of %{creative_concept_name}"
+      header: Performs Export to Tangible Things
+      description: The following options are available for this operation.
+      form: *form
+    edit:
+      section: "%{performs_export_action_name}"
+      header: Edit Performs Export Action Details
+      description: You can update the details or settings for %{performs_export_action_name} below.
+      form: *form
+    notifications:
+      created: Performs Export Action was successfully created.
+      updated: Performs Export Action was successfully updated.
+      destroyed: Performs Export Action was successfully destroyed.
+      approved: Performs Export Action was approved.
+  account:
+    # 🚅 skip this section when scaffolding.
+    scaffolding:
+      completely_concrete:
+        tangible_things:
+          performs_export_actions: *performs_export_actions
+    # 🚅 stop any skipping we're doing now.
+    # 🚅 super scaffolding will insert the export for the locale view helper here.
+  activerecord:
+    attributes:
+      scaffolding/completely_concrete/tangible_things/performs_export_action:
+        target_all: *target_all
+        target_ids: *target_ids
+        # 🚅 super scaffolding will insert new activerecord attributes above this line.
+        target_count: *target_count
+        performed_count: *performed_count
+        created_by_id: *created_by_id
+        approved_by_id: *approved_by_id
+        scheduled_for: *scheduled_for
+        started_at: *started_at
+        completed_at: *completed_at
+        created_at: *created_at
+        updated_at: *updated_at

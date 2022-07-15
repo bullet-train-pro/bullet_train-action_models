@@ -1,0 +1,1 @@
+json.partial! "scaffolding/completely_concrete/tangible_things/performs_export_actions/performs_export_action", performs_export_action: @performs_export_action

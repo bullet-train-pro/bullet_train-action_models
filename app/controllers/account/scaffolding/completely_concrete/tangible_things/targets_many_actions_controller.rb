@@ -82,14 +82,10 @@ class Account::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
   def targets_many_action_params
     strong_params = params.require(:scaffolding_completely_concrete_tangible_things_targets_many_action).permit(
       :target_all,
-      # 🚅 skip this section when scaffolding.
-      :emoji,
-      # 🚅 stop any skipping we're doing now.
-      # 🚅 super scaffolding will insert new fields above this line.
-      # 🚅 super scaffolding will insert new arrays above this line.
       :scheduled_for,
-      :delay,
+      # 🚅 super scaffolding will insert new fields above this line.
       target_ids: [],
+      # 🚅 super scaffolding will insert new arrays above this line.
     )
 
     # 🚅 super scaffolding will insert processing for new fields above this line.

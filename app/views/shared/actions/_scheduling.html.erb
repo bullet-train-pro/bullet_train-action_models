@@ -1,0 +1,11 @@
+<% form ||= current_fields_form %>
+
+<% if form.object.is_a?(Actions::SupportsScheduling) %>
+  <%= render "shared/well" do |p| %>
+    <% p.content_for :title, "Scheduling" %>
+    <% p.content_for :description, "When this feature is enabled for an Action Model, end users can schedule operations to happen at a later date." %>
+    <% p.content_for :body do %>
+      <%= render 'shared/fields/date_and_time_field', method: :scheduled_for %>
+    <% end %>
+  <% end %>
+<% end %>

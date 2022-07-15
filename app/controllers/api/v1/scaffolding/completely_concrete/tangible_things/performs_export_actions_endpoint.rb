@@ -1,4 +1,4 @@
-class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActionsEndpoint < Api::V1::Root
+class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::PerformsExportActionsEndpoint < Api::V1::Root
   helpers do
     params :absolutely_abstract_creative_concept_id do
       requires :absolutely_abstract_creative_concept_id, type: Integer, allow_blank: false, desc: "Creative Concept ID"
@@ -8,7 +8,7 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
       requires :id, type: Integer, allow_blank: false, desc: "Targets Many Action ID"
     end
 
-    params :targets_many_action do
+    params :performs_export_action do
       # 🚅 skip this section when scaffolding.
       # 🚅 stop any skipping we're doing now.
       # 🚅 super scaffolding will insert new fields above this line.
@@ -24,7 +24,7 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
 
   resource "scaffolding/absolutely_abstract/creative_concepts", desc: Api.title(:collection_actions) do
     after_validation do
-      load_and_authorize_api_resource Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction
+      load_and_authorize_api_resource Scaffolding::CompletelyConcrete::TangibleThings::PerformsExportAction
     end
 
     #
@@ -37,9 +37,9 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
     end
     oauth2
     paginate per_page: 100
-    get "/:absolutely_abstract_creative_concept_id/completely_concrete/tangible_things/targets_many_actions" do
-      @paginated_targets_many_actions = paginate @targets_many_actions
-      render @paginated_targets_many_actions, serializer: Api.serializer
+    get "/:absolutely_abstract_creative_concept_id/completely_concrete/tangible_things/performs_export_actions" do
+      @paginated_performs_export_actions = paginate @performs_export_actions
+      render @paginated_performs_export_actions, serializer: Api.serializer
     end
 
     #
@@ -49,22 +49,22 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
     desc Api.title(:create), &Api.create_desc
     params do
       use :absolutely_abstract_creative_concept_id
-      use :targets_many_action
+      use :performs_export_action
     end
     route_setting :api_resource_options, permission: :create
     oauth2 "write"
-    post "/:absolutely_abstract_creative_concept_id/completely_concrete/tangible_things/targets_many_actions" do
-      if @targets_many_action.save
-        render @targets_many_action, serializer: Api.serializer
+    post "/:absolutely_abstract_creative_concept_id/completely_concrete/tangible_things/performs_export_actions" do
+      if @performs_export_action.save
+        render @performs_export_action, serializer: Api.serializer
       else
-        record_not_saved @targets_many_action
+        record_not_saved @performs_export_action
       end
     end
   end
 
-  resource "scaffolding/completely_concrete/tangible_things/targets_many_actions", desc: Api.title(:member_actions) do
+  resource "scaffolding/completely_concrete/tangible_things/performs_export_actions", desc: Api.title(:member_actions) do
     after_validation do
-      load_and_authorize_api_resource Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction
+      load_and_authorize_api_resource Scaffolding::CompletelyConcrete::TangibleThings::PerformsExportAction
     end
 
     #
@@ -78,7 +78,7 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
     oauth2
     route_param :id do
       get do
-        render @targets_many_action, serializer: Api.serializer
+        render @performs_export_action, serializer: Api.serializer
       end
     end
 
@@ -89,16 +89,16 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
     desc Api.title(:update), &Api.update_desc
     params do
       use :id
-      use :targets_many_action
+      use :performs_export_action
     end
     route_setting :api_resource_options, permission: :update
     oauth2 "write"
     route_param :id do
       put do
-        if @targets_many_action.update(declared(params, include_missing: false))
-          render @targets_many_action, serializer: Api.serializer
+        if @performs_export_action.update(declared(params, include_missing: false))
+          render @performs_export_action, serializer: Api.serializer
         else
-          record_not_saved @targets_many_action
+          record_not_saved @performs_export_action
         end
       end
     end
@@ -115,7 +115,7 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
     oauth2 "delete"
     route_param :id do
       delete do
-        render @targets_many_action.destroy, serializer: Api.serializer
+        render @performs_export_action.destroy, serializer: Api.serializer
       end
     end
   end

@@ -1,0 +1,8 @@
+<% performs_export_action ||= @performs_export_action %>
+<% absolutely_abstract_creative_concept ||= @absolutely_abstract_creative_concept || performs_export_action&.absolutely_abstract_creative_concept %>
+<%= render 'account/scaffolding/absolutely_abstract/creative_concepts/breadcrumbs', creative_concept: absolutely_abstract_creative_concept %>
+<%= render 'account/shared/breadcrumb', label: t('.label'), url: [:account, absolutely_abstract_creative_concept, :completely_concrete_tangible_things_performs_export_actions] %>
+<% if performs_export_action&.persisted? %>
+  <%= render 'account/shared/breadcrumb', label: performs_export_action.label_string, url: [:account, performs_export_action] %>
+<% end %>
+<%= render 'account/shared/breadcrumbs/actions', only_for: 'scaffolding/completely_concrete/tangible_things/performs_export_actions' %>
