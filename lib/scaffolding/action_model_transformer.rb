@@ -82,7 +82,7 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
 
     begin
       # Update the routes to add the namespace and action routes
-      routes_manipulator = Scaffolding::RoutesFileManipulator.new("config/routes.rb", transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction"), transform_string("Scaffolding::AbsolutelyAbstract::CreativeConcept"))
+      routes_manipulator = Scaffolding::RoutesFileManipulator.new("config/routes.rb", transform_string("Scaffolding::CompletelyConcrete::TangibleThings::#{targets_n.classify}Action"), transform_string("Scaffolding::AbsolutelyAbstract::CreativeConcept"))
       routes_manipulator.apply(["account"])
       # TODO We need this to also add `post :approve` to the resource block as well. Do we support that already?
       routes_manipulator.write

@@ -1,0 +1,34 @@
+<%= form_with model: performs_export_action, url: (performs_export_action.persisted? ? [:account, performs_export_action] : [:account, @absolutely_abstract_creative_concept, :completely_concrete_tangible_things_performs_export_actions]), local: true, class: 'form' do |form| %>
+  <%= render 'account/shared/forms/errors', form: form %>
+
+  <%= render "shared/alert" do %>
+    <% if @performs_export_action.target_all? %>
+      We're preparing to Export <strong>all Tangible Things</strong> of <strong><%= @absolutely_abstract_creative_concept.name %></strong>.
+    <% else %>
+      We're preparing to Export <strong><%= performs_export_action.target_ids.count %> <%= "Tangible Thing".pluralize(performs_export_action.target_ids.count) %></strong> of <strong><%= @absolutely_abstract_creative_concept.name %></strong>.
+    <% end %>
+  <% end %>
+
+  <% with_field_settings form: form do %>
+    <div class="inline hidden">
+      <%= render 'shared/fields/buttons', method: :target_all, html_options: {autofocus: true} %>
+      <%= render 'shared/fields/super_select', method: :target_ids, html_options: {multiple: true},
+        choices: @performs_export_action.valid_targets.map { |performs_export_action| [performs_export_action.label_string, performs_export_action.id] } %>
+    </div>
+
+    <%= render 'shared/fields/options', method: :fields, multiple: true, options: export_field_options(export_action) %>
+    <%# 🚅 super scaffolding will insert new fields above this line. %>
+
+    <%= render "shared/actions/scheduling" %>
+  <% end %>
+
+  <div class="buttons">
+    <%= form.submit (form.object.persisted? ? t('.buttons.update') : t('.buttons.create')), class: "button" %>
+    <% if form.object.persisted? %>
+    <%= link_to t('global.buttons.cancel'), [:account, performs_export_action], class: "button-secondary" %>
+    <% else %>
+    <%= link_to t('global.buttons.cancel'), [:account, @absolutely_abstract_creative_concept, :completely_concrete_tangible_things_performs_export_actions], class: "button-secondary" %>
+    <% end %>
+  </div>
+
+<% end %>

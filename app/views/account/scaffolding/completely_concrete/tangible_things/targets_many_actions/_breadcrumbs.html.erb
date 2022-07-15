@@ -1,6 +1,6 @@
 <% targets_many_action ||= @targets_many_action %>
 <% absolutely_abstract_creative_concept ||= @absolutely_abstract_creative_concept || targets_many_action&.absolutely_abstract_creative_concept %>
-<%= render 'account/scaffolding/absolutely_abstract/creative_concepts/breadcrumbs', creative_concept: absolutely_abstract_creative_concept %>
+<%= render 'account/scaffolding/completely_concrete/tangible_things/breadcrumbs', creative_concept: absolutely_abstract_creative_concept %>
 <%= render 'account/shared/breadcrumb', label: t('.label'), url: [:account, absolutely_abstract_creative_concept, :completely_concrete_tangible_things_targets_many_actions] %>
 <% if targets_many_action&.persisted? %>
   <%= render 'account/shared/breadcrumb', label: targets_many_action.label_string, url: [:account, targets_many_action] %>

@@ -14,4 +14,10 @@ module Account::ActionModelHelper
       yield
     end
   end
+
+  def export_field_options(export_action)
+    export_action.class::AVAILABLE_FIELDS.keys.map do |key|
+      [key, t("#{export_action.subject}.fields.#{key}.heading")]
+    end.to_h
+  end
 end
