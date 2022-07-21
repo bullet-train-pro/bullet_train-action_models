@@ -40,17 +40,6 @@ en:
         heading: *target_ids
         placeholder: None
       targets: *targets
-      emoji:
-        _: &emoji Emoji
-        label: Which emoji would you like to append to the label of the Tangible Things?
-        heading: *emoji
-        options:
-          thumbs_up: 👍
-          hands_raised: 🙌
-          flex: 💪
-          star: ⭐️
-          heart_eyes: 😍
-          party_face: 🥳
       target_count:
         _: &target_count Total Count
         label: *target_count
@@ -84,11 +73,6 @@ en:
         _: &completed_at Completed At
         label: *completed_at
         heading: *completed_at
-      delay:
-        _: &delay Delay
-        label: "How many seconds should we pause between each record being processed?"
-        heading: *delay
-        help: "This is a great way of seeing how Action Models behave when performing long-running operations in the background."
       # 🚅 super scaffolding will insert new fields above this line.
       created_at:
         _: &created_at Added
@@ -113,6 +97,12 @@ en:
         scaffolding/absolutely_abstract/creative_concept:
           header: Current and Scheduled Targets One Parent Operations
           description: Below is a list of previously scheduled or performed operations to perform an action on one or more Tangible Things of %{creative_concept_name}. Operations will only appear here if they are scheduled for the future, currently in progress, or specifically were configured to retain their receipt after completion.
+          headers:
+            pending: Pending Targets One Parent Operations
+            active: Active Targets One Parent Operations
+            scheduled: Scheduled Targets One Parent Operations
+            awaiting_approval: Targets One Parent Operations Awaiting Approval
+            completed: Completed Targets One Parent Operations
       fields: *fields
       buttons: *buttons
     show:
@@ -161,6 +151,5 @@ en:
         scheduled_for: *scheduled_for
         started_at: *started_at
         completed_at: *completed_at
-        delay: *delay
         created_at: *created_at
         updated_at: *updated_at

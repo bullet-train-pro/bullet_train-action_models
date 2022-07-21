@@ -7,22 +7,20 @@
 <% targets_one_parent_actions = targets_one_parent_actions.order("scheduled_for DESC, created_at DESC") %>
 
 <%= updates_for context, collection do %>
-  <% if targets_one_parent_actions.any? %>
-    <div class="border-t dark:border-sealBlue-500">
-      <%= render 'account/shared/box', no_background: true, title_size: "text-base" do |p| %>
-        <% p.content_for :title, t(".contexts.#{context.class.name.underscore}.header") %>
-        <% p.content_for :description do %>
-          <%= t(".contexts.#{context.class.name.underscore}.description") %>
-        <% end %>
-
-        <% p.content_for :table do %>
-          <div class="divide-y divide-gray-900 divide-opacity-5 border-t dark:border-sealBlue-500">
-            <% targets_one_parent_actions.each do |targets_one_parent_action| %>
-              <%= render "shared/actions/action", action: targets_one_parent_action %>
+  <% [:active, :pending, :scheduled, :awaiting_approval, :completed].compact.each do |scope| %>
+    <% if targets_one_parent_actions.respond_to?(scope) %>
+      <% if targets_one_parent_actions.send(scope).any? %>
+        <%= render 'account/shared/actions/box' do |p| %>
+          <% p.content_for :title, t(".contexts.#{context.class.name.underscore}.headers.#{scope}") %>
+          <% p.content_for :table do %>
+            <%= render "shared/actions/list" do %>
+              <% targets_one_parent_actions.send(scope).each do |targets_one_parent_action| %>
+                <%= render "shared/actions/action", action: targets_one_parent_action %>
+              <% end %>
             <% end %>
-          </div>
+          <% end %>
         <% end %>
       <% end %>
-    </div>
+    <% end %>
   <% end %>
 <% end %>

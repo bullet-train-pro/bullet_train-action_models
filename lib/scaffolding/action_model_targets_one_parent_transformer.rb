@@ -5,33 +5,12 @@ class Scaffolding::ActionModelTargetsOneParentTransformer < Scaffolding::ActionM
     "targets_one_parent"
   end
 
+  # Disable this, we don't want it.
+  def add_button_to_index_rows
+  end
+
   def scaffold_action_model
     super
-
-    # Add the action button to the target _index partial
-    target_index_file = "./app/views/account/scaffolding/completely_concrete/tangible_things/_index.html.erb"
-    scaffold_add_line_to_file(
-      target_index_file,
-      "<%= render \"account/scaffolding/completely_concrete/tangible_things/targets_one_parent_actions/new_button_one\", absolutely_abstract_creative_concept: absolutely_abstract_creative_concept %>",
-      RUBY_NEW_BULK_ACTION_MODEL_BUTTONS_PROCESSING_HOOK,
-      prepend: true
-    )
-
-    # Add the action index partial to the target _index partial
-    scaffold_add_line_to_file(
-      target_index_file,
-      "<%= render 'account/scaffolding/completely_concrete/tangible_things/targets_one_parent_actions/index', targets_one_parent_actions: context.completely_concrete_tangible_things_targets_one_parent_actions %>",
-      RUBY_NEW_ACTION_MODEL_INDEX_VIEWS_PROCESSING_HOOK,
-      prepend: true
-    )
-
-    # Add the has_many to the parent model (not the target)
-    scaffold_add_line_to_file(
-      "./app/models/scaffolding/absolutely_abstract/creative_concept.rb",
-      "has_many :completely_concrete_tangible_things_targets_one_parent_actions, class_name: \"Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParentAction\", dependent: :destroy, foreign_key: :absolutely_abstract_creative_concept_id, enable_updates: true, inverse_of: :absolutely_abstract_creative_concept",
-      HAS_MANY_HOOK,
-      prepend: true
-    )
 
     # Restart the server to pick up the translation files
     restart_server

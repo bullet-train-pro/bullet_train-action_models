@@ -38,6 +38,48 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     scaffold_replace_line_in_file("./config/locales/en/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions.en.yml", lines_to_add.join("\n"), namespaced_locale_export_hook)
   end
 
+  def add_button_to_index
+    # Add the bulk action button to the target _index partial
+    target_index_file = "./app/views/account/scaffolding/completely_concrete/tangible_things/_index.html.erb"
+    scaffold_add_line_to_file(
+      target_index_file,
+      "<%= render \"account/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions/new_button_many\", absolutely_abstract_creative_concept: absolutely_abstract_creative_concept %>",
+      RUBY_NEW_BULK_ACTION_MODEL_BUTTONS_PROCESSING_HOOK,
+      prepend: true
+    )
+  end
+
+  def add_index_to_parent
+    target_index_file = "./app/views/account/scaffolding/completely_concrete/tangible_things/_index.html.erb"
+    scaffold_add_line_to_file(
+      target_index_file,
+      "<%= render 'account/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions/index', #{targets_n}_actions: context.completely_concrete_tangible_things_#{targets_n}_actions %>",
+      RUBY_NEW_ACTION_MODEL_INDEX_VIEWS_PROCESSING_HOOK,
+      prepend: true
+    )
+  end
+
+  def add_button_to_index_rows
+    # Add the action button to the target _index partial
+    target_index_file = "./app/views/account/scaffolding/completely_concrete/tangible_things/_index.html.erb"
+    scaffold_add_line_to_file(
+      target_index_file,
+      "<%= render \"account/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions/new_button_one\", absolutely_abstract_creative_concept: absolutely_abstract_creative_concept, tangible_thing: tangible_thing %>",
+      RUBY_NEW_ACTION_MODEL_BUTTONS_PROCESSING_HOOK,
+      prepend: true
+    )
+  end
+
+  def add_has_many_to_parent_model
+    # Add the has_many to the parent model (not the target)
+    scaffold_add_line_to_file(
+      "./app/models/scaffolding/absolutely_abstract/creative_concept.rb",
+      "has_many :completely_concrete_tangible_things_targets_one_parent_actions, class_name: \"Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParentAction\", dependent: :destroy, foreign_key: :absolutely_abstract_creative_concept_id, enable_updates: true, inverse_of: :absolutely_abstract_creative_concept",
+      HAS_MANY_HOOK,
+      prepend: true
+    )
+  end
+
   def scaffold_action_model
     files = [
       "./app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb",
@@ -61,14 +103,10 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
 
     add_locale_helper_export_fix
 
-    # Add the action button to the target _index partial
-    target_index_file = "./app/views/account/scaffolding/completely_concrete/tangible_things/_index.html.erb"
-    scaffold_add_line_to_file(
-      target_index_file,
-      "<%= render \"account/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions/new_button_one\", absolutely_abstract_creative_concept: absolutely_abstract_creative_concept, tangible_thing: tangible_thing %>",
-      RUBY_NEW_ACTION_MODEL_BUTTONS_PROCESSING_HOOK,
-      prepend: true
-    )
+    add_button_to_index
+    add_button_to_index_rows
+    add_index_to_parent
+    add_has_many_to_parent_model
 
     # TODO Is there a better way to do this without getting "No need to update './app/models/memberships/import_action.rb'. It already has ''."?
     scaffold_replace_line_in_file(

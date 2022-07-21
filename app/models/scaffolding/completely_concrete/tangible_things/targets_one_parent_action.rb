@@ -10,9 +10,11 @@ class Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParentAction < 
   # include Actions::SupportsScheduling
   include Actions::HasProgress
   include Actions::TracksCreator
-  include Actions::RequiresApproval
-  include Actions::CleansUp
+  # include Actions::RequiresApproval
+  # include Actions::CleansUp
   # 🚅 add concerns above.
+
+  # 🚅 add attribute accessors above.
 
   belongs_to :absolutely_abstract_creative_concept, class_name: "Scaffolding::AbsolutelyAbstract::CreativeConcept"
   # 🚅 add belongs_to associations above.
