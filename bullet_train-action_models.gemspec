@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   # spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
 
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
-    Dir["{app,config,db,lib}/**/*", "test/models/scaffolding/**/*", "test/factories/scaffolding/**/*", "test/controllers/api/v1/scaffolding/**/*", "LICENSE", "Rakefile", "README.md"]
+    Dir["{app,config,db,lib}/**/*", "test/models/scaffolding/**/*", "test/factories/scaffolding/**/*", "test/controllers/api/v1/scaffolding/**/*", "LICENSE", "Rakefile", "README.md", ".bt-link"]
   end
 
   spec.add_dependency "rails", ">= 6.0.0"
