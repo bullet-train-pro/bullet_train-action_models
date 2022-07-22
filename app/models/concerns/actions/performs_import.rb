@@ -72,12 +72,16 @@ module Actions::PerformsImport
   end
 
   def after_completion
-    rejected_file_tempfile.rewind
+    rejected_csv.rewind
+    if rejected_csv.read.count > 1
+      rejected_file_tempfile.rewind
+      rejected_file.attach(io: rejected_file_tempfile, filename: rejected_file_path, content_type: "text/csv")
+    end
 
-    rejected_file.attach(io: rejected_file_tempfile, filename: rejected_file_path, content_type: "text/csv")
     rejected_csv.close
     rejected_file_tempfile.close
     rejected_file_tempfile.unlink
+
     super
   end
 
