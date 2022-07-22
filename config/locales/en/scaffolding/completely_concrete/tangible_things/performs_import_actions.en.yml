@@ -135,7 +135,7 @@ en:
       description: The following options are available for this operation.
       form: *form
     edit:
-      section: "Import Projects from <code>%{performs_import_action_name}</code>"
+      section: "Import Projects from %{performs_import_action_name}"
       header: Import Settings
       description: You can configure the field mappings and other import settings below.
       form: *form
