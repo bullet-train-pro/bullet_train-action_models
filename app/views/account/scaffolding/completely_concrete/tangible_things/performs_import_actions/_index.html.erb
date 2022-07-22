@@ -1,0 +1,26 @@
+<% absolutely_abstract_creative_concept = @absolutely_abstract_creative_concept || @creative_concept %>
+<% context ||= absolutely_abstract_creative_concept %>
+<% collection ||= :completely_concrete_tangible_things_performs_import_actions %>
+<% hide_actions ||= false %>
+<% hide_back ||= false %>
+
+<% performs_import_actions = performs_import_actions.order("scheduled_for DESC, created_at DESC") %>
+
+<%= updates_for context, collection do %>
+  <% [:active, :scheduled, :awaiting_approval, :completed].compact.each do |scope| %>
+    <% if performs_import_actions.respond_to?(scope) %>
+      <% if performs_import_actions.send(scope).any? %>
+        <%= render 'account/shared/actions/box' do |p| %>
+          <% p.content_for :title, t(".contexts.#{context.class.name.underscore}.headers.#{scope}") %>
+          <% p.content_for :table do %>
+            <%= render "shared/actions/list" do %>
+              <% performs_import_actions.send(scope).each do |action| %>
+                <%= render "shared/actions/action", action: action %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

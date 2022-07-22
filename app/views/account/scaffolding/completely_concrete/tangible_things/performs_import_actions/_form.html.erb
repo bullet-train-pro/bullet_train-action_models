@@ -1,0 +1,21 @@
+<%= form_with model: performs_import_action, url: (performs_import_action.persisted? ? [:account, performs_import_action] : [:account, @absolutely_abstract_creative_concept, :completely_concrete_tangible_things_performs_import_actions]), local: true, class: 'form' do |form| %>
+  <%= render 'account/shared/forms/errors', form: form %>
+
+  <% with_field_settings form: form do %>
+    <% if !form.object.persisted? %>
+      <%= render 'shared/actions/performs_import/fields' %>
+      <%# 🚅 super scaffolding will insert new fields above this line. %>
+    <% else %>
+      <%= render 'shared/actions/performs_import/mapping_fields' %>
+    <% end %>
+  <% end %>
+
+  <div class="buttons">
+    <%= form.submit (form.object.persisted? ? t('.buttons.update') : t('.buttons.create')), class: "button" %>
+    <% if form.object.persisted? %>
+    <%= link_to t('global.buttons.cancel'), [:account, performs_import_action], class: "button-secondary" %>
+    <% else %>
+    <%= link_to t('global.buttons.cancel'), [:account, @absolutely_abstract_creative_concept, :completely_concrete_tangible_things_performs_import_actions], class: "button-secondary" %>
+    <% end %>
+  </div>
+<% end %>
