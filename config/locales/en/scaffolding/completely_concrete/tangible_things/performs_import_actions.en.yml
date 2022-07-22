@@ -1,0 +1,172 @@
+en:
+  scaffolding/completely_concrete/tangible_things/performs_import_actions: &performs_import_actions
+    label: &label Performs Import Actions
+    breadcrumbs:
+      label: *label
+    navigation:
+      label: *label
+      icon: fal fa-puzzle-piece
+    buttons: &buttons
+      new: Add New Performs Import Action
+      create: Configure Performs Import Action
+      edit: Edit Performs Import Settings
+      update: Preview Performs Import Action
+      destroy: Discard Performs Import Action
+      approve: Perform Performs Import Action
+      shorthand:
+        show: Details
+        edit: Settings
+        destroy: Delete
+        approve: Perform
+        create: Performs Import
+      confirmations:
+        # TODO customize for your use-case.
+        destroy: Are you sure you want to remove this import? The associated CSV file and configuration will be destroyed. This can't be undone. However, any imported records will not be removed.
+    fields: &fields
+      id:
+        heading: Performs Import Action ID
+      absolutely_abstract_creative_concept_id:
+        heading: Creative Concept ID
+      target_count:
+        _: &target_count Total Count
+        label: *target_count
+        heading: *target_count
+      performed_count:
+        _: &performed_count Progress Count
+        label: *performed_count
+        heading: *performed_count
+      performed_count_over_target_count:
+        heading: Progress
+      created_by_id: &created_by
+        _: &created_by_id Created By
+        label: *created_by_id
+        heading: *created_by_id
+        placeholder: None
+      created_by: *created_by
+      approved_by_id: &approved_by
+        _: &approved_by_id Approved By
+        label: *approved_by_id
+        heading: *approved_by_id
+        placeholder: None
+      approved_by: *approved_by
+      started_at:
+        _: &started_at Began At
+        label: *started_at
+        heading: *started_at
+      completed_at:
+        _: &completed_at Completed At
+        label: *completed_at
+        heading: *completed_at
+      file:
+        _: &file CSV File
+        label: *file
+        heading: Uploaded CSV File
+      copy_mapping_from_id: &copy_mapping_from
+        _: &copy_mapping_from_id Copy Mapping From
+        label: Would you like to start with a field mapping from a previous import?
+        heading: *copy_mapping_from_id
+        placeholder: New Mapping
+        help: This can save time if you're uploading a corrected set of records that failed in a previous import or regularly importing updates from another source.
+      copy_mapping_from: *copy_mapping_from
+      succeeded_count:
+        _: &succeeded_count Imported Rows
+        label: *succeeded_count
+        heading: *succeeded_count
+      failed_count:
+        _: &failed_count Unprocessable Rows
+        label: *failed_count
+        heading: *failed_count
+      rejected_file:
+        _: &rejected_file CSV File of Unprocessable Rows
+        label: *rejected_file
+        heading: *rejected_file
+      mapping:
+        _: &mapping Field Mapping
+        label: *mapping
+        heading: *mapping
+      # 🚅 super scaffolding will insert new fields above this line.
+      created_at:
+        _: &created_at Added
+        label: *created_at
+        heading: *created_at
+      updated_at:
+        _: &updated_at Updated
+        label: *updated_at
+        heading: *updated_at
+    api:
+      collection_actions: "Collection Actions for Performs Import Actions"
+      index: "List Performs Import Actions"
+      create: "Add a New Performs Import Action"
+      member_actions: "Actions for an Individual Performs Import Action"
+      show: "Retrieve a Performs Import Action"
+      update: "Update a Performs Import Action"
+      destroy: "Delete a Performs Import Action"
+      fields: *fields
+    index:
+      section: "%{creative_concepts_possessive} Performs Import Actions"
+      contexts:
+        scaffolding/absolutely_abstract/creative_concept:
+          header: Current and Scheduled Performs Import Operations
+          description: Below is a list of previously scheduled or performed operations to perform an action on one or more Tangible Things of %{creative_concept_name}. Operations will only appear here if they are scheduled for the future, currently in progress, or specifically were configured to retain their receipt after completion.
+          headers:
+            pending: Pending Performs Import Operations
+            active: Active Performs Import Operations
+            scheduled: Scheduled Performs Import Operations
+            awaiting_approval: Performs Import Operations Awaiting Approval
+            completed: Completed Performs Import Operations
+      fields: *fields
+      buttons: *buttons
+    show:
+      section: "%{performs_import_action_name}"
+      approved:
+        header: Import Action Details
+        description: Below is a summary of the import and its results.
+      pending:
+        header: Preview Import Action
+        description: Below is a summary of the settings for the pending import.
+      fields: *fields
+      buttons: *buttons
+    form: &form
+      buttons: *buttons
+      fields: *fields
+    new:
+      section: "Performs Import Tangible Things of %{creative_concept_name}"
+      header: Performs Import Tangible Things
+      description: The following options are available for this operation.
+      form: *form
+    edit:
+      section: "Import Projects from <code>%{performs_import_action_name}</code>"
+      header: Import Settings
+      description: You can configure the field mappings and other import settings below.
+      form: *form
+    notifications:
+      created: Performs Import Action was successfully created.
+      updated: Performs Import Action was successfully updated.
+      destroyed: Performs Import Action was successfully destroyed.
+      approved: Performs Import Action was approved.
+  account:
+    # 🚅 skip this section when scaffolding.
+    scaffolding:
+      completely_concrete:
+        tangible_things:
+          performs_import_actions: *performs_import_actions
+    # 🚅 stop any skipping we're doing now.
+    # 🚅 super scaffolding will insert the export for the locale view helper here.
+  activerecord:
+    attributes:
+      scaffolding/completely_concrete/tangible_things/performs_import_action:
+        file: *file
+        copy_mapping_from_id: *copy_mapping_from_id
+        succeeded_count: *succeeded_count
+        failed_count: *failed_count
+        rejected_file: *rejected_file
+        target_count: *target_count
+        performed_count: *performed_count
+        created_by_id: *created_by_id
+        approved_by_id: *approved_by_id
+        started_at: *started_at
+        completed_at: *completed_at
+        mapping: *mapping
+        # 🚅 super scaffolding will insert new activerecord attributes above this line.
+        created_at: *created_at
+        updated_at: *updated_at

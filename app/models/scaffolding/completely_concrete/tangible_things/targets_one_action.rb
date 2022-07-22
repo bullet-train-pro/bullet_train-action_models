@@ -14,6 +14,8 @@ class Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction < Applic
   include Actions::CleansUp
   # 🚅 add concerns above.
 
+  # 🚅 add attribute accessors above.
+
   belongs_to :tangible_thing, class_name: "Scaffolding::CompletelyConcrete::TangibleThing"
   # 🚅 add belongs_to associations above.
 

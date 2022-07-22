@@ -9,6 +9,7 @@ module BulletTrain
           "action-model:targets-one" => "BulletTrain::ActionModels::Scaffolders::TargetsOneScaffolder",
           "action-model:targets-one-parent" => "BulletTrain::ActionModels::Scaffolders::TargetsOneParentScaffolder",
           "action-model:performs-export" => "BulletTrain::ActionModels::Scaffolders::PerformsExportScaffolder",
+          "action-model:performs-import" => "BulletTrain::ActionModels::Scaffolders::PerformsImportScaffolder",
         })
       end
     end

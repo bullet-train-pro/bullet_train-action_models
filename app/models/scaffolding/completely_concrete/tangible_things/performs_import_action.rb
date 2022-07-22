@@ -1,16 +1,7 @@
-class Scaffolding::CompletelyConcrete::TangibleThings::PerformsExportAction < ApplicationRecord
-  # 🚅 skip this section when scaffolding.
-  def self.table_name
-    "sc_completely_concrete_tangible_things_targets_many_actions"
-  end
-  # 🚅 stop any skipping we're doing now.
-
+class Scaffolding::CompletelyConcrete::TangibleThings::PerformsImportAction < ApplicationRecord
   include Actions::ProcessesAsync
-  include Actions::TracksCreator
-  include Actions::PerformsExport # 🚅 skip when scaffolding.
+  include Actions::PerformsImport # 🚅 skip when scaffolding.
   # 🚅 add concerns above.
-
-  # 🚅 add attribute accessors above.
 
   belongs_to :absolutely_abstract_creative_concept, class_name: "Scaffolding::AbsolutelyAbstract::CreativeConcept"
   # 🚅 add belongs_to associations above.
@@ -28,19 +19,34 @@ class Scaffolding::CompletelyConcrete::TangibleThings::PerformsExportAction < Ap
 
   # 🚅 add delegations above.
 
-  def valid_targets
-    absolutely_abstract_creative_concept.completely_concrete_tangible_things
+  def targeted
+    absolutely_abstract_creative_concept
+  end
+
+  def subject
+    targeted.completely_concrete_tangible_things
+  end
+
+  def valid_copy_mapping_froms
+    absolutely_abstract_creative_concept.completely_concrete_tangible_things_performs_import_actions
   end
 
   # 🚅 add methods above.
 
-  AVAILABLE_FIELDS = {
+  FIND_OR_CREATE_BY_FIELDS = [
     # 🚅 skip this section when scaffolding.
-    text_field_value: true,
-    button_value: false,
+    :text_field_value
+    # 🚅 stop any skipping we're doing now.
+  ]
+
+  AVAILABLE_FIELDS = [
+    :id,
+    # 🚅 skip this section when scaffolding.
+    :text_field_value,
+    :button_value,
     # 🚅 stop any skipping we're doing now.
     # 🚅 super scaffolding will insert new fields above this line.
-    created_at: false,
-    updated_at: false,
-  }
+    :created_at,
+    :updated_at,
+  ]
 end

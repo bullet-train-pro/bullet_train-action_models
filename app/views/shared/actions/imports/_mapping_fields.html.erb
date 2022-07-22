@@ -1,0 +1,13 @@
+<% form ||= current_fields_form %>
+
+<fieldset class="space-y">
+  <legend class="text-base font-semibold dark:text-white">Field Mappings</legend>
+
+  <% form.object.mapping.keys.each do |key| %>
+    <%= render "shared/fields/super_select", method: "mapping_#{key.underscore}".to_sym, options: {include_blank: "Don't Import"}, choices: options_for_select(import_field_options(form.object), form.object.mapping[key]) do %>
+      <% content_for :label do %>
+        <code><%= key %></code>
+      <% end %>
+    <% end %>
+  <% end %>
+</fieldset>
