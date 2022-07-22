@@ -49,7 +49,7 @@ module BulletTrain
 
           copy_mapping_from_index_name = transformer.transform_string("index_scaffolding_completely_concrete_tangible_things_#{action_model.pluralize.underscore.downcase}_on_copy_mapping_from_id")
           copy_mapping_from_index_name = "index_#{action_model.pluralize.underscore.downcase}_on_copy_mapping_from_id" if copy_mapping_from_index_name.length > 63
-          legacy_replace_in_file(migration_file_name, "t.references :copy_mapping_from, null: false, foreign_key: true", "t.references :copy_mapping_from, null: true, foreign_key: {to_table: \"#{transform_string("scaffolding_completely_concrete_tangible_things_performs_import_actions")}\"}, index: {name: \"#{copy_mapping_from_index_name}\"}")
+          legacy_replace_in_file(migration_file_name, "t.references :copy_mapping_from, null: false, foreign_key: true", "t.references :copy_mapping_from, null: true, foreign_key: {to_table: \"#{transformer.transform_string("scaffolding_completely_concrete_tangible_things_performs_import_actions")}\"}, index: {name: \"#{copy_mapping_from_index_name}\"}")
 
           transformer.scaffold_action_model
 

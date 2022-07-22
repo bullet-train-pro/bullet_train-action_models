@@ -11,7 +11,7 @@
         <% p.content_for :body do %>
           <% with_attribute_settings object: @performs_import_action, strategy: :label do %>
             <%# 🚅 super scaffolding will insert new fields above this line. %>
-            <%= render "shared/actions/performs_import/attributes" %>
+            <%= render "shared/actions/imports/attributes" %>
           <% end %>
         <% end %>
 

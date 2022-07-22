@@ -145,10 +145,13 @@ en:
       destroyed: Performs Import Action was successfully destroyed.
       approved: Performs Import Action was approved.
   account:
+    # 🚅 skip this section when scaffolding.
     scaffolding:
       completely_concrete:
         tangible_things:
           performs_import_actions: *performs_import_actions
+    # 🚅 stop any skipping we're doing now.
+    # 🚅 super scaffolding will insert the export for the locale view helper here.
   activerecord:
     attributes:
       scaffolding/completely_concrete/tangible_things/performs_import_action:

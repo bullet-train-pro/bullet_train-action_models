@@ -3,10 +3,10 @@
 
   <% with_field_settings form: form do %>
     <% if !form.object.persisted? %>
-      <%= render 'shared/actions/performs_import/fields' %>
+      <%= render 'shared/actions/imports/fields' %>
       <%# 🚅 super scaffolding will insert new fields above this line. %>
     <% else %>
-      <%= render 'shared/actions/performs_import/mapping_fields' %>
+      <%= render 'shared/actions/imports/mapping_fields' %>
     <% end %>
   <% end %>
 
