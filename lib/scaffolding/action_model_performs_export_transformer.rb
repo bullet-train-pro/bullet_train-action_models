@@ -5,6 +5,9 @@ class Scaffolding::ActionModelPerformsExportTransformer < Scaffolding::ActionMod
     "performs_export"
   end
 
+  def add_button_to_index_rows
+  end
+
   def add_ability_line_to_roles_yml
     role_file = "./config/models/roles.yml"
     add_line_to_yml_file(role_file, "#{action_model_class}: read", [:default, :models])
