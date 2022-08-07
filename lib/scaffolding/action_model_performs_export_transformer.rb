@@ -10,8 +10,8 @@ class Scaffolding::ActionModelPerformsExportTransformer < Scaffolding::ActionMod
 
   def add_ability_line_to_roles_yml
     role_file = "./config/models/roles.yml"
-    add_line_to_yml_file(role_file, "#{action_model_class}: read", [:default, :models])
-    add_line_to_yml_file(role_file, "#{action_model_class}:\n      - read\n      - create\n      - destroy", [:admin, :models])
+    Scaffolding::FileManipulator.add_line_to_yml_file(role_file, "#{action_model_class}: read", [:default, :models])
+    Scaffolding::FileManipulator.add_line_to_yml_file(role_file, "#{action_model_class}:\n      - read\n      - create\n      - destroy", [:admin, :models])
   end
 
   def scaffold_action_model
