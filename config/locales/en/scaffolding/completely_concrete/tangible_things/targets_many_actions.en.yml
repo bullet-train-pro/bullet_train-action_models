@@ -16,7 +16,8 @@ en:
       shorthand:
         show: Details
         edit: Edit
-        destroy: Clear
+        destroy: Cancel
+        dismiss: Dismiss
         approve: Approve
         create: Targets Many
       confirmations:
