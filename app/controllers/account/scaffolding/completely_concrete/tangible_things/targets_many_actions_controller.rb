@@ -5,7 +5,7 @@ class Account::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
   # GET /account/scaffolding/absolutely_abstract/creative_concepts/:absolutely_abstract_creative_concept_id/completely_concrete/tangible_things/targets_many_actions.json
   def index
     # if you only want these objects shown on their parent's show page, uncomment this:
-    redirect_to [:account, @absolutely_abstract_creative_concept]
+    redirect_to [:account, @absolutely_abstract_creative_concept, :completely_concrete_tangible_things]
   end
 
   # GET /account/scaffolding/completely_concrete/tangible_things/targets_many_actions/:id
