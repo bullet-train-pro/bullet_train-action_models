@@ -16,8 +16,9 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
 
   def add_ability_line_to_roles_yml
     role_file = "./config/models/roles.yml"
-    add_line_to_yml_file(role_file, "#{action_model_class}: read", [:default, :models])
-    add_line_to_yml_file(role_file, "#{action_model_class}: manage", [:admin, :models])
+
+    Scaffolding::FileManipulator.add_line_to_yml_file(role_file, "#{action_model_class}: read", [:default, :models])
+    Scaffolding::FileManipulator.add_line_to_yml_file(role_file, "#{action_model_class}: manage", [:admin, :models])
   end
 
   def add_locale_helper_export_fix
@@ -108,11 +109,22 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     add_index_to_parent
     add_has_many_to_parent_model
 
+    update_action_models_abstract_class(targets_n)
+
+    # TODO Is there a better way to do this without getting "No need to update './app/models/memberships/import_action.rb'. It already has ''."?
+    if has_one_team_replacement
+      scaffold_replace_line_in_file(
+        "./app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb",
+        transform_string(has_one_team_replacement),
+        transform_string("has_one :team, through: :absolutely_abstract_creative_concept")
+      )
+    end
+
     # TODO Is there a better way to do this without getting "No need to update './app/models/memberships/import_action.rb'. It already has ''."?
     scaffold_replace_line_in_file(
       "./app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb",
       "                             ",
-      "has_one :team, through: :team"
+      has_one_to_dedupe || "has_one :team, through: :team"
     )
 
     # add user permissions.
@@ -123,7 +135,8 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
       routes_manipulator = Scaffolding::RoutesFileManipulator.new("config/routes.rb", transform_string("Scaffolding::CompletelyConcrete::TangibleThings::#{targets_n.classify}Action"), transform_string("Scaffolding::AbsolutelyAbstract::CreativeConcept"))
       routes_manipulator.apply(["account"])
       # TODO We need this to also add `post :approve` to the resource block as well. Do we support that already?
-      routes_manipulator.write
+
+      Scaffolding::FileManipulator.write("config/routes.rb", routes_manipulator.lines)
     rescue BulletTrain::SuperScaffolding::CannotFindParentResourceException => exception
       # TODO It would be great if we could automatically generate whatever the structure of the route needs to be and
       # tell them where to try and inject it. Obviously we can't calculate the line number, otherwise the robots would
