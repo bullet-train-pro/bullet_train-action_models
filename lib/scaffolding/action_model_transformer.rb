@@ -81,7 +81,60 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     )
   end
 
+  def migration_file_name
+    @migration_file_name ||= `grep "create_table :#{transform_string("scaffolding_completely_concrete_tangible_things_#{targets_n}_actions")} do |t|" db/migrate/*`.split(":").first
+  end
+
+  def fix_created_by
+    created_by_index_name = transform_string("index_scaffolding_completely_concrete_tangible_things_#{action.pluralize.underscore.downcase}_on_created_by_id")
+    created_by_index_name = "index_#{action.pluralize.underscore.downcase}_on_created_by_id" if created_by_index_name.length > 63
+    legacy_replace_in_file(migration_file_name, "t.references :created_by, null: false, foreign_key: true", created_by_reference(created_by_index_name) || "t.references :created_by, null: false, foreign_key: {to_table: \"memberships\"}, index: {name: \"#{created_by_index_name}\"}")
+  end
+
+  def fix_approved_by
+    approved_by_index_name = transform_string("index_scaffolding_completely_concrete_tangible_things_#{action.pluralize.underscore.downcase}_on_approved_by_id")
+    approved_by_index_name = "index_#{action.pluralize.underscore.downcase}_on_approved_by_id" if approved_by_index_name.length > 63
+    legacy_replace_in_file(migration_file_name, "t.references :approved_by, null: false, foreign_key: true", approved_by_reference(approved_by_index_name) || "t.references :approved_by, null: true, foreign_key: {to_table: \"memberships\"}, index: {name: \"#{approved_by_index_name}\"}")
+  end
+
+  def set_default_counts
+    legacy_replace_in_file(migration_file_name, "t.integer :performed_count", "t.integer :performed_count, default: 0")
+  end
+
+  def replace_has_one_team
+    scaffold_replace_line_in_file(
+      "./app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb",
+      transform_string(has_one_team_replacement),
+      transform_string("has_one :team, through: :absolutely_abstract_creative_concept")
+    )
+  end
+
+  # This is a super hacky way to let the targets one transformer return false all the time.
+  def skip_parent_join
+    yield
+  end
+
+  def add_permit_joins_and_delegations
+    sorted_permit_parents = (permit_parents && parents)
+    joins, delegates = sorted_permit_parents.split(last_joinable_parent)
+    joins << last_joinable_parent
+
+    joins.each do |join|
+      unless skip_parent_join { parent == join }
+        scaffold_add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb"), "has_one :#{join.underscore}, through: :tangible_thing", HAS_ONE_HOOK, prepend: true)
+      end
+    end
+
+    delegates.each do |delegate|
+      scaffold_add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb"), "delegate :#{delegate.underscore}, to: :#{joins.last.underscore}", DELEGATIONS_HOOK, prepend: true)
+    end
+  end
+
   def scaffold_action_model
+    fix_created_by
+    fix_approved_by
+    set_default_counts
+
     files = [
       "./app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb",
       "./app/serializers/api/v1/scaffolding/completely_concrete/tangible_things/#{targets_n}_action_serializer.rb",
@@ -103,31 +156,12 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     end
 
     add_locale_helper_export_fix
-
     add_button_to_index
     add_button_to_index_rows
     add_index_to_parent
     add_has_many_to_parent_model
-
     update_action_models_abstract_class(targets_n)
-
-    # TODO Is there a better way to do this without getting "No need to update './app/models/memberships/import_action.rb'. It already has ''."?
-    if has_one_team_replacement
-      scaffold_replace_line_in_file(
-        "./app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb",
-        transform_string(has_one_team_replacement),
-        transform_string("has_one :team, through: :absolutely_abstract_creative_concept")
-      )
-    end
-
-    # TODO Is there a better way to do this without getting "No need to update './app/models/memberships/import_action.rb'. It already has ''."?
-    scaffold_replace_line_in_file(
-      "./app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb",
-      "                             ",
-      has_one_to_dedupe || "has_one :team, through: :team"
-    )
-
-    # add user permissions.
+    add_permit_joins_and_delegations
     add_ability_line_to_roles_yml
 
     begin

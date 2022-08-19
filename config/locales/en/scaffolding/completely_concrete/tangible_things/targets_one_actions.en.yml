@@ -18,7 +18,8 @@ en:
         approve: Approve
         show: Details
         edit: Settings
-        destroy: Delete
+        destroy: Cancel
+        dismiss: Dismiss
       confirmations:
         # TODO customize for your use-case.
         destroy: Are you sure you want to remove %{targets_one_action_name}? This will also remove it's associated data. This can't be undone.

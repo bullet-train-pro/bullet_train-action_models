@@ -49,16 +49,6 @@ module BulletTrain
             legacy_replace_in_file(migration_file_name, "t.jsonb :target_ids", "t.jsonb :target_ids, default: []")
           end
 
-          legacy_replace_in_file(migration_file_name, "t.integer :performed_count", "t.integer :performed_count, default: 0")
-
-          created_by_index_name = transformer.transform_string("index_scaffolding_completely_concrete_tangible_things_#{action_model.pluralize.underscore.downcase}_on_created_by_id")
-          created_by_index_name = "index_#{action_model.pluralize.underscore.downcase}_on_created_by_id" if created_by_index_name.length > 63
-          legacy_replace_in_file(migration_file_name, "t.references :created_by, null: false, foreign_key: true", transformer.created_by_reference(created_by_index_name) || "t.references :created_by, null: false, foreign_key: {to_table: \"memberships\"}, index: {name: \"#{created_by_index_name}\"}")
-
-          approved_by_index_name = transformer.transform_string("index_scaffolding_completely_concrete_tangible_things_#{action_model.pluralize.underscore.downcase}_on_approved_by_id")
-          approved_by_index_name = "index_#{action_model.pluralize.underscore.downcase}_on_approved_by_id" if approved_by_index_name.length > 63
-          legacy_replace_in_file(migration_file_name, "t.references :approved_by, null: false, foreign_key: true", transformer.approved_by_reference(approved_by_index_name) || "t.references :approved_by, null: true, foreign_key: {to_table: \"memberships\"}, index: {name: \"#{approved_by_index_name}\"}")
-
           transformer.scaffold_action_model
 
           # If the target model belongs directly to Team, we end up with delegate :team, to :team in the model file so we remove it here.

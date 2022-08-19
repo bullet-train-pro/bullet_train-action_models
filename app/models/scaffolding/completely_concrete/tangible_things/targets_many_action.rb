@@ -21,7 +21,9 @@ class Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction < Appli
 
   # 🚅 add has_many associations above.
 
+  # 🚅 skip this section when scaffolding.
   has_one :team, through: :absolutely_abstract_creative_concept
+  # 🚅 stop any skipping we're doing now.
   # 🚅 add has_one associations above.
 
   # 🚅 add scopes above.
