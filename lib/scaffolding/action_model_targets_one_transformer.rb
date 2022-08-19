@@ -5,31 +5,44 @@ class Scaffolding::ActionModelTargetsOneTransformer < Scaffolding::ActionModelTr
     "targets_one"
   end
 
-  def scaffold_action_model
-    super
+  def add_button_to_index
+  end
 
-    # Add the action button to the target show partial.
-    target_show_file = "./app/views/account/scaffolding/completely_concrete/tangible_things/show.html.erb"
+  def add_has_many_to_parent_model
+    # Add the has_many to the target model.
     scaffold_add_line_to_file(
-      target_show_file,
-      "<%= render \"account/scaffolding/completely_concrete/tangible_things/targets_one_actions/new_button_one\", tangible_thing: @tangible_thing %>",
-      RUBY_NEW_ACTION_MODEL_BUTTONS_PROCESSING_HOOK,
+      "./app/models/scaffolding/completely_concrete/tangible_thing.rb",
+      "has_many :targets_one_actions, class_name: \"Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction\", dependent: :destroy, foreign_key: :tangible_thing_id, enable_updates: true, inverse_of: :tangible_thing",
+      HAS_MANY_HOOK,
       prepend: true
     )
+  end
 
-    # Add the action index partial to the target show view.
+  def target_show_file
+    @target_show_file ||= "./app/views/account/scaffolding/completely_concrete/tangible_things/show.html.erb"
+  end
+
+  def add_index_to_parent
     scaffold_add_line_to_file(
       target_show_file,
       "<%= render 'account/scaffolding/completely_concrete/tangible_things/targets_one_actions/index', tangible_thing: @tangible_thing, targets_one_actions: @tangible_thing.targets_one_actions %>",
       RUBY_NEW_ACTION_MODEL_INDEX_VIEWS_PROCESSING_HOOK,
       prepend: true
     )
+  end
 
-    # Add the has_many to the target model.
+  def skip_parent_join
+    false
+  end
+
+  def scaffold_action_model
+    super
+
+    # Add the action button to the target show partial.
     scaffold_add_line_to_file(
-      "./app/models/scaffolding/completely_concrete/tangible_thing.rb",
-      "has_many :targets_one_actions, class_name: \"Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction\", dependent: :destroy, foreign_key: :tangible_thing_id, enable_updates: true, inverse_of: :tangible_thing",
-      HAS_MANY_HOOK,
+      target_show_file,
+      "<%= render \"account/scaffolding/completely_concrete/tangible_things/targets_one_actions/new_button_one\", tangible_thing: @tangible_thing %>",
+      RUBY_NEW_ACTION_MODEL_BUTTONS_PROCESSING_HOOK,
       prepend: true
     )
 
