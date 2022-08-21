@@ -16,7 +16,8 @@ en:
       shorthand:
         show: Details
         edit: Edit
-        destroy: Delete
+        destroy: Cancel
+        dismiss: Dismiss
         approve: Approve
         create: Targets One Parent
       confirmations:

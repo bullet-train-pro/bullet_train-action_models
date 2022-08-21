@@ -8,6 +8,10 @@ class Scaffolding::ActionModelTargetsOneTransformer < Scaffolding::ActionModelTr
   def add_button_to_index
   end
 
+  def fix_parent_reference
+    legacy_replace_in_file(migration_file_name, "t.references :tangible_thing, null: false, foreign_key: true", "t.references :tangible_thing, null: false, foreign_key: {to_table: \"scaffolding_completely_concrete_tangible_things\"}")
+  end
+
   def add_has_many_to_parent_model
     # Add the has_many to the target model.
     scaffold_add_line_to_file(

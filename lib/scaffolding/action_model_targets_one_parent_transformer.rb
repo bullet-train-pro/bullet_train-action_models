@@ -9,6 +9,15 @@ class Scaffolding::ActionModelTargetsOneParentTransformer < Scaffolding::ActionM
   def add_button_to_index_rows
   end
 
+  def add_button_to_index
+    {
+      "./app/views/account/scaffolding/completely_concrete/tangible_things/index.html.erb" => "<%= render \"account/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions/new_button_many\", absolutely_abstract_creative_concept: @absolutely_abstract_creative_concept %>",
+      "./app/views/account/scaffolding/completely_concrete/tangible_things/_index.html.erb" => "<%= render \"account/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions/new_button_many\", absolutely_abstract_creative_concept: absolutely_abstract_creative_concept %>",
+    }.each do |file, code|
+      scaffold_add_line_to_file(file, code, RUBY_NEW_TARGETS_ONE_PARENT_ACTION_MODEL_BUTTONS_HOOK, prepend: true)
+    end
+  end
+
   def scaffold_action_model
     super
 
