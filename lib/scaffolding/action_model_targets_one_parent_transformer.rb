@@ -5,7 +5,6 @@ class Scaffolding::ActionModelTargetsOneParentTransformer < Scaffolding::ActionM
     "targets_one_parent"
   end
 
-  # Disable this, we don't want it.
   def add_button_to_index_rows
   end
 

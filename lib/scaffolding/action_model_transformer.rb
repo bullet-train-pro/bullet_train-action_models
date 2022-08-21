@@ -102,22 +102,24 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     legacy_replace_in_file(migration_file_name, "t.references :approved_by, null: false, foreign_key: true", approved_by_reference(approved_by_index_name) || "t.references :approved_by, null: true, foreign_key: {to_table: \"memberships\"}, index: {name: \"#{approved_by_index_name}\"}")
   end
 
-  def fix_json_column_default(column)
+  def fix_json_column_default(column, default = "[]")
     if Scaffolding.mysql?
       after_initialize = <<~RUBY
         after_initialize do
-          self.#{column} ||= []
+          self.#{column} ||= #{default}
         end
       RUBY
 
       scaffold_add_line_to_file("./app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb", after_initialize, CALLBACKS_HOOK, prepend: true)
     else
-      legacy_replace_in_file(migration_file_name, "t.jsonb :#{column}", "t.jsonb :#{column}, default: []")
+      legacy_replace_in_file(migration_file_name, "t.jsonb :#{column}", "t.jsonb :#{column}, default: #{default}")
     end
   end
 
   def fix_database_defaults
     legacy_replace_in_file(migration_file_name, "t.integer :performed_count", "t.integer :performed_count, default: 0")
+    legacy_replace_in_file(migration_file_name, "t.integer :succeeded_count", "t.integer :succeeded_count, default: 0")
+    legacy_replace_in_file(migration_file_name, "t.integer :failed_count", "t.integer :failed_count, default: 0")
     legacy_replace_in_file(migration_file_name, "t.boolean :target_all", "t.boolean :target_all, default: false")
   end
 

@@ -5,29 +5,22 @@ class Scaffolding::ActionModelPerformsImportTransformer < Scaffolding::ActionMod
     "performs_import"
   end
 
+  # Duplicated from `Scaffolding::ActionModelTargetsOneParentTransformer`.
   def add_button_to_index_rows
+  end
+
+  # Duplicated from `Scaffolding::ActionModelTargetsOneParentTransformer`.
+  def add_button_to_index
+    {
+      "./app/views/account/scaffolding/completely_concrete/tangible_things/index.html.erb" => "<%= render \"account/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions/new_button_many\", absolutely_abstract_creative_concept: @absolutely_abstract_creative_concept %>",
+      "./app/views/account/scaffolding/completely_concrete/tangible_things/_index.html.erb" => "<%= render \"account/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions/new_button_many\", absolutely_abstract_creative_concept: absolutely_abstract_creative_concept %>",
+    }.each do |file, code|
+      scaffold_add_line_to_file(file, code, RUBY_NEW_TARGETS_ONE_PARENT_ACTION_MODEL_BUTTONS_HOOK, prepend: true)
+    end
   end
 
   def scaffold_action_model
     super
-
-    target_index_file = "./app/views/account/scaffolding/completely_concrete/tangible_things/_index.html.erb"
-
-    # # Add the bulk action button to the target _index partial
-    # scaffold_add_line_to_file(
-    #   target_index_file,
-    #   "<%= render \"account/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions/new_button_many\", absolutely_abstract_creative_concept: absolutely_abstract_creative_concept %>",
-    #   RUBY_NEW_BULK_ACTION_MODEL_BUTTONS_PROCESSING_HOOK,
-    #   prepend: true
-    # )
-
-    # Add the action index partial to the target _index partial
-    scaffold_add_line_to_file(
-      target_index_file,
-      "<%= render 'account/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions/index', #{targets_n}_actions: context.completely_concrete_tangible_things_#{targets_n}_actions %>",
-      RUBY_NEW_ACTION_MODEL_INDEX_VIEWS_PROCESSING_HOOK,
-      prepend: true
-    )
 
     # Add the concern we have to add manually because otherwise it gets transformed.
     add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb"), "include Actions::PerformsImport", CONCERNS_HOOK, prepend: true)

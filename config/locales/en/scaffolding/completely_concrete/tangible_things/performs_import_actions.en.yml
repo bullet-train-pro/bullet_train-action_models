@@ -16,7 +16,8 @@ en:
       shorthand:
         show: Details
         edit: Settings
-        destroy: Delete
+        destroy: Cancel
+        dismiss: Dismiss
         approve: Perform
         create: Performs Import
       confirmations:
