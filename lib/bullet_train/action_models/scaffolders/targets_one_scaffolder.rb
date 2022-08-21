@@ -32,8 +32,6 @@ module BulletTrain
 
           `yes n | bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction")} #{transformer.transform_string("tangible_thing")}:references started_at:datetime completed_at:datetime target_count:integer performed_count:integer scheduled_for:datetime sidekiq_jid:string created_by:references approved_by:references`
 
-          legacy_replace_in_file(transformer.migration_file_name, "t.references :tangible_thing, null: false, foreign_key: true", "t.references :tangible_thing, null: false, foreign_key: {to_table: \"scaffolding_completely_concrete_tangible_things\"}")
-
           transformer.scaffold_action_model
 
           # # TODO I don't think we need this? Or we need something else?

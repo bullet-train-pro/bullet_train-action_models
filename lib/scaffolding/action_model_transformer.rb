@@ -2,6 +2,7 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
   attr_accessor :action
 
   RUBY_NEW_ACTION_MODEL_BUTTONS_PROCESSING_HOOK = "<%# 🚅 super scaffolding will insert new action model buttons above this line. %>"
+  RUBY_NEW_TARGETS_ONE_PARENT_ACTION_MODEL_BUTTONS_HOOK = "<%# 🚅 super scaffolding will insert new targets one parent action model buttons above this line. %>"
   RUBY_NEW_BULK_ACTION_MODEL_BUTTONS_PROCESSING_HOOK = "<%# 🚅 super scaffolding will insert new bulk action model buttons above this line. %>"
   RUBY_NEW_ACTION_MODEL_INDEX_VIEWS_PROCESSING_HOOK = "<%# 🚅 super scaffolding will insert new action model index views above this line. %>"
 
@@ -71,6 +72,10 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     )
   end
 
+  def fix_parent_reference
+    legacy_replace_in_file(migration_file_name, "t.references :absolutely_abstract_creative_concept, null: false, foreign_key: true", "t.references :absolutely_abstract_creative_concept, null: false, foreign_key: {to_table: \"scaffolding_absolutely_abstract_creative_concepts\"}")
+  end
+
   def add_has_many_to_parent_model
     # Add the has_many to the parent model (not the target)
     scaffold_add_line_to_file(
@@ -131,6 +136,7 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
   end
 
   def scaffold_action_model
+    fix_parent_reference
     fix_created_by
     fix_approved_by
     set_default_counts
