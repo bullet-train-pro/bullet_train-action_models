@@ -5,7 +5,7 @@ module Actions::PerformsExport
   include Actions::TargetsMany
   include Actions::HasProgress
 
-  included do 
+  included do
     has_one_attached :file
     after_initialize :include_default_fields, unless: :persisted?
   end
@@ -46,7 +46,7 @@ module Actions::PerformsExport
   end
 
   def include_default_fields
-    return true if fields.any?
+    return true if fields && fields.any?
     self.fields = self.class::AVAILABLE_FIELDS.select { |_, value| value }.keys
   end
 

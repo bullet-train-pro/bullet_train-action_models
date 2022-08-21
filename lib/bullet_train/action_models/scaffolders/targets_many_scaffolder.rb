@@ -32,28 +32,8 @@ module BulletTrain
 
           `yes n | bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction")} #{transformer.transform_string("absolutely_abstract_creative_concept")}:references target_all:boolean target_ids:#{Scaffolding.mysql? ? "json" : "jsonb"} started_at:datetime completed_at:datetime target_count:integer performed_count:integer scheduled_for:datetime sidekiq_jid:string created_by:references approved_by:references`
 
-          migration_file_name = `grep "create_table :#{transformer.transform_string("scaffolding_completely_concrete_tangible_things_targets_many_actions")} do |t|" db/migrate/*`.split(":").first
-
-          legacy_replace_in_file(migration_file_name, "t.boolean :target_all", "t.boolean :target_all, default: false")
-
-          if Scaffolding.mysql?
-            after_initialize = <<~RUBY
-              after_initialize do
-                self.target_ids ||= []
-              end
-            RUBY
-
-            transformer.scaffold_add_line_to_file("./app/models/scaffolding/completely_concrete/tangible_things/targets_many_action.rb", after_initialize, Scaffolding::Transformer::CALLBACKS_HOOK, prepend: true)
-          else
-            legacy_replace_in_file(migration_file_name, "t.jsonb :target_ids", "t.jsonb :target_ids, default: []")
-          end
-
           transformer.scaffold_action_model
-
-          # If the target model belongs directly to Team, we end up with delegate :team, to :team in the model file so we remove it here.
-          # We would need this for a deeply nested resource (I _think_??)
-          legacy_replace_in_file(transformer.transform_string("./app/models/scaffolding/completely_concrete/tangible_things/targets_many_action.rb"), "delegate :team, to: :team", "")
-
+          transformer.fix_json_column_default("target_ids")
           transformer.restart_server
         end
       end
