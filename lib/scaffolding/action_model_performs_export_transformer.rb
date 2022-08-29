@@ -22,7 +22,10 @@ class Scaffolding::ActionModelPerformsExportTransformer < Scaffolding::ActionMod
     add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb"), "include Actions::PerformsExport", "include Actions::ProcessesAsync", prepend: true)
 
     # Add current attributes of the target model to the export options.
-    (child.constantize.new.attributes.keys - ["created_at", "updated_at"]).each do |attribute|
+    attributes_to_scaffold = (child.constantize.new.attributes.keys - ["created_at", "updated_at"])
+    attributes_to_scaffold.select! { |attribute| I18n.t("#{child.underscore.pluralize}.fields.#{attribute}.heading", default: nil) }
+
+    attributes_to_scaffold.each do |attribute|
       add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb"), "#{attribute}: #{attribute == transform_string('absolutely_abstract_creative_concept_id') ? 'false' : 'true' },", RUBY_NEW_FIELDS_HOOK, prepend: true)
     end
 
