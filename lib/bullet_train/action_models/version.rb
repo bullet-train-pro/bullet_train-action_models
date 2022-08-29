@@ -1,5 +1,5 @@
 module BulletTrain
   module ActionModels
-    VERSION = "1.0.29"
+    VERSION = "1.0.30"
   end
 end
