@@ -56,21 +56,6 @@ class Scaffolding::ActionModelTargetsOneTransformer < Scaffolding::ActionModelTr
     # Restart the server to pick up the translation files
     restart_server
 
-    # TODO This is a hack. Replace with Adam's real version of this upstream.
-    lines = File.read("config/routes.rb").lines.map(&:chomp)
-
-    lines.each_with_index do |line, index|
-      if line.match?(transform_string("resources :targets_one_actions, except: collection_actions"))
-        unless line.match? /do$/
-          lines[index] = "#{line} do\nmember do\npost :approve\nend\nend\n"
-        end
-      end
-    end
-
-    File.write("config/routes.rb", lines.join("\n"))
-
-    puts `standardrb --fix ./config/routes.rb #{transform_string("./app/models/scaffolding/completely_concrete/tangible_things/targets_one_action.rb")}`
-
     additional_steps.each_with_index do |additional_step, index|
       color, message = additional_step
       puts ""
