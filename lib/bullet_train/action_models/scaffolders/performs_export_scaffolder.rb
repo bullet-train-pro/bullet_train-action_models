@@ -31,8 +31,6 @@ module BulletTrain
 
           `yes n | bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::PerformsExportAction")} #{transformer.transform_string("absolutely_abstract_creative_concept")}:references target_all:boolean target_ids:#{Scaffolding.mysql? ? "json" : "jsonb"} started_at:datetime completed_at:datetime target_count:integer performed_count:integer scheduled_for:datetime sidekiq_jid:string created_by:references approved_by:references fields:#{Scaffolding.mysql? ? "json" : "jsonb"}`
 
-          migration_file_name = `grep "create_table :#{transformer.transform_string("scaffolding_completely_concrete_tangible_things_performs_export_actions")} do |t|" db/migrate/*`.split(":").first
-
           transformer.scaffold_action_model
           transformer.fix_json_column_default("target_ids")
           transformer.fix_json_column_default("fields")

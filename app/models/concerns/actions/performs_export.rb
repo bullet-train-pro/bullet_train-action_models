@@ -1,4 +1,4 @@
-require 'csv'
+require "csv"
 
 module Actions::PerformsExport
   extend ActiveSupport::Concern
@@ -17,7 +17,7 @@ module Actions::PerformsExport
   end
 
   def export_file_path
-    subject.underscore.gsub("/", "_")
+    subject.underscore.tr("/", "_")
   end
 
   def before_start
@@ -48,7 +48,7 @@ module Actions::PerformsExport
   end
 
   def include_default_fields
-    return true if fields && fields.any?
+    return true if fields&.any?
     self.fields = self.class::AVAILABLE_FIELDS.select { |_, value| value }.keys
   end
 

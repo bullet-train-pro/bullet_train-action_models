@@ -1,4 +1,4 @@
-require 'csv'
+require "csv"
 
 module Actions::PerformsImport
   extend ActiveSupport::Concern
@@ -10,8 +10,8 @@ module Actions::PerformsImport
   PRIMARY_KEY_FIELD = :id
 
   included do
-    belongs_to :copy_mapping_from, class_name: self.name, optional: true
-    has_many :mapping_copied_by, class_name: self.name, dependent: :nullify, foreign_key: :copy_mapping_from_id
+    belongs_to :copy_mapping_from, class_name: name, optional: true
+    has_many :mapping_copied_by, class_name: name, dependent: :nullify, foreign_key: :copy_mapping_from_id
     has_one_attached :file
     has_one_attached :rejected_file
     validates :copy_mapping_from, scope: true
@@ -32,8 +32,6 @@ module Actions::PerformsImport
         else
           key
         end
-      else
-        nil
       end
 
       [key, mapped_field]
@@ -45,7 +43,7 @@ module Actions::PerformsImport
   end
 
   def rejected_file_path
-    "#{subject.klass.name.underscore.gsub("/", "_")}-#{id}-failed.csv"
+    "#{subject.klass.name.underscore.tr("/", "_")}-#{id}-failed.csv"
   end
 
   def rejected_file_tempfile
@@ -102,7 +100,7 @@ module Actions::PerformsImport
 
   def find_or_create_by_fields
     @find_or_create_by_fields ||= self.class::FIND_OR_CREATE_BY_FIELDS.map do |candidate|
-      candidate = [candidate] unless candidate.is_a?(Array)
+      [candidate] unless candidate.is_a?(Array)
     end.detect do |candidate|
       # Return true if this import has a mapping to every one of the attributes in this set.
       candidate.reject { |key| mapping.key(key.to_s).present? }.empty?
@@ -164,5 +162,4 @@ module Actions::PerformsImport
       after_each
     end
   end
-
 end
