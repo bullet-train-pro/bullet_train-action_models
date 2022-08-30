@@ -152,6 +152,12 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     end
   end
 
+  def presentable_attributes
+    (child.constantize.new.attributes.keys - ["created_at", "updated_at"]).select do |attribute|
+      I18n.t("#{child.underscore.pluralize}.fields.#{attribute}.heading", default: nil)
+    end
+  end
+
   def scaffold_action_model
     fix_parent_reference
     fix_created_by

@@ -26,7 +26,7 @@ class Scaffolding::ActionModelPerformsImportTransformer < Scaffolding::ActionMod
     add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb"), "include Actions::PerformsImport", CONCERNS_HOOK, prepend: true)
 
     # Add current attributes of the target model to the import options.
-    (child.constantize.new.attributes.keys - ["created_at", "updated_at"]).each do |attribute|
+    presentable_attributes.each do |attribute|
       add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb"), ":#{attribute},", RUBY_NEW_FIELDS_HOOK, prepend: true)
     end
 
