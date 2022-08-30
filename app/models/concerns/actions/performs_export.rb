@@ -4,6 +4,8 @@ module Actions::PerformsExport
   extend ActiveSupport::Concern
   include Actions::TargetsMany
   include Actions::HasProgress
+  include Actions::TracksCreator
+  # include Actions::RequiresApproval
 
   included do
     has_one_attached :file
