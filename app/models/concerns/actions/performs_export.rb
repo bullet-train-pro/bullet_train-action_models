@@ -56,7 +56,7 @@ module Actions::PerformsExport
     if target_all?
       "Export of all #{subject.titleize}"
     elsif target_ids.one?
-      "Export of #{targeted.first.label_string}"
+      "Export of #{targeted.first&.label_string || 'deleted object'}"
     else
       "Export of #{target_ids.count} #{subject.titleize.pluralize(target_ids.count)}"
     end

@@ -7,7 +7,7 @@ module Actions::TargetsMany
     if target_all?
       "#{super} on all #{valid_targets.arel_table.name.titleize}"
     elsif target_ids.one?
-      "#{super} on #{targeted.first.label_string}"
+      "#{super} on #{targeted.first&.label_string || 'deleted object'}"
     else
       "#{super} on #{target_ids.count} #{valid_targets.arel_table.name.titleize.pluralize(target_ids.count)}"
     end
