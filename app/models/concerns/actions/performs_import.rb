@@ -39,11 +39,7 @@ module Actions::PerformsImport
   end
 
   def csv
-    # Because we need to analyze the file before it's saved we to use the `.attachment_changes` method to read the file.
-    # This method is currently an undocumented feature in Rails so it might unexpectedly break in the future.
-    # Docs: https://apidock.com/rails/v6.1.3.1/ActiveStorage/Attached/Model/attachment_changes
-    # Discussion: https://github.com/rails/rails/pull/37005
-    @csv ||= CSV.parse(self.attachment_changes['file'].attachable.read, headers: true)
+    @csv ||= CSV.parse(file.download, headers: true)
   end
 
   def rejected_file_path
