@@ -94,15 +94,6 @@ en:
         _: &updated_at Updated
         label: *updated_at
         heading: *updated_at
-    api:
-      collection_actions: "Collection Actions for Performs Import Actions"
-      index: "List Performs Import Actions"
-      create: "Add a New Performs Import Action"
-      member_actions: "Actions for an Individual Performs Import Action"
-      show: "Retrieve a Performs Import Action"
-      update: "Update a Performs Import Action"
-      destroy: "Delete a Performs Import Action"
-      fields: *fields
     index:
       section: "%{creative_concepts_possessive} Performs Import Actions"
       contexts:

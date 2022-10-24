@@ -89,15 +89,6 @@ en:
         _: &updated_at Updated
         label: *updated_at
         heading: *updated_at
-    api:
-      collection_actions: "Collection Actions for Performs Export Actions"
-      index: "List Performs Export Actions"
-      create: "Add a New Performs Export Action"
-      member_actions: "Actions for an Individual Performs Export Action"
-      show: "Retrieve a Performs Export Action"
-      update: "Update a Performs Export Action"
-      destroy: "Delete a Performs Export Action"
-      fields: *fields
     index:
       section: "%{creative_concepts_possessive} Performs Export Actions"
       contexts:
