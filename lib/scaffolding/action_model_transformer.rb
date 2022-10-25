@@ -167,6 +167,7 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     files = [
       "./app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb",
       "./app/controllers/account/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions_controller.rb",
+      "./app/controllers/api/v1/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions_controller.rb",
       "./app/views/account/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions",
       "./test/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action_test.rb",
       "./test/factories/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions.rb",
