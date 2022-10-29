@@ -60,6 +60,8 @@ en:
         _: &performed_count Progress Count
         label: *performed_count
         heading: *performed_count
+      performed_count_over_target_count:
+        heading: Progress
       created_by_id: &created_by
         _: &created_by_id Created By
         label: *created_by_id
