@@ -5,7 +5,7 @@ module Actions::PerformsImport
   include Actions::TargetsOne
   include Actions::HasProgress
   include Actions::TracksCreator
-  # include Actions::RequiresApproval
+  include Actions::RequiresApproval
 
   PRIMARY_KEY_FIELD = :id
 
