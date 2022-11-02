@@ -40,6 +40,7 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
       strong_params = params.require(:scaffolding_completely_concrete_tangible_things_targets_many_action).permit(
         :target_all,
         :scheduled_for,
+        :created_by_id,
         # 🚅 super scaffolding will insert new fields above this line.
         target_ids: [],
         # 🚅 super scaffolding will insert new arrays above this line.
@@ -49,7 +50,7 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
   
       assign_boolean(strong_params, :target_all)
       assign_select_options(strong_params, :target_ids)
-      assign_date_and_time(strong_params, :scheduled_for)
+      # assign_date_and_time(strong_params, :scheduled_for)
   
       strong_params
     end
