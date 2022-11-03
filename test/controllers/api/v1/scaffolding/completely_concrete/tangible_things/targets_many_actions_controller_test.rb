@@ -74,5 +74,42 @@ if defined?(BulletTrain::ActionModels)
         params: params.merge({access_token: another_access_token})
       assert_response :not_found
     end
+
+    test "update" do
+      refute @completely_concrete_tangible_things_targets_many_action.target_all
+
+      # Post an attribute update ensure nothing is seriously broken.
+      put "/api/v1/scaffolding/completely_concrete/tangible_things/targets_many_actions/#{@completely_concrete_tangible_things_targets_many_action.id}", params: {
+        access_token: access_token,
+        completely_concrete_tangible_things_targets_many_action: {
+          target_all: true
+        }
+      }
+
+      assert_response :success
+
+      # Ensure all the required data is returned properly.
+      assert_proper_object_serialization response.parsed_body
+
+      # But we have to manually assert the value was properly updated.
+      @completely_concrete_tangible_things_targets_many_action.reload
+      assert @completely_concrete_tangible_things_targets_many_action.target_all
+
+      # Also ensure we can't do that same action as another user.
+      put "/api/v1/scaffolding/completely_concrete/tangible_things/targets_many_actions/#{@completely_concrete_tangible_things_targets_many_action.id}", params: { access_token: another_access_token }
+      assert_response :not_found
+    end
+
+    test "destroy" do
+      # Delete and ensure it actually went away.
+      assert_difference("Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction.count", -1) do
+        delete "/api/v1/scaffolding/completely_concrete/tangible_things/targets_many_actions/#{@completely_concrete_tangible_things_targets_many_action.id}", params: { access_token: access_token }
+        assert_response :success
+      end
+
+      # Also ensure we can't do that same action as another user.
+      delete "/api/v1/scaffolding/completely_concrete/tangible_things/targets_many_actions/#{@completely_concrete_tangible_things_targets_many_action.id}", params: { access_token: another_access_token }
+      assert_response :not_found
+    end
   end
 end
