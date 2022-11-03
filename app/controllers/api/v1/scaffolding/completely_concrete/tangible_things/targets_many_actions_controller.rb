@@ -38,19 +38,17 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
     # Only allow a list of trusted parameters through.
     def targets_many_action_params
       strong_params = params.require(:scaffolding_completely_concrete_tangible_things_targets_many_action).permit(
+        *permitted_fields,
         :target_all,
         :scheduled_for,
         :created_by_id,
         # 🚅 super scaffolding will insert new fields above this line.
+        *permitted_arrays,
         target_ids: [],
         # 🚅 super scaffolding will insert new arrays above this line.
       )
   
-      # 🚅 super scaffolding will insert processing for new fields above this line.
-  
-      assign_boolean(strong_params, :target_all)
-      assign_select_options(strong_params, :target_ids)
-      # assign_date_and_time(strong_params, :scheduled_for)
+      process_params(strong_params)
   
       strong_params
     end

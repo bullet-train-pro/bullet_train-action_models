@@ -81,6 +81,9 @@ class Account::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
   include strong_parameters_from_api
 
   def process_params(strong_params)
+    assign_boolean(strong_params, :target_all)
+    assign_select_options(strong_params, :target_ids)
+    assign_date_and_time(strong_params, :scheduled_for)
     # 🚅 super scaffolding will insert processing for new fields above this line.
   end
 end
