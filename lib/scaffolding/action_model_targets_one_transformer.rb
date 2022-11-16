@@ -16,7 +16,7 @@ class Scaffolding::ActionModelTargetsOneTransformer < Scaffolding::ActionModelTr
     # Add the has_many to the target model.
     scaffold_add_line_to_file(
       "./app/models/scaffolding/completely_concrete/tangible_thing.rb",
-      "has_many :targets_one_actions, class_name: \"Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction\", dependent: :destroy, foreign_key: :tangible_thing_id, enable_updates: true, inverse_of: :tangible_thing",
+      "has_many :targets_one_actions, class_name: \"Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction\", dependent: :destroy, foreign_key: :tangible_thing_id, inverse_of: :tangible_thing, enable_updates: true",
       HAS_MANY_HOOK,
       prepend: true
     )

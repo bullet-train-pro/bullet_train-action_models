@@ -4,12 +4,10 @@ json.extract! targets_one_action,
   :target_count,
   :performed_count,
   :created_by,
-  :approved_by,
+  :approved_by_id,
   :scheduled_for,
   :started_at,
   :completed_at,
-  :delay,
-  :emoji,
   # 🚅 super scaffolding will insert new fields above this line.
   :created_at,
   :updated_at
