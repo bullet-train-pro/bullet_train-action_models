@@ -206,8 +206,14 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
         }
       ]
 
+      child = transform_string("Scaffolding::CompletelyConcrete::TangibleThings::#{targets_n.classify}Action")
+
+      # TODO: Check if this covers all of the other action models properly.
+      parent = targets_n == "targets_one" ?
+        transform_string("Scaffolding::CompletelyConcrete::TangibleThing") : transform_string("Scaffolding::AbsolutelyAbstract::CreativeConcept")
+
       routing_details.each do |details|
-        routes_manipulator = Scaffolding::RoutesFileManipulator.new(details[:file_name], transform_string("Scaffolding::CompletelyConcrete::TangibleThings::#{targets_n.classify}Action"), transform_string("Scaffolding::AbsolutelyAbstract::CreativeConcept"))
+        routes_manipulator = Scaffolding::RoutesFileManipulator.new(details[:file_name], child, parent)
         routes_manipulator.apply([details[:namespace]])
         # TODO We need this to also add `post :approve` to the resource block as well. Do we support that already?
 
