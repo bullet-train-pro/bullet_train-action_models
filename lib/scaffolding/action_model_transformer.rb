@@ -158,6 +158,37 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     end
   end
 
+  # Here, we manually add the an action line (i.e. - `post 'approve'`) inside the new resources.
+  # However, we should probably be passing this in as an option somewhere.
+  def add_line_to_action_resource(content, routes_manipulator)
+    [
+      "resources",
+      "namespace"
+    ]. each do |block_type|
+      # targets-one is the only action which generates a namespace,
+      # so we skip this part for every other action.
+      break if block_type == "namespace" && targets_n != "targets_one"
+
+      # `options` is used frequently in the RoutesFileManipulator
+      # and usually houses `:within` which designates a block's line number.
+      options = {}
+
+      parent_resource = transform_string("Scaffolding::CompletelyConcrete::TangibleThing").tableize
+      options[:within] = Scaffolding::BlockManipulator.find_block_start(
+        starting_from: "#{block_type} :#{parent_resource}",
+        lines: routes_manipulator.lines
+      )
+      line_number = routes_manipulator.find_or_convert_resource_block(transform_string("#{targets_n}_actions"), **options)
+
+      new_lines = Scaffolding::BlockManipulator.insert(
+        content,
+        lines: routes_manipulator.lines,
+        within: routes_manipulator.lines[line_number]
+      )
+      routes_manipulator.lines = new_lines
+    end
+  end
+
   def scaffold_action_model
     fix_parent_reference
     fix_created_by
@@ -215,7 +246,9 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
       routing_details.each do |details|
         routes_manipulator = Scaffolding::RoutesFileManipulator.new(details[:file_name], child, parent)
         routes_manipulator.apply([details[:namespace]])
-        # TODO We need this to also add `post :approve` to the resource block as well. Do we support that already?
+
+        # Uncomment this to add `post 'approve`.
+        # add_line_to_action_resource("  post 'approve'", routes_manipulator)
 
         Scaffolding::FileManipulator.write(details[:file_name], routes_manipulator.lines)
       end
