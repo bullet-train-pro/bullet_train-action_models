@@ -24,7 +24,7 @@ module Actions::PerformsImport
 
     # Determine the default mapping of columns in the file to attributes of the target model.
     self.mapping = csv.headers.map do |key|
-      mapped_field = if self.class::AVAILABLE_FIELDS.include?(key.to_sym)
+      mapped_field = if key.present? && self.class::AVAILABLE_FIELDS.include?(key.to_sym)
         # If the user specified another import to try and copy the mapping from,
         # check whether it has a mapping for the key in question, and if it does, use it.
         if copy_mapping_from&.mapping&.key?(key)
@@ -43,7 +43,13 @@ module Actions::PerformsImport
     # This method is currently an undocumented feature in Rails so it might unexpectedly break in the future.
     # Docs: https://apidock.com/rails/v6.1.3.1/ActiveStorage/Attached/Model/attachment_changes
     # Discussion: https://github.com/rails/rails/pull/37005
-    @csv ||= CSV.parse(self.attachment_changes['file'].attachable.read, headers: true)
+    string = if self.attachment_changes['file'].present?
+      self.attachment_changes['file'].attachable.read
+    else
+      file.download
+    end
+
+    @csv ||= CSV.parse(string, headers: true)
   end
 
   def rejected_file_path
@@ -92,7 +98,7 @@ module Actions::PerformsImport
   end
 
   def map_row(row)
-    row.to_h.map do |key, value|
+    row.to_h.compact.map do |key, value|
       mapped_key = mapping.fetch(key).presence
       mapped_key ? [mapped_key, value] : nil
     end.compact.to_h
