@@ -105,7 +105,9 @@ module Actions::PerformsImport
   end
 
   def source_primary_key
-    @source_primary_key ||= mapping.key(PRIMARY_KEY_FIELD.to_s)
+    # TODO We originally had `@source_primary_key ||=`, but a bug was reported where removing it fixed the problem.
+    # Would love to know what the issue was, but more important to get this working, so removing this.
+    mapping.key(PRIMARY_KEY_FIELD.to_s)
   end
 
   def find_or_create_by_fields
