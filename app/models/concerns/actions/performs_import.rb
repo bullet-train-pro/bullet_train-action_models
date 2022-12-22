@@ -99,7 +99,7 @@ module Actions::PerformsImport
 
   def map_row(row)
     row.to_h.compact.map do |key, value|
-      mapped_key = mapping.fetch(key).presence
+      mapped_key = key.present? && mapping.fetch(key).presence
       mapped_key ? [mapped_key, value] : nil
     end.compact.to_h
   end
