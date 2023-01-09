@@ -15,6 +15,10 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     "#{child.pluralize}::#{action}Action"
   end
 
+  def admin_namespace?
+    action_model_class.match?(/Admin::/)
+  end
+
   def add_ability_line_to_roles_yml
     role_file = "./config/models/roles.yml"
 
@@ -185,10 +189,10 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     add_button_to_index
     add_button_to_index_rows
     add_index_to_parent
-    add_has_many_to_parent_model
+    add_has_many_to_parent_model unless admin_namespace?
     update_action_models_abstract_class(targets_n)
     add_permit_joins_and_delegations
-    add_ability_line_to_roles_yml
+    add_ability_line_to_roles_yml unless admin_namespace?
 
     begin
       # Update the routes to add the namespace and action routes
