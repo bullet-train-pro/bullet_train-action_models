@@ -189,7 +189,7 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     add_button_to_index
     add_button_to_index_rows
     add_index_to_parent
-    add_has_many_to_parent_model unless admin_namespace?
+    add_has_many_to_parent_model
     update_action_models_abstract_class(targets_n)
     add_permit_joins_and_delegations
     add_ability_line_to_roles_yml unless admin_namespace?
