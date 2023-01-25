@@ -55,8 +55,6 @@ module Actions::PerformsExport
   def label_string
     if target_all?
       "Export of all #{subject.titleize}"
-    elsif target_ids.one?
-      "Export of #{targeted.first.label_string}"
     else
       "Export of #{target_ids.count} #{subject.titleize.pluralize(target_ids.count)}"
     end
