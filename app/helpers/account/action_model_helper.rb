@@ -10,4 +10,8 @@ module Account::ActionModelHelper
       [t("#{import_action.subject.klass.name.underscore.pluralize}.fields.#{key}.heading"), key]
     end
   end
+
+  def import_label_with_time(import_action)
+    "#{import_action.label_string} - Imported #{(time_ago_in_words(import_action.created_at))} ago"
+  end
 end
