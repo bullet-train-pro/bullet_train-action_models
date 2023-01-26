@@ -15,7 +15,7 @@
             <% object.send(attribute).each do |key, value| %>
               <tr>
                 <td><code><%= key %></code></td>
-                <td><strong><%= value.present? ? t("#{object.subject.name.underscore.pluralize}.fields.#{value}.heading") : "Don't Import" %></strong></td>
+                <td><strong><%= value.present? ? t("#{object.subject.name.underscore.pluralize}.fields.#{value}.heading") : "" %></strong></td>
               </tr>
             <% end %>
           </tbody>
