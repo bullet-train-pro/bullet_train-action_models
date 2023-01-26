@@ -3,4 +3,4 @@
 
 <%= render 'shared/fields/file_field', method: :file, accept: accept %>
 <%= render 'shared/fields/super_select', method: :copy_mapping_from_id, options: {include_blank: t("#{form.object.class.name.underscore.pluralize}.fields.copy_mapping_from_id.placeholder")},
-  choices: form.object.valid_copy_mapping_froms.select(&:persisted?).map { |performs_import_action| [performs_import_action.label_string, performs_import_action.id] } %>
+  choices: form.object.valid_copy_mapping_froms.select(&:persisted?).map { |performs_import_action| [import_label_with_time(performs_import_action), performs_import_action.id] } %>

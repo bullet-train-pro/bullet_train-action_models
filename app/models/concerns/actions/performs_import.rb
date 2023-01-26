@@ -24,12 +24,12 @@ module Actions::PerformsImport
 
     # Determine the default mapping of columns in the file to attributes of the target model.
     self.mapping = csv.headers.map do |key|
-      mapped_field = if key.present? && self.class::AVAILABLE_FIELDS.include?(key.to_sym)
-        # If the user specified another import to try and copy the mapping from,
-        # check whether it has a mapping for the key in question, and if it does, use it.
+      mapped_field = if key.present?
         if copy_mapping_from&.mapping&.key?(key)
+          # If the user specified another import to try and copy the mapping from,
+          # check whether it has a mapping for the key in question, and if it does, use it.
           copy_mapping_from.mapping[key]
-        else
+        elsif self.class::AVAILABLE_FIELDS.include?(key.to_sym)
           key
         end
       end
