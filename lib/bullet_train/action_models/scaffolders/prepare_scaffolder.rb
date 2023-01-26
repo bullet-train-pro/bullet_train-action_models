@@ -28,7 +28,7 @@ module BulletTrain
 
           unless index_file_content.include?("updates_for context, collection")
             puts "Adding `updates_for` block. (Increases indentation of the whole file.)".green
-            block_manipulator.wrap_block(starting: "<%= render 'account/shared/box'", with: ["<%= updates_for context, collection do %>", "<% end %>"])
+            block_manipulator.wrap_block(starting: "<%= render 'shared/box'", with: ["<%= updates_for context, collection do %>", "<% end %>"])
           end
 
           unless index_file_content.include?("action_model_select_controller")
@@ -97,7 +97,7 @@ module BulletTrain
 
           unless show_file_content.include?(transformer.transform_string("updates_for @tangible_thing"))
             puts "Adding `updates_for` block. (Increases indentation of the whole file.)".green
-            block_manipulator.wrap_block(starting: "<%= render 'account/shared/box'", with: [transformer.transform_string("<%= updates_for @tangible_thing do %>"), "<% end %>"])
+            block_manipulator.wrap_block(starting: "<%= render 'shared/box'", with: [transformer.transform_string("<%= updates_for @tangible_thing do %>"), "<% end %>"])
           end
 
           target = "<% p.content_for :actions do %>"

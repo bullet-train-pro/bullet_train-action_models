@@ -1,5 +1,5 @@
 <%= form_with model: targets_many_action, url: (targets_many_action.persisted? ? [:account, targets_many_action] : [:account, @absolutely_abstract_creative_concept, :completely_concrete_tangible_things_targets_many_actions]), local: true, class: 'form' do |form| %>
-  <%= render 'account/shared/forms/errors', form: form %>
+  <%= render 'shared/forms/errors', form: form %>
   <%= form.hidden_field :allow_empty_form, value: nil %>
 
   <%= render "shared/alert" do %>

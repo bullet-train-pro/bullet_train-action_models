@@ -1,8 +1,8 @@
 <% targets_one_action ||= @targets_one_action %>
 <% tangible_thing ||= @tangible_thing || targets_one_action&.tangible_thing %>
 <%= render 'account/scaffolding/completely_concrete/tangible_things/breadcrumbs', tangible_thing: tangible_thing %>
-<%= render 'account/shared/breadcrumb', label: t('.label'), url: [:account, tangible_thing, :targets_one_actions] %>
+<%= render 'shared/breadcrumb', label: t('.label'), url: [:account, tangible_thing, :targets_one_actions] %>
 <% if targets_one_action&.persisted? %>
-  <%= render 'account/shared/breadcrumb', label: targets_one_action.label_string, url: [:account, targets_one_action] %>
+  <%= render 'shared/breadcrumb', label: targets_one_action.label_string, url: [:account, targets_one_action] %>
 <% end %>
-<%= render 'account/shared/breadcrumbs/actions', only_for: 'scaffolding/completely_concrete/tangible_things/targets_one_actions' %>
+<%= render 'shared/breadcrumbs/actions', only_for: 'scaffolding/completely_concrete/tangible_things/targets_one_actions' %>

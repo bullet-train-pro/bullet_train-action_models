@@ -192,11 +192,18 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
 
     begin
       # Update the routes to add the namespace and action routes
-      routes_manipulator = Scaffolding::RoutesFileManipulator.new("config/routes.rb", transform_string("Scaffolding::CompletelyConcrete::TangibleThings::#{targets_n.classify}Action"), transform_string("Scaffolding::AbsolutelyAbstract::CreativeConcept"))
-      routes_manipulator.apply(["account"])
+      routes_namespace = cli_options["namespace"] || "account"
+      routes_path = if routes_namespace == "account"
+        "config/routes.rb"
+      else
+        "config/routes/#{routes_namespace}.rb"
+      end
+
+      routes_manipulator = Scaffolding::RoutesFileManipulator.new(routes_path, transform_string("Scaffolding::CompletelyConcrete::TangibleThings::#{targets_n.classify}Action"), transform_string("Scaffolding::AbsolutelyAbstract::CreativeConcept"))
+      routes_manipulator.apply([routes_namespace])
       # TODO We need this to also add `post :approve` to the resource block as well. Do we support that already?
 
-      Scaffolding::FileManipulator.write("config/routes.rb", routes_manipulator.lines)
+      Scaffolding::FileManipulator.write(routes_path, routes_manipulator.lines)
     rescue BulletTrain::SuperScaffolding::CannotFindParentResourceException => exception
       # TODO It would be great if we could automatically generate whatever the structure of the route needs to be and
       # tell them where to try and inject it. Obviously we can't calculate the line number, otherwise the robots would

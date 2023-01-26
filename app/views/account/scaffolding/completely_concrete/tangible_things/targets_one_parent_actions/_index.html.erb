@@ -10,7 +10,7 @@
   <% [:active, :pending, :scheduled, :awaiting_approval, :completed].compact.each do |scope| %>
     <% if targets_one_parent_actions.respond_to?(scope) %>
       <% if targets_one_parent_actions.send(scope).any? %>
-        <%= render 'account/shared/actions/box' do |p| %>
+        <%= render 'shared/actions/box' do |p| %>
           <% p.content_for :title, t(".contexts.#{context.class.name.underscore}.headers.#{scope}") %>
           <% p.content_for :table do %>
             <%= render "shared/actions/list" do %>

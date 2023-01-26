@@ -9,7 +9,7 @@
 <%= updates_for context, collection do %>
   <% if targets_one_actions.any? %>
     <div class="border-t dark:border-sealBlue-500">
-      <%= render 'account/shared/box', no_background: true, title_size: "text-base" do |p| %>
+      <%= render 'shared/box', no_background: true, title_size: "text-base" do |p| %>
         <% p.content_for :title, t(".contexts.#{context.class.name.underscore}.header") %>
         <% p.content_for :description do %>
           <%= t(".contexts.#{context.class.name.underscore}.description") %>

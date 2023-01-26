@@ -10,7 +10,7 @@
   <% [:active, :scheduled, :awaiting_approval, :completed].each do |scope| %>
     <% if performs_export_actions.respond_to?(scope) %>
       <% if performs_export_actions.send(scope).any? %>
-        <%= render 'account/shared/actions/box' do |p| %>
+        <%= render 'shared/actions/box' do |p| %>
           <% p.content_for :title, t(".contexts.#{context.class.name.underscore}.headers.#{scope}") %>
           <% p.content_for :table do %>
             <%= render "shared/actions/list" do %>

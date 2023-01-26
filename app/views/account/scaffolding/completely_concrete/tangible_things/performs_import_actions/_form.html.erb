@@ -1,5 +1,5 @@
 <%= form_with model: performs_import_action, url: (performs_import_action.persisted? ? [:account, performs_import_action] : [:account, @absolutely_abstract_creative_concept, :completely_concrete_tangible_things_performs_import_actions]), local: true, class: 'form' do |form| %>
-  <%= render 'account/shared/forms/errors', form: form %>
+  <%= render 'shared/forms/errors', form: form %>
 
   <% with_field_settings form: form do %>
     <% if !form.object.persisted? %>
