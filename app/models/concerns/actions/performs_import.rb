@@ -93,7 +93,7 @@ module Actions::PerformsImport
     super
   end
 
-  def mark_row_processed(target)
+  def after_row_processed(target)
     increment :succeeded_count
   end
 
@@ -122,7 +122,7 @@ module Actions::PerformsImport
   def update_target_with_row(target, row)
     # Try updating the target with a mapped version of the row.
     if target.update(map_row(row).except(PRIMARY_KEY_FIELD.to_s))
-      mark_row_processed(target)
+      after_row_processed(target)
     else
       mark_row_failed(row, target.errors.full_messages.to_sentence + ".")
     end
@@ -131,7 +131,7 @@ module Actions::PerformsImport
   def create_target_from_row(subject, row)
     # Try creating the target with a mapped version of the row.
     if (target = subject.new(map_row(row).except(PRIMARY_KEY_FIELD.to_s))).save
-      mark_row_processed(target)
+      after_row_processed(target)
     else
       mark_row_failed(row, target.errors.full_messages.to_sentence + ".")
     end
