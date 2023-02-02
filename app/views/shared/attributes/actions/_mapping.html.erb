@@ -9,7 +9,7 @@
         <table class="table">
           <thead>
             <th style="width: 49%;">CSV Column</th>
-            <th style="width: 51%;">Project Field</th>
+            <th style="width: 51%;"><%= object.subject.name.titleize %> Field</th>
           </thead>
           <tbody>
             <% object.send(attribute).each do |key, value| %>
