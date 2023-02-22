@@ -162,6 +162,37 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     end
   end
 
+  # Here, we manually add the an action line (i.e. - `post 'approve'`) inside the new resources.
+  # However, we should probably be passing this in as an option somewhere.
+  def add_line_to_action_resource(content, routes_manipulator)
+    [
+      "resources",
+      "namespace"
+    ]. each do |block_type|
+      # targets-one is the only action which generates a namespace,
+      # so we skip this part for every other action.
+      break if block_type == "namespace" && targets_n != "targets_one"
+
+      # `options` is used frequently in the RoutesFileManipulator
+      # and usually houses `:within` which designates a block's line number.
+      options = {}
+
+      parent_resource = transform_string("Scaffolding::CompletelyConcrete::TangibleThing").tableize
+      options[:within] = Scaffolding::BlockManipulator.find_block_start(
+        starting_from: "#{block_type} :#{parent_resource}",
+        lines: routes_manipulator.lines
+      )
+      line_number = routes_manipulator.find_or_convert_resource_block(transform_string("#{targets_n}_actions"), **options)
+
+      new_lines = Scaffolding::BlockManipulator.insert(
+        content,
+        lines: routes_manipulator.lines,
+        within: routes_manipulator.lines[line_number]
+      )
+      routes_manipulator.lines = new_lines
+    end
+  end
+
   def scaffold_action_model
     fix_parent_reference
     fix_created_by
@@ -171,9 +202,12 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     files = [
       "./app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb",
       "./app/controllers/account/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions_controller.rb",
+      "./app/controllers/api/v1/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions_controller.rb",
       "./app/views/account/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions",
+      "./app/views/api/v1/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions",
       "./test/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action_test.rb",
       "./test/factories/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions.rb",
+      "./test/controllers/api/v1/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions_controller_test.rb",
       "./config/locales/en/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions.en.yml",
     ]
 
@@ -196,11 +230,28 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
 
     begin
       # Update the routes to add the namespace and action routes
-      routes_manipulator = Scaffolding::RoutesFileManipulator.new("config/routes.rb", transform_string("Scaffolding::CompletelyConcrete::TangibleThings::#{targets_n.classify}Action"), transform_string("Scaffolding::AbsolutelyAbstract::CreativeConcept"))
-      routes_manipulator.apply(["account"])
-      # TODO We need this to also add `post :approve` to the resource block as well. Do we support that already?
+      routing_details = [
+        {
+          file_name: "config/routes.rb",
+          namespace: "account"
+        },
+        {
+          file_name: "config/routes/api/v1.rb",
+          namespace: "v1"
+        }
+      ]
 
-      Scaffolding::FileManipulator.write("config/routes.rb", routes_manipulator.lines)
+      # TODO: Check if this covers all of the other action models properly.
+      parent = targets_n == "targets_one" ?
+        transform_string("Scaffolding::CompletelyConcrete::TangibleThing") : transform_string("Scaffolding::AbsolutelyAbstract::CreativeConcept")
+      child = transform_string("Scaffolding::CompletelyConcrete::TangibleThings::#{targets_n.classify}Action")
+
+      routing_details.each do |details|
+        routes_manipulator = Scaffolding::RoutesFileManipulator.new(details[:file_name], child, parent)
+        routes_manipulator.apply([details[:namespace]])
+        add_line_to_action_resource("  post 'approve'", routes_manipulator)
+        Scaffolding::FileManipulator.write(details[:file_name], routes_manipulator.lines)
+      end
     rescue BulletTrain::SuperScaffolding::CannotFindParentResourceException => exception
       # TODO It would be great if we could automatically generate whatever the structure of the route needs to be and
       # tell them where to try and inject it. Obviously we can't calculate the line number, otherwise the robots would
