@@ -36,15 +36,15 @@ module Actions::PerformsExport
     super
   end
 
-  def perform_on_target(project)
+  def perform_on_target(object)
     @csv << fields.map do |field|
-      value_for_field(project, field)
+      value_for_field(object, field)
     end
   end
 
   # This is a template method that can be overloaded to control the way certain columns are exported.
-  def value_for_field(project, field)
-    project.send(field)
+  def value_for_field(object, field)
+    object.send(field)
   end
 
   def include_default_fields
@@ -55,8 +55,6 @@ module Actions::PerformsExport
   def label_string
     if target_all?
       "Export of all #{subject.titleize}"
-    elsif target_ids.one?
-      "Export of #{targeted.first.label_string}"
     else
       "Export of #{target_ids.count} #{subject.titleize.pluralize(target_ids.count)}"
     end

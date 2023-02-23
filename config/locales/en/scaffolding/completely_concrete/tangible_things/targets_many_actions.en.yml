@@ -101,15 +101,6 @@ en:
         _: &updated_at Updated
         label: *updated_at
         heading: *updated_at
-    api:
-      collection_actions: "Collection Actions for Targets Many Actions"
-      index: "List Targets Many Actions"
-      create: "Add a New Targets Many Action"
-      member_actions: "Actions for an Individual Targets Many Action"
-      show: "Retrieve a Targets Many Action"
-      update: "Update a Targets Many Action"
-      destroy: "Delete a Targets Many Action"
-      fields: *fields
     index:
       section: "%{creative_concepts_possessive} Targets Many Actions"
       contexts:

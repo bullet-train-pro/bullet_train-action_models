@@ -93,15 +93,6 @@ en:
         _: &updated_at Updated
         label: *updated_at
         heading: *updated_at
-    api:
-      collection_actions: "Collection Actions for Targets One Actions"
-      index: "List Targets One Actions"
-      create: "Add a New Targets One Action"
-      member_actions: "Actions for an Individual Targets One Action"
-      show: "Retrieve a Targets One Action"
-      update: "Update a Targets One Action"
-      destroy: "Delete a Targets One Action"
-      fields: *fields
     index:
       section: "%{tangible_things_possessive} Targets One Actions"
       contexts:
@@ -123,7 +114,7 @@ en:
     new:
       section: "New Targets One Action for %{tangible_thing_name}"
       header: New Targets One Action Details
-      description: Please provide the details of the new Targets One Action you'd like to add to %{tangible_thing_name}.
+      description: Please provide the details of the new Targets One Action you'd like to perform on %{tangible_thing_name}.
       form: *form
     edit:
       section: "%{targets_one_action_name}"

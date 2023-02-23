@@ -5,7 +5,7 @@ module Actions::PerformsImport
   include Actions::TargetsOne
   include Actions::HasProgress
   include Actions::TracksCreator
-  # include Actions::RequiresApproval
+  include Actions::RequiresApproval
 
   PRIMARY_KEY_FIELD = :id
 
@@ -24,12 +24,12 @@ module Actions::PerformsImport
 
     # Determine the default mapping of columns in the file to attributes of the target model.
     self.mapping = csv.headers.map do |key|
-      mapped_field = if self.class::AVAILABLE_FIELDS.include?(key.to_sym)
-        # If the user specified another import to try and copy the mapping from,
-        # check whether it has a mapping for the key in question, and if it does, use it.
+      mapped_field = if key.present?
         if copy_mapping_from&.mapping&.key?(key)
+          # If the user specified another import to try and copy the mapping from,
+          # check whether it has a mapping for the key in question, and if it does, use it.
           copy_mapping_from.mapping[key]
-        else
+        elsif self.class::AVAILABLE_FIELDS.include?(key.to_sym)
           key
         end
       end
@@ -39,7 +39,17 @@ module Actions::PerformsImport
   end
 
   def csv
-    @csv ||= CSV.parse(file.download, headers: true)
+    # Because we need to analyze the file before it's saved we to use the `.attachment_changes` method to read the file.
+    # This method is currently an undocumented feature in Rails so it might unexpectedly break in the future.
+    # Docs: https://apidock.com/rails/v6.1.3.1/ActiveStorage/Attached/Model/attachment_changes
+    # Discussion: https://github.com/rails/rails/pull/37005
+    string = if self.attachment_changes['file'].present?
+      self.attachment_changes['file'].attachment.download
+    else
+      file.download
+    end
+
+    @csv ||= CSV.parse(string, headers: true)
   end
 
   def rejected_file_path
@@ -83,19 +93,21 @@ module Actions::PerformsImport
     super
   end
 
-  def mark_row_processed(row)
+  def after_row_processed(target)
     increment :succeeded_count
   end
 
   def map_row(row)
-    row.to_h.map do |key, value|
-      mapped_key = mapping.fetch(key).presence
+    row.to_h.compact.map do |key, value|
+      mapped_key = key.present? && mapping.fetch(key).presence
       mapped_key ? [mapped_key, value] : nil
     end.compact.to_h
   end
 
   def source_primary_key
-    @source_primary_key ||= mapping.key(PRIMARY_KEY_FIELD.to_s)
+    # TODO We originally had `@source_primary_key ||=`, but a bug was reported where removing it fixed the problem.
+    # Would love to know what the issue was, but more important to get this working, so removing this.
+    mapping.key(PRIMARY_KEY_FIELD.to_s)
   end
 
   def find_or_create_by_fields
@@ -110,7 +122,7 @@ module Actions::PerformsImport
   def update_target_with_row(target, row)
     # Try updating the target with a mapped version of the row.
     if target.update(map_row(row).except(PRIMARY_KEY_FIELD.to_s))
-      mark_row_processed(row)
+      after_row_processed(target)
     else
       mark_row_failed(row, target.errors.full_messages.to_sentence + ".")
     end
@@ -119,7 +131,7 @@ module Actions::PerformsImport
   def create_target_from_row(subject, row)
     # Try creating the target with a mapped version of the row.
     if (target = subject.new(map_row(row).except(PRIMARY_KEY_FIELD.to_s))).save
-      mark_row_processed(row)
+      after_row_processed(target)
     else
       mark_row_failed(row, target.errors.full_messages.to_sentence + ".")
     end

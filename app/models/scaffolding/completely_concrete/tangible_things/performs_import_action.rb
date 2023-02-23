@@ -1,6 +1,6 @@
 class Scaffolding::CompletelyConcrete::TangibleThings::PerformsImportAction < ApplicationRecord
-  include Actions::ProcessesAsync
   include Actions::PerformsImport # 🚅 skip when scaffolding.
+  include Actions::ProcessesAsync
   # 🚅 add concerns above.
 
   belongs_to :absolutely_abstract_creative_concept, class_name: "Scaffolding::AbsolutelyAbstract::CreativeConcept"
