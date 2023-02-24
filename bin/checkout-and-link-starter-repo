@@ -25,8 +25,10 @@ else
   git clone https://github.com/bullet-train-co/bullet_train.git .
 fi
 
+package_name=$(find *.gemspec -depth 0 | sed 's/\.gemspec//')
+
 packages=(
-  "bullet_train-action_models"
+  $package_name
 )
 
 for package in "${packages[@]}"
