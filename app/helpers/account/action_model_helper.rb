@@ -12,6 +12,6 @@ module Account::ActionModelHelper
   end
 
   def import_label_with_time(import_action)
-    "#{import_action.label_string} - Imported #{(time_ago_in_words(import_action.created_at))} ago"
+    "#{import_action.label_string} - Imported #{time_ago_in_words(import_action.created_at)} ago"
   end
 end

@@ -47,9 +47,9 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
         target_ids: [],
         # 🚅 super scaffolding will insert new arrays above this line.
       )
-  
+
       process_params(strong_params)
-  
+
       strong_params
     end
   end

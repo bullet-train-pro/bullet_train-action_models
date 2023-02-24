@@ -47,7 +47,7 @@ module Actions::TargetsMany
   end
 
   def schedule_health_check
-    Actions::BackgroundActionHealthCheckWorker.perform_at(health_check_frequency.from_now, self.class.name, self.id)
+    Actions::BackgroundActionHealthCheckWorker.perform_at(health_check_frequency.from_now, self.class.name, id)
   end
 
   def first_dispatch?
@@ -60,19 +60,19 @@ module Actions::TargetsMany
       # We do this so we don't fail the health check right off the bat.
       touch
       schedule_health_check
-      before_start 
+      before_start
     end
 
     remaining_targets.limit(page_size).find_each do |object|
       before_each
 
       begin
-        self.class.transaction do 
+        self.class.transaction do
           perform_on_target(object)
           update_column(:last_completed_id, object.id)
         end
-      rescue StandardError => _
-        self.failed_ids << object.id
+      rescue => _
+        failed_ids << object.id
         save
       end
 
