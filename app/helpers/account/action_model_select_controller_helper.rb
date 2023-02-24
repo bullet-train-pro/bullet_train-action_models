@@ -4,9 +4,9 @@ module Account::ActionModelSelectControllerHelper
       class: "bulk-actions",
       data: {
         controller: "bulk-actions",
-        'bulk-actions-selectable-available-class': "selectable-available",
-        'bulk-actions-selectable-class': "selectable",
-        'bulk-actions-selectable-value': false
+        "bulk-actions-selectable-available-class": "selectable-available",
+        "bulk-actions-selectable-class": "selectable",
+        "bulk-actions-selectable-value": false
       }
     }
 

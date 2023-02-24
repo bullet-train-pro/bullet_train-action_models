@@ -168,7 +168,7 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     [
       "resources",
       "namespace"
-    ]. each do |block_type|
+    ].each do |block_type|
       # targets-one is the only action which generates a namespace,
       # so we skip this part for every other action.
       break if block_type == "namespace" && targets_n != "targets_one"
@@ -242,7 +242,7 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
       ]
 
       # TODO: Check if this covers all of the other action models properly.
-      parent = targets_n == "targets_one" ?
+      parent = (targets_n == "targets_one") ?
         transform_string("Scaffolding::CompletelyConcrete::TangibleThing") : transform_string("Scaffolding::AbsolutelyAbstract::CreativeConcept")
       child = transform_string("Scaffolding::CompletelyConcrete::TangibleThings::#{targets_n.classify}Action")
 
