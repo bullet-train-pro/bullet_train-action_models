@@ -35,7 +35,7 @@ module Actions::TargetsMany
   # TODO Do a health check that automatically restarts jobs that died in flight!
 
   def remaining_targets
-    targeted.where("id > ?", last_completed_id)
+    targeted.where("id > ?", last_completed_id).where.not(id: failed_ids)
   end
 
   def health_check_frequency
@@ -63,7 +63,7 @@ module Actions::TargetsMany
       before_start
     end
 
-    remaining_targets.limit(page_size).find_each do |object|
+    remaining_targets.limit(page_size).each do |object|
       before_each
 
       begin

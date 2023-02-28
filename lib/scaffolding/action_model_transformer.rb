@@ -121,6 +121,7 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
   end
 
   def fix_database_defaults
+    legacy_replace_in_file(migration_file_name, "t.integer :last_completed_id", "t.integer :last_completed_id, default: 0")
     legacy_replace_in_file(migration_file_name, "t.integer :performed_count", "t.integer :performed_count, default: 0")
     legacy_replace_in_file(migration_file_name, "t.integer :succeeded_count", "t.integer :succeeded_count, default: 0")
     legacy_replace_in_file(migration_file_name, "t.integer :failed_count", "t.integer :failed_count, default: 0")
