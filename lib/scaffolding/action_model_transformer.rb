@@ -136,6 +136,15 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     )
   end
 
+  def remove_team_has_one_team
+    scaffold_replace_line_in_file(
+      "./app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb",
+      # TODO Why can't this be ""?
+      "# TODO Remove this TODO, but not the comment after it. This TODO is a result of a bug we need to fix in Super Scaffolding.",
+      "has_one :team, through: :team",
+    )
+  end
+
   # This is a super hacky way to let the targets one transformer return false all the time.
   def skip_parent_join
     yield
@@ -203,14 +212,17 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     files = [
       "./app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb",
       "./app/controllers/account/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions_controller.rb",
-      "./app/controllers/api/v1/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions_controller.rb",
       "./app/views/account/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions",
-      "./app/views/api/v1/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions",
       "./test/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action_test.rb",
       "./test/factories/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions.rb",
-      "./test/controllers/api/v1/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions_controller_test.rb",
       "./config/locales/en/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions.en.yml",
     ]
+
+    unless targets_n == "performs_import"
+      files << "./app/views/api/v1/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions"
+      files << "./app/controllers/api/v1/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions_controller.rb"
+      files << "./test/controllers/api/v1/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions_controller_test.rb"
+    end
 
     files.each do |name|
       if File.directory?(resolve_template_path(name))
@@ -220,6 +232,7 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
       end
     end
 
+    remove_team_has_one_team
     add_locale_helper_export_fix
     add_button_to_index
     add_button_to_index_rows

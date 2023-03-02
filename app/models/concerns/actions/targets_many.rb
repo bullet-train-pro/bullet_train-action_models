@@ -47,7 +47,6 @@ module Actions::TargetsMany
   end
 
   def schedule_health_check
-    Actions::BackgroundActionHealthCheckWorker.perform_at(health_check_frequency.from_now, self.class.name, id)
   end
 
   def first_dispatch?
