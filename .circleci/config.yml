@@ -152,7 +152,7 @@ jobs:
     working_directory: tmp/starter
     environment:
       BUNDLE_PATH: vendor/bundle
-    parallelism: 16
+    parallelism: 1
     steps:
       - checkout:
           path: ~/project
@@ -184,6 +184,47 @@ jobs:
           name: 'Run Super Scaffolding Test'
           command: "bundle exec rails test test/system/super_scaffolding_test.rb"
 
+  'Starter Repo Minitest for Action Models':
+    docker:
+      - <<: *ruby_node_browsers_docker_image
+      - <<: *postgres_docker_image
+      - image: circleci/redis
+    executor: ruby/default
+    working_directory: tmp/starter
+    environment:
+      BUNDLE_PATH: vendor/bundle
+    parallelism: 1
+    steps:
+      - checkout:
+          path: ~/project
+      - browser-tools/install-browser-tools:
+          firefox-version: 108.0.1
+
+      - run: ../../bin/checkout-and-link-starter-repo
+
+      - restore_cache: *restore_bundler_cache
+      - run: bundle install
+      - run: bundle clean --force
+      - run: bundle exec rake bt:link
+      - run: yarn install
+      - run: yarn build
+      - run: yarn build:css
+
+      - save_cache: *save_bundler_cache
+
+      # TODO Figure out how to make these work for `tmp/starter`
+      # - restore_cache: *restore_yarn_cache
+
+      - *wait_for_docker
+
+      - run: "bundle add spring"
+      - run:
+          name: 'Setup Action Models System Test'
+          command: "bundle exec test/bin/setup-action-models-system-test"
+      - run:
+          name: 'Run Action Models Test'
+          command: "bundle exec rails test test/system/action_models_test.rb"
+
 workflows:
   version: 2
   build:
@@ -194,4 +235,6 @@ workflows:
       - 'Starter Repo Minitest':
           context: knapsack-pro
       - 'Starter Repo Minitest for Super Scaffolding':
+          context: knapsack-pro
+      - 'Starter Repo Minitest for Action Models':
           context: knapsack-pro

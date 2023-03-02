@@ -16,7 +16,7 @@ module Actions::TargetsMany
   end
 
   def targeted
-    target_all ? valid_targets : valid_targets.where(id: target_ids)
+    target_all ? valid_targets.order(:id) : valid_targets.order(:id).where(id: target_ids)
   end
 
   # This is _not_ the same as targeted. This is for when we want a collection-esque look at what is in `target_ids`.
@@ -28,20 +28,66 @@ module Actions::TargetsMany
     targeted.count
   end
 
-  # This is the batch-level control logic that iterates over the collection of targeted objects.
-  def perform
-    before_start
+  def page_size
+    100
+  end
 
-    targeted.find_each do |object|
+  # TODO Do a health check that automatically restarts jobs that died in flight!
+
+  def remaining_targets
+    targeted.where("id > ?", last_completed_id).where.not(id: failed_ids)
+  end
+
+  def health_check_frequency
+    30.seconds
+  end
+
+  def health_check_timeout
+    45.seconds
+  end
+
+  def schedule_health_check
+  end
+
+  def first_dispatch?
+    last_completed_id == 0
+  end
+
+  # This method is safe to call more than once, but not safe to run twice at the same time.
+  def perform
+    if first_dispatch?
+      # We do this so we don't fail the health check right off the bat.
+      touch
+      schedule_health_check
+      before_start
+    end
+
+    remaining_targets.limit(page_size).each do |object|
       before_each
-      perform_on_target(object)
+
+      begin
+        self.class.transaction do
+          perform_on_target(object)
+          update_column(:last_completed_id, object.id)
+        end
+      rescue => _
+        failed_ids << object.id
+        save
+      end
+
       after_each
     rescue ActiveRecord::RecordNotFound
       after_each
       next
     end
 
-    after_completion
+    # If after we work through this page of items, if there are any items left after this, dispatch another job.
+    if remaining_targets.any?
+      dispatch
+    else
+      # Otherwise we're done.
+      after_completion
+    end
   end
 
   def before_each
