@@ -32,8 +32,6 @@ module Actions::TargetsMany
     100
   end
 
-  # TODO Do a health check that automatically restarts jobs that died in flight!
-
   def remaining_targets
     targeted.where("id > ?", last_completed_id).where.not(id: failed_ids)
   end
@@ -62,6 +60,8 @@ module Actions::TargetsMany
       before_start
     end
 
+    before_page
+
     remaining_targets.limit(page_size).each do |object|
       before_each
 
@@ -81,6 +81,8 @@ module Actions::TargetsMany
       next
     end
 
+    after_page
+
     # If after we work through this page of items, if there are any items left after this, dispatch another job.
     if remaining_targets.any?
       dispatch
@@ -94,6 +96,12 @@ module Actions::TargetsMany
   end
 
   def after_each
+  end
+
+  def before_page
+  end
+
+  def after_page
   end
 
   def perform_on_target(object)
