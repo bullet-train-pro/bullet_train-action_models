@@ -218,7 +218,7 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
       "./config/locales/en/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions.en.yml",
     ]
 
-    unless targets_n == "performs_import"
+    unless ["performs_import", "performs_export"].include?(targets_n)
       files << "./app/views/api/v1/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions"
       files << "./app/controllers/api/v1/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions_controller.rb"
       files << "./test/controllers/api/v1/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions_controller_test.rb"
