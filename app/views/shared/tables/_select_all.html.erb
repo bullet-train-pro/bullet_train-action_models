@@ -2,7 +2,7 @@
   <label style="line-height: 0;">
     <%= render 'shared/fields/option', method: :bulk_actions_select_all, single_check_box: true,
       option_field_options: {
-        value: :bulk_actions_select_all,
+        value: 'select_all',
         checked: false,
         data: { 'bulk-actions-target': 'selectAllCheckbox', 'action': 'bulk-actions#selectAllOrNone' }
       }
