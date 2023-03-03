@@ -41,17 +41,6 @@ en:
         heading: *target_ids
         placeholder: None
       targets: *targets
-      emoji:
-        _: &emoji Emoji
-        label: Which emoji would you like to append to the label of the Tangible Things?
-        heading: *emoji
-        options:
-          thumbs_up: 👍
-          hands_raised: 🙌
-          flex: 💪
-          star: ⭐️
-          heart_eyes: 😍
-          party_face: 🥳
       target_count:
         _: &target_count Total Count
         label: *target_count
@@ -85,11 +74,8 @@ en:
         _: &completed_at Completed At
         label: *completed_at
         heading: *completed_at
-      delay:
-        _: &delay Delay
-        label: "How many seconds should we pause between each record being processed?"
-        heading: *delay
-        help: "This is a great way of seeing how Action Models behave when performing long-running operations in the background."
+      performed_count_over_target_count:
+        heading: Progress
       # 🚅 super scaffolding will insert new fields above this line.
       created_at:
         _: &created_at Added
@@ -150,9 +136,6 @@ en:
       scaffolding/completely_concrete/tangible_things/targets_many_action:
         target_all: *target_all
         target_ids: *target_ids
-        # 🚅 skip this section when scaffolding.
-        emoji: *emoji
-        # 🚅 stop any skipping we're doing now.
         # 🚅 super scaffolding will insert new activerecord attributes above this line.
         target_count: *target_count
         performed_count: *performed_count
@@ -161,6 +144,5 @@ en:
         scheduled_for: *scheduled_for
         started_at: *started_at
         completed_at: *completed_at
-        delay: *delay
         created_at: *created_at
         updated_at: *updated_at
