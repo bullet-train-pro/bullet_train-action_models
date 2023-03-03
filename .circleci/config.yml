@@ -152,7 +152,7 @@ jobs:
     working_directory: tmp/starter
     environment:
       BUNDLE_PATH: vendor/bundle
-    parallelism: 1
+    parallelism: 7
     steps:
       - checkout:
           path: ~/project
@@ -193,7 +193,7 @@ jobs:
     working_directory: tmp/starter
     environment:
       BUNDLE_PATH: vendor/bundle
-    parallelism: 3
+    parallelism: 4
     steps:
       - checkout:
           path: ~/project
