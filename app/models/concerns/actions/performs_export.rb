@@ -28,6 +28,12 @@ module Actions::PerformsExport
     @csv << fields
   end
 
+  def before_page
+    # We need to call this in before_page because we need @tempfile and @csv populated
+    # even in the case where super.remaining_targets is empty
+    before_each
+  end
+
   def before_each
     unless @tempfile
       @tempfile = Tempfile.new

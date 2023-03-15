@@ -33,7 +33,7 @@ module Actions::TargetsMany
   end
 
   def remaining_targets
-    targeted.where("id > ?", last_completed_id).where.not(id: failed_ids)
+    targeted.where(":id is null or id > :id", id: last_completed_id).where.not(id: failed_ids)
   end
 
   def health_check_frequency
