@@ -29,7 +29,7 @@ module BulletTrain
 
           transformer = Scaffolding::ActionModelPerformsImportTransformer.new(action_model, target_model, parent_models)
 
-          `yes n | bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::PerformsImportAction")} #{transformer.transform_string("absolutely_abstract_creative_concept")}:references target_all:boolean target_ids:#{Scaffolding.mysql? ? "json" : "jsonb"} started_at:datetime completed_at:datetime target_count:integer performed_count:integer scheduled_for:datetime sidekiq_jid:string created_by:references approved_by:references mapping:#{Scaffolding.mysql? ? "json" : "jsonb"} copy_mapping_from:references succeeded_count:integer failed_count:integer`
+          `yes n | bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::PerformsImportAction")} #{transformer.transform_string("absolutely_abstract_creative_concept")}:references target_all:boolean target_ids:#{Scaffolding.mysql? ? "json" : "jsonb"} started_at:datetime completed_at:datetime target_count:integer performed_count:integer scheduled_for:datetime sidekiq_jid:string created_by:references approved_by:references mapping:#{Scaffolding.mysql? ? "json" : "jsonb"} copy_mapping_from:references succeeded_count:integer failed_count:integer last_processed_row:integer`
 
           copy_mapping_from_index_name = transformer.transform_string("index_scaffolding_completely_concrete_tangible_things_#{action_model.pluralize.underscore.downcase}_on_copy_mapping_from_id")
           copy_mapping_from_index_name = "index_#{action_model.pluralize.underscore.downcase}_on_copy_mapping_from_id" if copy_mapping_from_index_name.length > 63

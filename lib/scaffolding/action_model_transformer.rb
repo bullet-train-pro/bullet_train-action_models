@@ -125,6 +125,7 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     legacy_replace_in_file(migration_file_name, "t.integer :performed_count", "t.integer :performed_count, default: 0")
     legacy_replace_in_file(migration_file_name, "t.integer :succeeded_count", "t.integer :succeeded_count, default: 0")
     legacy_replace_in_file(migration_file_name, "t.integer :failed_count", "t.integer :failed_count, default: 0")
+    legacy_replace_in_file(migration_file_name, "t.integer :last_processed_row", "t.integer :last_processed_row, default: -1")
     legacy_replace_in_file(migration_file_name, "t.boolean :target_all", "t.boolean :target_all, default: false")
   end
 
