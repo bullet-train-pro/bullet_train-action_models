@@ -87,6 +87,9 @@ module Actions::PerformsImport
     increment :failed_count
   end
 
+  # TODO Comment what is going on here. Is there I reason I rewind the CSV handler in one place
+  # and the raw file handler in another? Do we really need to `close` both the CSV and the tempfile?
+  # Aren't they the same file?
   def close_rejected_csv
     rejected_csv.rewind
     if rejected_csv.read.count > 1
