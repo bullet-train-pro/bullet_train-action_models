@@ -58,10 +58,18 @@ module Actions::PerformsImport
 
   def rejected_file_tempfile
     @rejected_file_tempfile ||= Tempfile.new(rejected_file_path)
+    @rejected_file_tempfile.binmode unless @rejected_file_tempfile.closed?
+    @rejected_file_tempfile
   end
 
   def rejected_csv
-    @rejected_csv ||= CSV.new(rejected_file_tempfile, write_headers: true, headers: csv.headers)
+    @rejected_csv ||= if rejected_file.attached?
+      rejected_file_tempfile.write(rejected_file.download)
+      CSV.new(rejected_file_tempfile)
+      # We specifically don't rewind the file here because we're only opening it to continue writing to it.
+    else
+      CSV.new(rejected_file_tempfile, write_headers: true, headers: csv.headers + ["rejected_reason"])
+    end
   end
 
   def calculate_target_count
@@ -79,7 +87,10 @@ module Actions::PerformsImport
     increment :failed_count
   end
 
-  def after_completion
+  # TODO Comment what is going on here. Is there I reason I rewind the CSV handler in one place
+  # and the raw file handler in another? Do we really need to `close` both the CSV and the tempfile?
+  # Aren't they the same file?
+  def close_rejected_csv
     rejected_csv.rewind
     if rejected_csv.read.count > 1
       rejected_file_tempfile.rewind
@@ -89,8 +100,10 @@ module Actions::PerformsImport
     rejected_csv.close
     rejected_file_tempfile.close
     rejected_file_tempfile.unlink
+  end
 
-    super
+  def after_page
+    close_rejected_csv
   end
 
   def after_row_processed(target)
@@ -137,8 +150,30 @@ module Actions::PerformsImport
     end
   end
 
+  def page_size
+    100
+  end
+
+  # We overload this to remove the `before_start` and `after_completion` callbacks.
+  def perform
+    perform_on_target(targeted)
+  end
+
+  def first_dispatch?
+    last_processed_row < 0
+  end
+
   def perform_on_target(team)
-    csv.each do |row|
+    processed = 0
+
+    if first_dispatch?
+      before_start
+    end
+
+    csv.each_with_index do |row, index|
+      # If this isn't our first page of processing, skip to the first row we haven't processed.
+      next unless index > last_processed_row
+
       before_each
 
       # If the mapping maps a column to the primary key attribute and this row has a primary key supplied ..
@@ -172,6 +207,21 @@ module Actions::PerformsImport
       end
 
       after_each
+
+      # Mark this row as processed.
+      update(last_processed_row: index)
+
+      # Increase the count of rows we've processed on this page.
+      processed += 1
+
+      # If we've processed all the rows we want to on this page, dispatch this job again and break out of the loop.
+      if processed >= page_size
+        after_page
+        return dispatch
+      end
     end
+
+    after_page
+    after_completion
   end
 end
