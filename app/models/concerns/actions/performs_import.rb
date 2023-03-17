@@ -44,7 +44,7 @@ module Actions::PerformsImport
     # Docs: https://apidock.com/rails/v6.1.3.1/ActiveStorage/Attached/Model/attachment_changes
     # Discussion: https://github.com/rails/rails/pull/37005
     string = if attachment_changes["file"].present?
-      attachment_changes["file"].attachment.download
+      attachment_changes["file"].attachable.read
     else
       file.download
     end
