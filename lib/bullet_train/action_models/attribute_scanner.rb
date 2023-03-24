@@ -12,7 +12,7 @@ module BulletTrain
 
       # https://platform.openai.com/docs/guides/embeddings/what-are-embeddings
       def request_to_openai(input)
-        openai_model = "text-similarity-davinci-001"
+        openai_model = "text-similarity-babbage-001"
         client = OpenAI::Client.new(access_token: ENV["OPENAI_ACCESS_TOKEN"])
 
         client.embeddings(
