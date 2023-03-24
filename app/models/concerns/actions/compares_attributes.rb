@@ -23,7 +23,7 @@ module Actions::ComparesAttributes
 
   private
 
-  # Returns the model's attributes with its closest matching strings.
+  # Returns the CSV headers with its closest matching strings.
   def calculate_similarity_scores(response, attributes, comparison_strings)
     attribute_scores = response["data"].shift(attributes.size)
     comparison_string_scores = response["data"]
