@@ -9,6 +9,7 @@ require "bullet_train/action_models/scaffolders/performs_import_scaffolder"
 require "bullet_train/action_models/scaffolders/targets_many_scaffolder"
 require "bullet_train/action_models/scaffolders/targets_one_scaffolder"
 require "bullet_train/action_models/scaffolders/targets_one_parent_scaffolder"
+require "bullet_train/action_models/attribute_scanner"
 
 module BulletTrain
   module ActionModels
