@@ -41,9 +41,9 @@ module Actions::PerformsImport
     # Check for closest matches if mapping is nil.
     if openai_enabled?
       closest_matches = closest_attribute_matches(subject_class.attribute_names, csv.headers)
-      self.mapping = self.mapping.map do |key, value|
+      self.mapping = mapping.map do |key, value|
         if value.nil?
-          match_data = closest_matches.find {|result| result[:original_value] == key }
+          match_data = closest_matches.find { |result| result[:original_value] == key }
           [key, match_data[:closest_match]]
         else
           [key, value]

@@ -3,7 +3,7 @@ require "matrix"
 module Actions::ComparesAttributes
   def closest_attribute_matches(model_attributes, comparison_strings)
     attributes = model_attributes.excluding("id", "team_id", "created_at", "updated_at")
-    request_data = attributes + comparison_strings 
+    request_data = attributes + comparison_strings
     response = request_to_openai(request_data)
     calculate_similarity_scores(response, attributes, comparison_strings)
   end
@@ -15,8 +15,8 @@ module Actions::ComparesAttributes
 
     client.embeddings(
       parameters: {
-          model: openai_model,
-          input: input
+        model: openai_model,
+        input: input
       }
     )
   end
@@ -44,7 +44,7 @@ module Actions::ComparesAttributes
           closest_match = attr
         end
       end
-    
+
       {original_value: str, closest_match: closest_match, score: highest_similarity_score}
     end
   end
