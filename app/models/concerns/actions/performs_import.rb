@@ -197,7 +197,7 @@ module Actions::PerformsImport
         where_clause = map_row(row).filter { |key, _| find_or_create_by_fields.include?(key) }
 
         # If we're able to find the target using those attributes ..
-        if (where_clause.present? && target = subject.find_by(where_clause))
+        if where_clause.present? && (target = subject.find_by(where_clause))
           # Try to update it.
           update_target_with_row(target, row)
         else
