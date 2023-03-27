@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    bullet_train-action_models (1.2.2)
+    bullet_train-action_models (1.2.3)
       rails (>= 6.0.0)
 
 GEM
@@ -198,4 +198,4 @@ DEPENDENCIES
   standardrb (~> 1.0)
 
 BUNDLED WITH
-   2.3.20
+   2.3.5
