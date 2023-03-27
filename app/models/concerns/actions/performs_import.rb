@@ -191,13 +191,13 @@ module Actions::PerformsImport
           mark_row_failed(row, "Couldn't find #{subject.klass.name.humanize} with ID #{row[source_primary_key]}.")
         end
       # If the mapping maps one of the sets of attributes we can find or create by ..
-      elsif find_or_create_by_fields
+      elsif find_or_create_by_fields.present?
         # Construct a where condition to try and find the target by those attributes.
         # e.g. {"name"=>"Testing"}
         where_clause = map_row(row).filter { |key, _| find_or_create_by_fields.include?(key) }
 
         # If we're able to find the target using those attributes ..
-        if (target = subject.find_by(where_clause))
+        if (where_clause.present? && target = subject.find_by(where_clause))
           # Try to update it.
           update_target_with_row(target, row)
         else
