@@ -55,7 +55,7 @@ module BulletTrain
 
             unless index_file_content.include?("shared/bulk_action_select")
               puts "Adding bulk select button.".green
-              block_manipulator.insert('<%= render "shared/bulk_action_select" if collection.many? %>', within: target, append: true)
+              block_manipulator.insert(transformer.transform_string('<%= render "shared/bulk_action_select" if tangible_things.many? %>'), within: target, append: true)
               block_manipulator.insert("", within: target, after: "<%# 🚅 super scaffolding will insert new bulk action model buttons above this line. %>")
             end
           else
@@ -68,7 +68,7 @@ module BulletTrain
 
               unless index_file_content.include?("shared/bulk_action_select")
                 puts "Adding bulk select button.".green
-                block_manipulator.insert('<%= render "shared/bulk_action_select" if collection.many? %>', within: target, before: "global.buttons.back")
+                block_manipulator.insert(transformer.transform_string('<%= render "shared/bulk_action_select" if tangible_things.many? %>'), within: target, before: "global.buttons.back")
               end
             end
           end
