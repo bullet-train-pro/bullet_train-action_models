@@ -1,15 +1,11 @@
 <% object ||= current_attributes_object %>
 
-<% if !object.approved? %>
-  <%= render 'shared/attributes/file', attribute: :file %>
-  <%# 🚅 super scaffolding will insert new fields above this line. %>
-<% else %>
+<% if object.approved? %>
   <%= render 'shared/attributes/progress_bar', attribute: :performed_count, total: :target_count %>
 
   <div class="grid space-y md:grid-cols-2 md:space-y-0">
     <%= render 'shared/attributes/text', attribute: :succeeded_count %>
     <%= render 'shared/attributes/text', attribute: :failed_count %>
-  </div>
 
   <div class="grid space-y md:grid-cols-2 md:space-y-0">
     <%= render 'shared/attributes/file', attribute: :file %>
