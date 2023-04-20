@@ -38,6 +38,12 @@ module Actions::PerformsExport
     end
   end
 
+  def before_page
+    # We need to call this in before_page because we need @tempfile and @csv populated
+    # even in the case where super.remaining_targets is empty
+    before_each
+  end
+
   def after_page
     @tempfile.rewind
     file.attach(io: @tempfile, filename: "#{export_file_path}.csv", content_type: "text/csv")
