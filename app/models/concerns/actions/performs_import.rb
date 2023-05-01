@@ -8,6 +8,7 @@ module Actions::PerformsImport
   include Actions::RequiresApproval
 
   PRIMARY_KEY_FIELD = :id
+  BOM_CHARACTER = "\xEF\xBB\xBF"
 
   included do
     belongs_to :copy_mapping_from, class_name: name, optional: true
@@ -52,6 +53,8 @@ module Actions::PerformsImport
     else
       file.download
     end
+
+    string.gsub!(BOM_CHARACTER.force_encoding(Encoding::BINARY), "")
 
     @csv ||= CSV.parse(string, headers: true)
   end
