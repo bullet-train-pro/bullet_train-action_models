@@ -37,6 +37,10 @@ module Actions::PerformsImport
 
       [key, mapped_field]
     end.to_h
+
+    tmp = Tempfile.new
+    tmp.write(csv)
+    self.file.attach(io: tmp.open, filename: self.file.filename.to_s, content_type: "text/csv")
   end
 
   def csv
@@ -46,13 +50,13 @@ module Actions::PerformsImport
     # Discussion: https://github.com/rails/rails/pull/37005
     string = if attachment_changes["file"].present?
       attachment = attachment_changes["file"].attachable
-      Roo::Spreadsheet.open(attachment, { csv_options: { liberal_parsing: true} }).to_csv # earlier versions of ruby will blow up here, due to lack of liberal_parsing
+
+      s = Roo::Spreadsheet.open(attachment, { csv_options: { liberal_parsing: true} }).to_csv # earlier versions of ruby will blow up here, due to lack of liberal_parsing
+      s.gsub(BOM_CHARACTER.force_encoding(Encoding::BINARY), "")
+      s.gsub("\"", '') # The Roo::Spreadsheet.to_csv method above puts everything in double quotes, which we want to remove
     else
       file.download
     end
-
-    string.gsub!(BOM_CHARACTER.force_encoding(Encoding::BINARY), "")
-    string.gsub!("\"", '') # The Roo::Spreadsheet.to_csv method above puts everything in double quotes, which we want to remove
 
     @csv ||= CSV.parse(string, headers: true)
   end
