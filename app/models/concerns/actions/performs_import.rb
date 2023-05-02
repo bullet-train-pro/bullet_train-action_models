@@ -38,10 +38,11 @@ module Actions::PerformsImport
 
       [key, mapped_field]
     end.to_h
-
+    puts file.filename
     tmp = Tempfile.new
     tmp.write(csv)
-    file.attach(io: tmp.open, filename: file.filename.to_s, content_type: "text/csv")
+    file.attach(io: tmp.open, filename: "#{file.filename.base}.csv", content_type: "text/csv")
+    puts file.filename
   end
 
   def csv
@@ -51,8 +52,9 @@ module Actions::PerformsImport
     # Discussion: https://github.com/rails/rails/pull/37005
     string = if attachment_changes["file"].present?
       attachment = attachment_changes["file"].attachable
-
-      parsed = Roo::Spreadsheet.open(attachment, {extension: File.extname(attachment), csv_options: {liberal_parsing: true}}).to_csv # earlier versions of ruby will blow up here, due to lack of liberal_parsing
+      puts attachment.filename
+      parsed = Roo::Spreadsheet.open(attachment, {csv_options: {liberal_parsing: true}}).to_csv # earlier versions of ruby will blow up here, due to lack of liberal_parsing
+      # see if we can remove the bom without gsub as the docs say
       parsed.gsub(BOM_CHARACTER.force_encoding(Encoding::BINARY), "")
       parsed.delete("\"") # The Roo::Spreadsheet.to_csv method above puts everything in double quotes, which we want to remove
     else

@@ -3,6 +3,7 @@ PATH
   specs:
     bullet_train-action_models (1.2.5)
       rails (>= 6.0.0)
+      roo
 
 GEM
   remote: https://rubygems.org/
