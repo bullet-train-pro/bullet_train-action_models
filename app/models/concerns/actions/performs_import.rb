@@ -52,7 +52,6 @@ module Actions::PerformsImport
     # Discussion: https://github.com/rails/rails/pull/37005
     string = if attachment_changes["file"].present?
       attachment = attachment_changes["file"].attachable
-      puts attachment.filename
       parsed = Roo::Spreadsheet.open(attachment, {csv_options: {liberal_parsing: true}}).to_csv # earlier versions of ruby will blow up here, due to lack of liberal_parsing
       # see if we can remove the bom without gsub as the docs say
       parsed.gsub(BOM_CHARACTER.force_encoding(Encoding::BINARY), "")
