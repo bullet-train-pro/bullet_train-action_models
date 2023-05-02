@@ -46,15 +46,24 @@ module Actions::PerformsImport
     # Discussion: https://github.com/rails/rails/pull/37005
     string = if attachment_changes["file"].present?
       if Rails.version.to_i < 7
-        attachment_changes["file"].attachable.read
+        file = attachment_changes["file"].attachable
+
+        Roo::Spreadsheet.open(file, { csv_options: { quote_char: "|",  encoding: 'bom|utf-8' } }).to_csv
+
+        string.gsub("\"", '')
       else
-        attachment_changes["file"].attachment.download
+        # hmm? how to get at file
+        file = attachment_changes["file"].attachment
+        file_ext = File.extname(file)
+        file.download
       end
     else
-      file.download
+      Roo::Spreadsheet.open(file).to_csv
     end
 
+    binding.pry
     string.gsub!(BOM_CHARACTER.force_encoding(Encoding::BINARY), "")
+    string.gsub!("\"", '')
 
     @csv ||= CSV.parse(string, headers: true)
   end

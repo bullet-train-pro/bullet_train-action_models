@@ -12,3 +12,5 @@ gem "sprockets-rails"
 # gem "debug", ">= 1.0.0"
 
 gem "standardrb", "~> 1.0"
+
+gem "roo"
