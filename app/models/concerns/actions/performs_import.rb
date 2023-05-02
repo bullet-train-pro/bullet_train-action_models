@@ -46,24 +46,20 @@ module Actions::PerformsImport
     # Discussion: https://github.com/rails/rails/pull/37005
     string = if attachment_changes["file"].present?
       if Rails.version.to_i < 7
-        file = attachment_changes["file"].attachable
-
-        Roo::Spreadsheet.open(file, { csv_options: { quote_char: "|",  encoding: 'bom|utf-8' } }).to_csv
-
-        string.gsub("\"", '')
+        attachment = attachment_changes["file"].attachable
+        #this will blow up if there is a double quote anywhere
+        Roo::Spreadsheet.open(attachment, { csv_options: { liberal_parsing: true} }).to_csv
       else
         # hmm? how to get at file
-        file = attachment_changes["file"].attachment
-        file_ext = File.extname(file)
-        file.download
+        attachment = attachment_changes["file"].attachment
+        attachment.download
       end
     else
-      Roo::Spreadsheet.open(file).to_csv
+      file.download
     end
 
-    binding.pry
     string.gsub!(BOM_CHARACTER.force_encoding(Encoding::BINARY), "")
-    string.gsub!("\"", '')
+    string.gsub!("\"", '') # The to_csv method above puts everything in double quotes, which we want to remove
 
     @csv ||= CSV.parse(string, headers: true)
   end
