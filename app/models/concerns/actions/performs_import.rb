@@ -45,21 +45,14 @@ module Actions::PerformsImport
     # Docs: https://apidock.com/rails/v6.1.3.1/ActiveStorage/Attached/Model/attachment_changes
     # Discussion: https://github.com/rails/rails/pull/37005
     string = if attachment_changes["file"].present?
-      if Rails.version.to_i < 7
-        attachment = attachment_changes["file"].attachable
-        #this will blow up if there is a double quote anywhere
-        Roo::Spreadsheet.open(attachment, { csv_options: { liberal_parsing: true} }).to_csv
-      else
-        # hmm? how to get at file
-        attachment = attachment_changes["file"].attachment
-        attachment.download
-      end
+      attachment = attachment_changes["file"].attachable
+      Roo::Spreadsheet.open(attachment, { csv_options: { liberal_parsing: true} }).to_csv # earlier versions of ruby will blow up here, due to lack of liberal_parsing
     else
       file.download
     end
 
     string.gsub!(BOM_CHARACTER.force_encoding(Encoding::BINARY), "")
-    string.gsub!("\"", '') # The to_csv method above puts everything in double quotes, which we want to remove
+    string.gsub!("\"", '') # The Roo::Spreadsheet.to_csv method above puts everything in double quotes, which we want to remove
 
     @csv ||= CSV.parse(string, headers: true)
   end
