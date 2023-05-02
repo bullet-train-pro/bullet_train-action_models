@@ -1,4 +1,5 @@
 require "csv"
+require "roo"
 
 module Actions::PerformsImport
   extend ActiveSupport::Concern
