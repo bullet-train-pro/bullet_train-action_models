@@ -56,7 +56,7 @@ module Actions::PerformsImport
 
     string.gsub!(BOM_CHARACTER.force_encoding(Encoding::BINARY), "")
 
-    @csv ||= CSV.parse(string, headers: true)
+    @csv ||= CSV.parse(string, headers: true, liberal_parsing: true)
   end
 
   def rejected_file_path
