@@ -52,7 +52,7 @@ module Actions::PerformsImport
     string = if attachment_changes["file"].present?
       attachment = attachment_changes["file"].attachable
 
-      parsed = Roo::Spreadsheet.open(attachment, {csv_options: {liberal_parsing: true}}).to_csv # earlier versions of ruby will blow up here, due to lack of liberal_parsing
+      parsed = Roo::Spreadsheet.open(attachment, {extension: File.extname(attachment), csv_options: {liberal_parsing: true}}).to_csv # earlier versions of ruby will blow up here, due to lack of liberal_parsing
       parsed.gsub(BOM_CHARACTER.force_encoding(Encoding::BINARY), "")
       parsed.delete("\"") # The Roo::Spreadsheet.to_csv method above puts everything in double quotes, which we want to remove
     else
