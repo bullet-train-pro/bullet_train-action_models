@@ -51,11 +51,15 @@ module Actions::PerformsImport
     # Docs: https://apidock.com/rails/v6.1.3.1/ActiveStorage/Attached/Model/attachment_changes
     # Discussion: https://github.com/rails/rails/pull/37005
     string = if attachment_changes["file"].present?
-      attachment = attachment_changes["file"].attachable
-      parsed = Roo::Spreadsheet.open(attachment, {csv_options: {liberal_parsing: true}}).to_csv # earlier versions of ruby will blow up here, due to lack of liberal_parsing
-      # see if we can remove the bom without gsub as the docs say
-      parsed.gsub(BOM_CHARACTER.force_encoding(Encoding::BINARY), "")
-      parsed.delete("\"") # The Roo::Spreadsheet.to_csv method above puts everything in double quotes, which we want to remove
+      if Rails.version.to_i < 7
+        attachment = attachment_changes["file"].attachable
+        parsed = Roo::Spreadsheet.open(attachment, {csv_options: {liberal_parsing: true}}).to_csv # earlier versions of ruby will blow up here, due to lack of liberal_parsing
+        # see if we can remove the bom without gsub as the docs say
+        parsed.gsub(BOM_CHARACTER.force_encoding(Encoding::BINARY), "")
+        parsed.delete("\"") # The Roo::Spreadsheet.to_csv method above puts everything in double quotes, which we want to remove
+      else
+        attachment_changes["file"].attachment.download
+      end
     else
       file.download
     end
