@@ -240,7 +240,7 @@ module Actions::PerformsImport
       # This method is currently an undocumented feature in Rails so it might unexpectedly break in the future.
       # Docs: https://apidock.com/rails/v6.1.3.1/ActiveStorage/Attached/Model/attachment_changes
       # Discussion: https://github.com/rails/rails/pull/37005
-      parsed = if Rails.version.to_i < 7
+      parsed = if attachment_changes["file"].attachable
         attachment = attachment_changes["file"].attachable
         Roo::Spreadsheet.open(attachment, {csv_options: {liberal_parsing: true, encoding: 'bom|utf-8'}}).to_csv
       else
