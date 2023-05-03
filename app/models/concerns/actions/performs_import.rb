@@ -18,7 +18,7 @@ module Actions::PerformsImport
     validates :copy_mapping_from, scope: true
 
     before_create :analyze_file
-    before_create :attach_parsed_csv_instead
+    # before_create :attach_parsed_csv_instead
   end
 
   def csv
@@ -240,9 +240,9 @@ module Actions::PerformsImport
       # This method is currently an undocumented feature in Rails so it might unexpectedly break in the future.
       # Docs: https://apidock.com/rails/v6.1.3.1/ActiveStorage/Attached/Model/attachment_changes
       # Discussion: https://github.com/rails/rails/pull/37005
-      parsed = if true
+      parsed = if Rails.version.to_i < 7
         attachment = attachment_changes["file"].attachable
-        Roo::Spreadsheet.open(attachment, {extension: File.extname(file.filename.to_s), csv_options: {liberal_parsing: true, encoding: 'bom|utf-8'}}).to_csv
+        Roo::Spreadsheet.open(attachment, {csv_options: {liberal_parsing: true, encoding: 'bom|utf-8'}}).to_csv
       else
         raw = attachment_changes["file"].attachment.download
         # TODO - in rails 7 there has to be an easy way to grab the file from the above attachment, rather than creating a tmpfile out of it below
