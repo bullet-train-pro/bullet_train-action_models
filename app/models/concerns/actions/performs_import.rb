@@ -9,7 +9,6 @@ module Actions::PerformsImport
   include Actions::RequiresApproval
 
   PRIMARY_KEY_FIELD = :id
-  BOM_CHARACTER = "\xEF\xBB\xBF"
 
   included do
     belongs_to :copy_mapping_from, class_name: name, optional: true
@@ -17,54 +16,13 @@ module Actions::PerformsImport
     has_one_attached :file
     has_one_attached :rejected_file
     validates :copy_mapping_from, scope: true
+
     before_create :analyze_file
-  end
-
-  def analyze_file
-    # Record the number of rows in this CSV.
-    self.target_count = csv.length
-
-    # Determine the default mapping of columns in the file to attributes of the target model.
-    self.mapping = csv.headers.map do |key|
-      mapped_field = if key.present?
-        if copy_mapping_from&.mapping&.key?(key)
-          # If the user specified another import to try and copy the mapping from,
-          # check whether it has a mapping for the key in question, and if it does, use it.
-          copy_mapping_from.mapping[key]
-        elsif self.class::AVAILABLE_FIELDS.include?(key.to_sym)
-          key
-        end
-      end
-
-      [key, mapped_field]
-    end.to_h
-    puts file.filename
-    tmp = Tempfile.new
-    tmp.write(csv)
-    file.attach(io: tmp.open, filename: "#{file.filename.base}.csv", content_type: "text/csv")
-    puts file.filename
+    before_create :attach_parsed_csv_instead
   end
 
   def csv
-    # Because we need to analyze the file before it's saved we to use the `.attachment_changes` method to read the file.
-    # This method is currently an undocumented feature in Rails so it might unexpectedly break in the future.
-    # Docs: https://apidock.com/rails/v6.1.3.1/ActiveStorage/Attached/Model/attachment_changes
-    # Discussion: https://github.com/rails/rails/pull/37005
-    string = if attachment_changes["file"].present?
-      if Rails.version.to_i < 7
-        attachment = attachment_changes["file"].attachable
-        parsed = Roo::Spreadsheet.open(attachment, {csv_options: {liberal_parsing: true}}).to_csv # earlier versions of ruby will blow up here, due to lack of liberal_parsing
-        # see if we can remove the bom without gsub as the docs say
-        parsed.gsub(BOM_CHARACTER.force_encoding(Encoding::BINARY), "")
-        parsed.delete("\"") # The Roo::Spreadsheet.to_csv method above puts everything in double quotes, which we want to remove
-      else
-        attachment_changes["file"].attachment.download
-      end
-    else
-      file.download
-    end
-
-    @csv ||= CSV.parse(string, headers: true)
+    @csv ||= CSV.parse(parsed_csv, headers: true)
   end
 
   def rejected_file_path
@@ -239,4 +197,63 @@ module Actions::PerformsImport
     after_page
     after_completion
   end
+
+  private
+
+  def analyze_file
+    # Record the number of rows in this CSV.
+    self.target_count = csv.length
+
+    # Determine the default mapping of columns in the file to attributes of the target model.
+    self.mapping = csv.headers.map do |key|
+      mapped_field = if key.present?
+        if copy_mapping_from&.mapping&.key?(key)
+          # If the user specified another import to try and copy the mapping from,
+          # check whether it has a mapping for the key in question, and if it does, use it.
+          copy_mapping_from.mapping[key]
+        elsif self.class::AVAILABLE_FIELDS.include?(key.to_sym)
+          key
+        end
+      end
+
+      [key, mapped_field]
+    end.to_h
+  end
+
+  def attach_parsed_csv_instead
+    tmp = Tempfile.new
+    tmp.write(parsed_attachment)
+    file.attach(io: tmp.open, filename: "#{file.filename.base}.csv", content_type: "text/csv")
+  end
+
+  def parsed_csv
+    if attachment_changes["file"].present?
+      parsed_attachment
+    else
+      file.download
+    end
+  end
+
+  def parsed_attachment
+    @parsed_attachment ||= begin
+      # Because we need to analyze the file before it's saved we to use the `.attachment_changes` method to read the file.
+      # This method is currently an undocumented feature in Rails so it might unexpectedly break in the future.
+      # Docs: https://apidock.com/rails/v6.1.3.1/ActiveStorage/Attached/Model/attachment_changes
+      # Discussion: https://github.com/rails/rails/pull/37005
+      parsed = if Rails.version.to_i < 7
+        attachment = attachment_changes["file"].attachable
+        Roo::Spreadsheet.open(attachment, {csv_options: {liberal_parsing: true, encoding: 'bom|utf-8'}}).to_csv
+      else
+        raw = attachment_changes["file"].attachment.download
+        # TODO - in rails 7 there has to be an easy way to grab the file from the above attachment, rather than creating a tmpfile out of it below
+        tmp = Tempfile.new
+        tmp.write(raw)
+
+        Roo::Spreadsheet.open(tmp, {extension: File.extname(file), csv_options: {liberal_parsing: true, encoding: 'bom|utf-8'}}).to_csv
+      end
+
+      parsed.delete("\"") # The Roo::Spreadsheet.to_csv method above puts everything in double quotes, which we want to remove
+    end
+  end
+
 end
