@@ -241,8 +241,13 @@ module Actions::PerformsImport
       # Docs: https://apidock.com/rails/v6.1.3.1/ActiveStorage/Attached/Model/attachment_changes
       # Discussion: https://github.com/rails/rails/pull/37005
       parsed = if attachment_changes["file"].attachable
-        attachment = attachment_changes["file"].attachable
-        Roo::Spreadsheet.open(attachment, {extension: File.extname(file.filename.to_s), csv_options: {liberal_parsing: true, encoding: 'bom|utf-8'}}).to_csv
+        if attachment_changes["file"].attachable.is_a?(String)
+          attachment = ActiveStorage::Blob.service.send(:path_for, file.blob.key)
+          Roo::Spreadsheet.open(attachment, {extension: File.extname(file.filename.to_s), csv_options: {liberal_parsing: true, encoding: 'bom|utf-8'}}).to_csv
+        else
+          attachment = attachment_changes["file"].attachable
+          Roo::Spreadsheet.open(attachment, {extension: File.extname(file.filename.to_s), csv_options: {liberal_parsing: true, encoding: 'bom|utf-8'}}).to_csv
+        end
       else
         raw = attachment_changes["file"].attachment.download
         # TODO - in rails 7 there has to be an easy way to grab the file from the above attachment, rather than creating a tmpfile out of it below
