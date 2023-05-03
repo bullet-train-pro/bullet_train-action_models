@@ -249,7 +249,7 @@ module Actions::PerformsImport
         tmp = Tempfile.new
         tmp.write(raw)
 
-        Roo::Spreadsheet.open(tmp, {extension: File.extname(file), csv_options: {liberal_parsing: true, encoding: 'bom|utf-8'}}).to_csv
+        Roo::Spreadsheet.open(tmp, {extension: File.extname(file.filename.to_s), csv_options: {liberal_parsing: true, encoding: 'bom|utf-8'}}).to_csv
       end
 
       parsed.delete("\"") # The Roo::Spreadsheet.to_csv method above puts everything in double quotes, which we want to remove
