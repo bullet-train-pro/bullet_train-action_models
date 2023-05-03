@@ -17,7 +17,7 @@ module Actions::PerformsImport
     has_one_attached :rejected_file
     validates :copy_mapping_from, scope: true
 
-    before_create :analyze_file
+    # before_create :analyze_file
     # before_create :attach_parsed_csv_instead
   end
 
