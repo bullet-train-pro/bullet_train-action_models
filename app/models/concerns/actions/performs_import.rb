@@ -18,7 +18,7 @@ module Actions::PerformsImport
     validates :copy_mapping_from, scope: true
 
     before_create :analyze_file
-    # before_create :attach_parsed_csv_instead
+    before_create :attach_parsed_csv_instead
   end
 
   def csv
@@ -236,26 +236,17 @@ module Actions::PerformsImport
 
   def parsed_attachment
     @parsed_attachment ||= begin
-      # Because we need to analyze the file before it's saved we to use the `.attachment_changes` method to read the file.
-      # This method is currently an undocumented feature in Rails so it might unexpectedly break in the future.
-      # Docs: https://apidock.com/rails/v6.1.3.1/ActiveStorage/Attached/Model/attachment_changes
-      # Discussion: https://github.com/rails/rails/pull/37005
-      parsed = if attachment_changes["file"].attachable
-        if attachment_changes["file"].attachable.is_a?(String)
-          attachment = ActiveStorage::Blob.service.send(:path_for, file.blob.key)
-          Roo::Spreadsheet.open(attachment, {extension: File.extname(file.filename.to_s), csv_options: {liberal_parsing: true, encoding: 'bom|utf-8'}}).to_csv
-        else
-          attachment = attachment_changes["file"].attachable
-          Roo::Spreadsheet.open(attachment, {extension: File.extname(file.filename.to_s), csv_options: {liberal_parsing: true, encoding: 'bom|utf-8'}}).to_csv
-        end
+      # attachment_changes["file"].attachable is super weird
+      # IN CI, it comes to us as a String
+      # In local envs, it comes to us as a ActionDispatch::Http::UploadedFile
+      binding.pry
+      attachment = if attachment_changes["file"].attachable.is_a?(String)
+        ActiveStorage::Blob.service.send(:path_for, file.blob.key)
       else
-        raw = attachment_changes["file"].attachment.download
-        # TODO - in rails 7 there has to be an easy way to grab the file from the above attachment, rather than creating a tmpfile out of it below
-        tmp = Tempfile.new
-        tmp.write(raw)
-
-        Roo::Spreadsheet.open(tmp, {extension: File.extname(file.filename.to_s), csv_options: {liberal_parsing: true, encoding: 'bom|utf-8'}}).to_csv
+        attachment_changes["file"].attachable
       end
+
+      parsed = Roo::Spreadsheet.open(attachment, {extension: File.extname(file.filename.to_s), csv_options: {liberal_parsing: true, encoding: 'bom|utf-8'}}).to_csv
 
       parsed.delete("\"") # The Roo::Spreadsheet.to_csv method above puts everything in double quotes, which we want to remove
     end
