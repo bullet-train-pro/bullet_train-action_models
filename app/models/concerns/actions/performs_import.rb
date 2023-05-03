@@ -239,17 +239,15 @@ module Actions::PerformsImport
       # attachment_changes["file"].attachable is super weird
       # IN CI, it comes to us as a String
       # In local envs, it comes to us as a ActionDispatch::Http::UploadedFile
-      binding.pry
       attachment = if attachment_changes["file"].attachable.is_a?(String)
         ActiveStorage::Blob.service.send(:path_for, file.blob.key)
       else
         attachment_changes["file"].attachable
       end
 
-      parsed = Roo::Spreadsheet.open(attachment, {extension: File.extname(file.filename.to_s), csv_options: {liberal_parsing: true, encoding: 'bom|utf-8'}}).to_csv
+      parsed = Roo::Spreadsheet.open(attachment, {extension: File.extname(file.filename.to_s), csv_options: {liberal_parsing: true, encoding: "bom|utf-8"}}).to_csv
 
       parsed.delete("\"") # The Roo::Spreadsheet.to_csv method above puts everything in double quotes, which we want to remove
     end
   end
-
 end
