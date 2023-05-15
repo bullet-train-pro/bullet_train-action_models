@@ -5,10 +5,15 @@ module Actions::TargetsMany
   # TODO Improve the localization of this.
   def label_string
     if target_all?
-      "#{super} on all #{valid_targets.arel_table.name.titleize}"
+      "#{super} on all #{target_model_name}"
     else
-      "#{super} on #{target_ids.count} #{valid_targets.arel_table.name.titleize.pluralize(target_ids.count)}"
+      "#{super} on #{target_ids.count} #{target_model_name.pluralize(target_ids.count)}"
     end
+  end
+
+  # Override this method in your model to change this value. For use if `valid_targets` does not return an AR scope
+  def target_model_name
+    valid_targets.arel_table.name.titleize
   end
 
   def valid_targets
