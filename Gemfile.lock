@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    bullet_train-action_models (1.2.6)
+    bullet_train-action_models (1.2.7)
       rails (>= 6.0.0)
       roo
 
@@ -183,7 +183,7 @@ GEM
       rubocop-performance (= 1.15.2)
     standardrb (1.0.1)
       standard
-    thor (1.2.1)
+    thor (1.2.2)
     timeout (0.3.2)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
