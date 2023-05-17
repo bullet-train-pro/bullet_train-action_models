@@ -3,6 +3,7 @@ class CreateScaffoldingCompletelyConcreteTangibleThingsTargetsOneActions < Activ
     create_table :sc_completely_concrete_tangible_things_targets_one_actions do |t|
       t.references :tangible_thing, null: false, foreign_key: {to_table: "scaffolding_completely_concrete_tangible_things"}, index: {name: "index_tangible_things_targets_one_actions_on_tangible_thing_id"}
       t.string :emoji
+      t.string :error_message
       t.integer :target_count
       t.integer :performed_count, default: 0
       t.references :created_by, null: true, foreign_key: {to_table: "memberships"}, index: {name: "index_targets_ones_on_created_by_id"}

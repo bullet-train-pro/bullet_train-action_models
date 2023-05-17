@@ -6,6 +6,7 @@ class CreateScaffoldingCompletelyConcreteTangibleThingsPerformsExportActions < A
       t.jsonb :target_ids, default: []
       t.bigint :target_count
       t.bigint :performed_count, default: 0
+      t.string :error_message
       t.references :created_by, null: true, foreign_key: {to_table: "memberships"}, index: {name: "index_append_emoji_actions_on_created_by_id"}
       t.references :approved_by, null: true, foreign_key: {to_table: "memberships"}, index: {name: "index_append_emoji_actions_on_approved_by_id"}
       t.datetime :scheduled_for

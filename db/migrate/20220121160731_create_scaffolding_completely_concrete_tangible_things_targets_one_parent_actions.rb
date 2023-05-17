@@ -7,6 +7,7 @@ class CreateScaffoldingCompletelyConcreteTangibleThingsTargetsOneParentActions <
       t.integer :target_count
       t.integer :performed_count, default: 0
       t.datetime :scheduled_for
+      t.string :error_message
       t.string :sidekiq_jid
       t.references :created_by, null: false, foreign_key: {to_table: "memberships"}, index: {name: "index_targets_one_parents_on_created_by_id"}
       t.references :approved_by, null: true, foreign_key: {to_table: "memberships"}, index: {name: "index_targets_one_parents_on_approved_by_id"}

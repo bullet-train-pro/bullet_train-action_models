@@ -5,6 +5,7 @@ class CreateScaffoldingCompletelyConcreteTangibleThingsTargetsManyActions < Acti
       t.boolean :target_all, default: false
       t.jsonb :target_ids, default: []
       t.string :emoji
+      t.string :error_message
       t.bigint :target_count
       t.bigint :performed_count, default: 0
       t.references :created_by, null: true, foreign_key: {to_table: "memberships"}, index: {name: "index_append_emoji_actions_on_created_by_id"}

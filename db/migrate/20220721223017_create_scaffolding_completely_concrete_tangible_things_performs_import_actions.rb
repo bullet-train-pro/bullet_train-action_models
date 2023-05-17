@@ -8,6 +8,7 @@ class CreateScaffoldingCompletelyConcreteTangibleThingsPerformsImportActions < A
       t.integer :performed_count, default: 0
       t.datetime :scheduled_for
       t.string :sidekiq_jid
+      t.string :error_message
       t.jsonb :mapping, default: []
       t.references :copy_mapping_from, null: true, foreign_key: {to_table: "scaffolding_completely_concrete_tangible_things_performs_import_actions"}, index: {name: "index_performs_imports_on_copy_mapping_from_id"}
       t.integer :succeeded_count, default: 0
