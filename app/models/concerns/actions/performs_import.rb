@@ -22,7 +22,7 @@ module Actions::PerformsImport
   end
 
   def csv
-    @csv ||= CSV.parse(parsed_csv, headers: true)
+    @csv ||= CSV.parse(parsed_csv, headers: true, encoding: 'utf-8')
   end
 
   def rejected_file_path
