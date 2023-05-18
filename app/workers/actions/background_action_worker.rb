@@ -4,7 +4,5 @@ class Actions::BackgroundActionWorker
   def perform(*args)
     class_name, id = args
     class_name.constantize.find(id).perform
-  rescue StandardError => e
-    class_name.constantize.find(id).update error_message: e
   end
 end

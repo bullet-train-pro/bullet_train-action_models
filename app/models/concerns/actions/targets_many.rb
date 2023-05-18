@@ -70,8 +70,9 @@ module Actions::TargetsMany
           perform_on_target(object)
           update_column(:last_completed_id, object.id)
         end
-      rescue => _
+      rescue => e
         failed_ids << object.id
+        self.error_messages = e
         save
       end
 
