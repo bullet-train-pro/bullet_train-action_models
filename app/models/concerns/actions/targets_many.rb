@@ -72,7 +72,7 @@ module Actions::TargetsMany
         end
       rescue => e
         failed_ids << object.id
-        self.error_messages = e
+        self.error_message = e
         save
       end
 
