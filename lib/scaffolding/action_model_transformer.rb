@@ -158,7 +158,7 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
 
     joins.each do |join|
       unless skip_parent_join { parent == join }
-        scaffold_add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb"), "has_one :#{join.underscore}, through: :tangible_thing", HAS_ONE_HOOK, prepend: true)
+        scaffold_add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb"), "has_one :#{join.underscore}, through: :creative_concept", HAS_ONE_HOOK, prepend: true)
       end
     end
 
