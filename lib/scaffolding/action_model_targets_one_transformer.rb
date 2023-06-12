@@ -6,7 +6,7 @@ class Scaffolding::ActionModelTargetsOneTransformer < Scaffolding::ActionModelTr
   end
 
   def has_one_through
-    "absolutely_abstract_creative_concept"
+    "tangible_thing"
   end
 
   def add_button_to_index

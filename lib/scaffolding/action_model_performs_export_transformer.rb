@@ -6,7 +6,7 @@ class Scaffolding::ActionModelPerformsExportTransformer < Scaffolding::ActionMod
   end
 
   def has_one_through
-    "tangible_thing"
+    "absolutely_abstract_creative_concept"
   end
 
   def add_button_to_index_rows

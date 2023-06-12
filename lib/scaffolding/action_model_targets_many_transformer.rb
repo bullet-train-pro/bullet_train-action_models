@@ -6,7 +6,7 @@ class Scaffolding::ActionModelTargetsManyTransformer < Scaffolding::ActionModelT
   end
 
   def has_one_through
-    "tangible_thing"
+    "absolutely_abstract_creative_concept"
   end
 
   def scaffold_action_model
