@@ -5,6 +5,10 @@ class Scaffolding::ActionModelPerformsImportTransformer < Scaffolding::ActionMod
     "performs_import"
   end
 
+  def has_one_through
+    "absolutely_abstract_creative_concept"
+  end
+
   # Duplicated from `Scaffolding::ActionModelTargetsOneParentTransformer`.
   def add_button_to_index_rows
   end

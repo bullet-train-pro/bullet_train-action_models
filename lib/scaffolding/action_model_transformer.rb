@@ -151,6 +151,10 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     yield
   end
 
+  def has_one_through
+    raise "`#{self.class.name}` needs to implement `has_one_through`."
+  end
+
   def add_permit_joins_and_delegations
     sorted_permit_parents = (permit_parents && parents)
     joins, delegates = sorted_permit_parents.split(last_joinable_parent)
@@ -158,7 +162,7 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
 
     joins.each do |join|
       unless skip_parent_join { parent == join }
-        scaffold_add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb"), "has_one :#{join.underscore}, through: :tangible_thing", HAS_ONE_HOOK, prepend: true)
+        scaffold_add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb"), "has_one :#{join.underscore}, through: :#{has_one_through}", HAS_ONE_HOOK, prepend: true)
       end
     end
 
@@ -242,6 +246,7 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     update_action_models_abstract_class(targets_n)
     add_permit_joins_and_delegations
     add_ability_line_to_roles_yml unless admin_namespace?
+    remove_team_has_one_team
 
     begin
       # Update the routes to add the namespace and action routes
