@@ -7,7 +7,9 @@ ignore:
   - 'app/models/webhooks/outgoing/delivery_attempt.rb':
     - Lint/RescueException # TODO would it be okay to rescue `StandardError`?
   - 'app/models/scaffolding/completely_concrete/tangible_things/targets_one_action.rb':
-    - Lint/UnreachableCode # I couldn't figure out a nice way of doing this in the actual template.
+      - Lint/UnreachableCode # I couldn't figure out a nice way of doing this in the actual template.
+  - 'app/models/scaffolding/completely_concrete/tangible_things/targets_one_parent_action.rb':
+      - Lint/UnreachableCode # I couldn't figure out a nice way of doing this in the actual template.
   - '**/*':
     - Style/TrailingCommaInArguments
     - Style/TrailingCommaInArrayLiteral
