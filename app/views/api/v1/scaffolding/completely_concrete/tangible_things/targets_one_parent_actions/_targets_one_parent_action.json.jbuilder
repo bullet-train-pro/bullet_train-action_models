@@ -1,6 +1,6 @@
 json.extract! targets_one_parent_action,
   :id,
-  :tangible_thing_id,
+  :absolutely_abstract_creative_concept_id,
   :target_count,
   :performed_count,
   :created_by,

@@ -12,12 +12,10 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParent
     @completely_concrete_tangible_things_targets_one_parent_action =
       create(:completely_concrete_tangible_things_targets_one_parent_action,
         team: @team,
-        completely_concrete_tangible_thing: @completely_concrete_tangible_thing,
         created_by: @user.memberships.first)
     @other_completely_concrete_tangible_things_targets_one_parent_actions =
       create_list(:completely_concrete_tangible_things_targets_one_parent_action, 3,
         team: @another_user.current_team,
-        completely_concrete_tangible_thing: @other_completely_concrete_tangible_thing,
         created_by: @another_user.memberships.first)
   end
 

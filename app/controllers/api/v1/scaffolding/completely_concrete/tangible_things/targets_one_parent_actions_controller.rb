@@ -1,5 +1,5 @@
 class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParentActionsController < Api::V1::ApplicationController
-  account_load_and_authorize_resource :targets_one_parent_action, through: :tangible_thing, through_association: :targets_one_parent_actions
+  account_load_and_authorize_resource :targets_one_parent_action, through: :absolutely_abstract_creative_concept, through_association: :completely_concrete_tangible_things_targets_one_parent_actions
 
   # GET /api/v1/scaffolding/completely_concrete/tangible_things/:tangible_thing_id/targets_one_parent_actions
   def index
