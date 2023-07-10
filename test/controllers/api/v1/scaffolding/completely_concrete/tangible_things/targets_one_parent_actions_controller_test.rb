@@ -27,7 +27,7 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParent
   end
 
   test "index" do
-    get "/api/v1/scaffolding/absolutely_abstract/creative_concepts/#{@absolutely_abstract_creative_concept.id}/completely_concrete/tangible_things/targets_one_parent_actions", params: { access_token: access_token}
+    get "/api/v1/scaffolding/absolutely_abstract/creative_concepts/#{@absolutely_abstract_creative_concept.id}/completely_concrete/tangible_things/targets_one_parent_actions", params: {access_token: access_token}
     assert_response :success
 
     # Make sure it's returning our resources.
