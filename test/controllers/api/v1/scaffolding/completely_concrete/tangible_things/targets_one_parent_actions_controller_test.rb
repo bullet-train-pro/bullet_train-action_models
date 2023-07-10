@@ -6,8 +6,8 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParent
     super
 
     @another_user = create(:onboarded_user)
-    @completely_concrete_tangible_thing = create(:completely_concrete_tangible_thing, team: @team)
-    @other_completely_concrete_tangible_thing = create(:completely_concrete_tangible_thing, team: @another_user.current_team)
+    @absolutely_abstract_creative_concept = @user.current_team
+    @other_absolutely_abstract_creative_concept = @another_user.current_team
 
     @completely_concrete_tangible_things_targets_one_parent_action =
       create(:completely_concrete_tangible_things_targets_one_parent_action,
@@ -20,14 +20,14 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParent
   end
 
   def assert_proper_object_serialization(completely_concrete_tangible_things_targets_one_parent_action_data)
-    completely_concrete_tangible_things_targets_one_parent_action = Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction.find(completely_concrete_tangible_things_targets_one_parent_action_data["id"])
+    completely_concrete_tangible_things_targets_one_parent_action = Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParentAction.find(completely_concrete_tangible_things_targets_one_parent_action_data["id"])
 
     # 🚅 super scaffolding will insert new fields above this line.
-    assert_equal completely_concrete_tangible_things_targets_one_parent_action_data["completely_concrete_tangible_thing_id"], completely_concrete_tangible_things_targets_one_parent_action.completely_concrete_tangible_thing_id
+    assert_equal completely_concrete_tangible_things_targets_one_parent_action_data["absolutely_abstract_creative_concept_id"], completely_concrete_tangible_things_targets_one_parent_action.absolutely_abstract_creative_concept_id
   end
 
   test "index" do
-    get "/api/v1/scaffolding/completely_concrete/tangible_things/#{@completely_concrete_tangible_thing.id}/targets_one_parent_actions", params: {access_token: access_token}
+    get "/api/v1/scaffolding/absolutely_abstract/creative_concepts/#{@absolutely_abstract_creative_concept.id}/completely_concrete/tangible_things/targets_one_parent_actions", params: { access_token: access_token}
     assert_response :success
 
     # Make sure it's returning our resources.
@@ -59,12 +59,12 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParent
     targets_one_parent_actions_data = targets_one_parent_actions_data.slice("target_count", "scheduled_for", "created_by_id")
     params[:completely_concrete_tangible_things_targets_one_parent_action] = targets_one_parent_actions_data
 
-    post "/api/v1/scaffolding/completely_concrete/tangible_things/#{@completely_concrete_tangible_thing.id}/targets_one_parent_actions", params: params
+    post "/api/v1/scaffolding/absolutely_abstract/creative_concepts/#{@absolutely_abstract_creative_concept.id}/completely_concrete/tangible_things/targets_one_parent_actions", params: params
     assert_response :success
 
     # Ensure all the required data is returned properly.
     assert_proper_object_serialization response.parsed_body
-    post "/api/v1/scaffolding/completely_concrete/tangible_things/#{@completely_concrete_tangible_thing.id}/targets_one_parent_actions",
+    post "/api/v1/scaffolding/absolutely_abstract/creative_concepts/#{@absolutely_abstract_creative_concept.id}/completely_concrete/tangible_things/targets_one_parent_actions",
       params: params.merge({access_token: another_access_token})
     assert_response :not_found
   end
@@ -96,7 +96,7 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParent
 
   test "destroy" do
     # Delete and ensure it actually went away.
-    assert_difference("Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction.count", -1) do
+    assert_difference("Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParentAction.count", -1) do
       delete "/api/v1/scaffolding/completely_concrete/tangible_things/targets_one_parent_actions/#{@completely_concrete_tangible_things_targets_one_parent_action.id}", params: {access_token: access_token}
       assert_response :success
     end
