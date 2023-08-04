@@ -21,6 +21,7 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
 
   def add_ability_line_to_roles_yml
     role_file = "./config/models/roles.yml"
+
     Scaffolding::FileManipulator.add_line_to_yml_file(role_file, "#{action_model_class}: read", [:default, :models])
     Scaffolding::FileManipulator.add_line_to_yml_file(role_file, "#{action_model_class}: manage", [:admin, :models])
   end
@@ -249,12 +250,6 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
 
     begin
       # Update the routes to add the namespace and action routes
-<<<<<<< HEAD
-      routes_manipulator = Scaffolding::RoutesFileManipulator.new("config/routes.rb", transform_string("Scaffolding::CompletelyConcrete::TangibleThings::#{targets_n.classify}Action"), transform_string("Scaffolding::AbsolutelyAbstract::CreativeConcept"))
-      routes_manipulator.apply(["account"])
-      # TODO We need this to also add `post :approve` to the resource block as well. Do we support that already?
-      Scaffolding::FileManipulator.write("config/routes.rb", routes_manipulator.lines)
-=======
       routing_details = [
         {
           file_name: "config/routes.rb",
@@ -277,7 +272,6 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
         add_line_to_action_resource("  member do\npost 'approve'\nend", routes_manipulator)
         Scaffolding::FileManipulator.write(details[:file_name], routes_manipulator.lines)
       end
->>>>>>> main
     rescue BulletTrain::SuperScaffolding::CannotFindParentResourceException => exception
       # TODO It would be great if we could automatically generate whatever the structure of the route needs to be and
       # tell them where to try and inject it. Obviously we can't calculate the line number, otherwise the robots would
