@@ -16,9 +16,8 @@ module BulletTrain
           end
 
           child = argv[0]
-          parents = argv[1] ? argv[1].split(',') : []
+          parents = argv[1] ? argv[1].split(",") : []
           parents = parents.map(&:classify).uniq
-          parent = parents.first
 
           # get all the attributes.
           transformer = Scaffolding::Transformer.new(child, parents, @options)
@@ -57,7 +56,7 @@ module BulletTrain
             unless index_file_content.include?("shared/bulk_action_select")
               puts "Adding bulk select button.".green
               block_manipulator.insert('<%= render "shared/bulk_action_select" %>', within: target, append: true)
-              block_manipulator.insert('', within: target, after: "<%# 🚅 super scaffolding will insert new bulk action model buttons above this line. %>")
+              block_manipulator.insert("", within: target, after: "<%# 🚅 super scaffolding will insert new bulk action model buttons above this line. %>")
             end
           else
             target = "<% p.content_for :actions do %>"

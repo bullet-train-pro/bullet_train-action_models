@@ -1,5 +1,6 @@
 <%= form_with model: targets_one_action, url: (targets_one_action.persisted? ? [:account, targets_one_action] : [:account, @tangible_thing, :targets_one_actions]), local: true, class: 'form' do |form| %>
   <%= render 'account/shared/forms/errors', form: form %>
+  <%= form.hidden_field :allow_empty_form, value: nil %>
 
   <% with_field_settings form: form do %>
     <%# 🚅 skip this section when scaffolding. %>

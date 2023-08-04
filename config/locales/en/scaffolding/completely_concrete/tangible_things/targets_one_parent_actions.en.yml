@@ -16,7 +16,8 @@ en:
       shorthand:
         show: Details
         edit: Edit
-        destroy: Delete
+        destroy: Cancel
+        dismiss: Dismiss
         approve: Approve
         create: Targets One Parent
       confirmations:
@@ -82,15 +83,6 @@ en:
         _: &updated_at Updated
         label: *updated_at
         heading: *updated_at
-    api:
-      collection_actions: "Collection Actions for Targets One Parent Actions"
-      index: "List Targets One Parent Actions"
-      create: "Add a New Targets One Parent Action"
-      member_actions: "Actions for an Individual Targets One Parent Action"
-      show: "Retrieve a Targets One Parent Action"
-      update: "Update a Targets One Parent Action"
-      destroy: "Delete a Targets One Parent Action"
-      fields: *fields
     index:
       section: "%{creative_concepts_possessive} Targets One Parent Actions"
       contexts:

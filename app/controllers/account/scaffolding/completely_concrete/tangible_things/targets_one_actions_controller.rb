@@ -77,27 +77,12 @@ class Account::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
 
   private
 
-  # Never trust parameters from the scary internet, only allow the white list through.
-  def targets_one_action_params
-    strong_params = params.require(:scaffolding_completely_concrete_tangible_things_targets_one_action).permit(
-      :target_count,
-      :performed_count,
-      :created_by,
-      :approved_by,
-      :scheduled_for,
-      :started_at,
-      :completed_at,
-      :delay,
-      :emoji,
-      # 🚅 super scaffolding will insert new fields above this line.
-      # 🚅 super scaffolding will insert new arrays above this line.
-    )
+  include strong_parameters_from_api
 
+  def process_params(strong_params)
     assign_date_and_time(strong_params, :scheduled_for)
     assign_date_and_time(strong_params, :started_at)
     assign_date_and_time(strong_params, :completed_at)
     # 🚅 super scaffolding will insert processing for new fields above this line.
-
-    strong_params
   end
 end

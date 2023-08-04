@@ -5,6 +5,8 @@ module Actions::Base
     after_commit :dispatch, on: [:create]
     scope :active, -> { where.not(started_at: nil).where(completed_at: nil) }
     scope :completed, -> { where.not(completed_at: nil) }
+
+    @_actions_base_included = true
   end
 
   def label_string

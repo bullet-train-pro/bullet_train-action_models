@@ -5,7 +5,7 @@
     <% if @performs_export_action.target_all? %>
       We're preparing to Export <strong>all Tangible Things</strong> of <strong><%= @absolutely_abstract_creative_concept.name %></strong>.
     <% else %>
-      We're preparing to Export <strong><%= performs_export_action.target_ids.count %> <%= "Tangible Thing".pluralize(performs_export_action.target_ids.count) %></strong> of <strong><%= @absolutely_abstract_creative_concept.name %></strong>.
+      We're preparing to Export <strong><%= performs_export_action.target_ids.count %> <%= performs_export_action.target_ids.count > 1 ? "Tangible Thing".pluralize(performs_export_action.target_ids.count) : "Tangible Thing" %></strong> of <strong><%= @absolutely_abstract_creative_concept.name %></strong>.
     <% end %>
   <% end %>
 
@@ -16,7 +16,7 @@
         choices: @performs_export_action.valid_targets.map { |performs_export_action| [performs_export_action.label_string, performs_export_action.id] } %>
     </div>
 
-    <%= render 'shared/fields/options', method: :fields, multiple: true, options: export_field_options(export_action) %>
+    <%= render 'shared/fields/options', method: :fields, multiple: true, options: export_field_options(performs_export_action) %>
     <%# 🚅 super scaffolding will insert new fields above this line. %>
 
     <%= render "shared/actions/scheduling" %>

@@ -10,8 +10,8 @@ class Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction < Appli
   # include Actions::SupportsScheduling
   include Actions::HasProgress
   include Actions::TracksCreator
-  include Actions::RequiresApproval
-  include Actions::CleansUp
+  # include Actions::RequiresApproval
+  # include Actions::CleansUp
   # 🚅 add concerns above.
 
   # 🚅 add attribute accessors above.
@@ -21,7 +21,9 @@ class Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction < Appli
 
   # 🚅 add has_many associations above.
 
+  # 🚅 skip this section when scaffolding.
   has_one :team, through: :absolutely_abstract_creative_concept
+  # 🚅 stop any skipping we're doing now.
   # 🚅 add has_one associations above.
 
   # 🚅 add scopes above.
