@@ -5,6 +5,10 @@ class Scaffolding::ActionModelTargetsOneTransformer < Scaffolding::ActionModelTr
     "targets_one"
   end
 
+  def has_one_through
+    "tangible_thing"
+  end
+
   def add_button_to_index
   end
 

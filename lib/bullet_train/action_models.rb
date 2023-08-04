@@ -12,6 +12,6 @@ require "bullet_train/action_models/scaffolders/targets_one_parent_scaffolder"
 
 module BulletTrain
   module ActionModels
-    # Your code goes here...
+    mattr_accessor :health_check_worker, default: true
   end
 end
