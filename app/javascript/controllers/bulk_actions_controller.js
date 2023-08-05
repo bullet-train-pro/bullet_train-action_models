@@ -59,14 +59,14 @@ export default class extends Controller {
     if (this.allSelected) {
       checkbox.checked = true
       checkbox.indeterminate = false
-      label.dispatchEvent(new CustomEvent('bulk-actions:toggle', { detail: { useAlternate: true }} ))
+      label.dispatchEvent(new CustomEvent('bulk-actions:toggle-select-all-label', { detail: { useAlternate: true }} ))
     } else if (this.selectedIds.length > 0) {
       checkbox.indeterminate = true
-      label.dispatchEvent(new CustomEvent('bulk-actions:toggle', { detail: { useAlternate: false }} ))
+      label.dispatchEvent(new CustomEvent('bulk-actions:toggle-select-all-label', { detail: { useAlternate: false }} ))
     } else {
       checkbox.checked = false
       checkbox.indeterminate = false
-      label.dispatchEvent(new CustomEvent('bulk-actions:toggle', { detail: { useAlternate: false }} ))
+      label.dispatchEvent(new CustomEvent('bulk-actions:toggle-select-all-label', { detail: { useAlternate: false }} ))
     }
   }
   
@@ -76,7 +76,7 @@ export default class extends Controller {
   }
   
   updateToggleLabel() {
-    this.selectableToggleTarget.dispatchEvent(new CustomEvent('bulk-actions:toggle', { detail: { useAlternate: this.selectableValue }} ))
+    this.selectableToggleTarget.dispatchEvent(new CustomEvent('bulk-actions:toggle-select-all-label', { detail: { useAlternate: this.selectableValue }} ))
   }
   
   get selectedIds() {
