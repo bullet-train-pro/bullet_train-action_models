@@ -3,7 +3,19 @@ require "scaffolding/action_model_targets_one_transformer"
 module BulletTrain
   module ActionModels
     module Scaffolders
-      class TargetsOneScaffolder < SuperScaffolding::Scaffolder
+      # TODO these methods were removed from the global scope in super scaffolding and moved to `Scaffolding::Transformer`,
+      # but this gem hasn't been updated yet.
+
+      def legacy_replace_in_file(file, before, after)
+        puts "Replacing in '#{file}'."
+        target_file_content = File.open(file).read
+        target_file_content.gsub!(before, after)
+        File.open(file, "w+") do |f|
+          f.write(target_file_content)
+        end
+      end
+
+     class TargetsOneScaffolder < SuperScaffolding::Scaffolder
         def run
           unless argv.count >= 3
             puts ""
@@ -30,7 +42,7 @@ module BulletTrain
 
           transformer = Scaffolding::ActionModelTargetsOneTransformer.new(action_model, target_model, parent_models)
 
-          `yes n | bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction")} #{transformer.transform_string("tangible_thing")}:references started_at:datetime completed_at:datetime target_count:integer performed_count:integer scheduled_for:datetime sidekiq_jid:string created_by:references approved_by:references`
+          `yes n | bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction")} #{transformer.transform_string("tangible_thing")}:references started_at:datetime completed_at:datetime target_count:integer performed_count:integer scheduled_for:datetime sidekiq_jid:string created_by:references{polymorphic} approved_by:references{polymorphic}`
 
           transformer.scaffold_action_model
 

@@ -1,6 +1,19 @@
 require "scaffolding/action_model_transformer"
 
 class Scaffolding::ActionModelTargetsOneTransformer < Scaffolding::ActionModelTransformer
+  # TODO these methods were removed from the global scope in super scaffolding and moved to `Scaffolding::Transformer`,
+  # but this gem hasn't been updated yet.
+
+  def legacy_replace_in_file(file, before, after)
+    puts "Replacing in '#{file}'."
+    target_file_content = File.open(file).read
+    target_file_content.gsub!(before, after)
+    File.open(file, "w+") do |f|
+      f.write(target_file_content)
+    end
+  end
+
+
   def targets_n
     "targets_one"
   end
