@@ -7,14 +7,12 @@ module BulletTrain
       # but this gem hasn't been updated yet.
       def legacy_replace_in_file(file, before, after)
         puts "Replacing in '#{file}'."
-        target_file_content = File.open(file).read
+        target_file_content = File.read(file)
         target_file_content.gsub!(before, after)
-        File.open(file, "w+") do |f|
-          f.write(target_file_content)
-        end
+        File.write(file, target_file_content)
       end
 
-     class TargetsOneScaffolder < SuperScaffolding::Scaffolder
+      class TargetsOneScaffolder < SuperScaffolding::Scaffolder
         def run
           unless argv.count >= 3
             puts ""
