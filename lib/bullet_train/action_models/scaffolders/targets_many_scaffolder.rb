@@ -30,7 +30,7 @@ module BulletTrain
 
           transformer = Scaffolding::ActionModelTargetsManyTransformer.new(action_model, target_model, parent_models)
 
-          `yes n | bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction")} #{transformer.transform_string("absolutely_abstract_creative_concept")}:references target_all:boolean target_ids:#{Scaffolding.mysql? ? "json" : "jsonb"} failed_ids:#{Scaffolding.mysql? ? "json" : "jsonb"} last_completed_id:integer started_at:datetime completed_at:datetime target_count:integer performed_count:integer scheduled_for:datetime sidekiq_jid:string created_by:references{polymorphic} approved_by:references{polymorphic}`
+          `yes n | bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyAction")} #{transformer.transform_string("absolutely_abstract_creative_concept")}:references target_all:boolean target_ids:#{Scaffolding.mysql? ? "json" : "jsonb"} failed_ids:#{Scaffolding.mysql? ? "json" : "jsonb"} last_completed_id:integer started_at:datetime completed_at:datetime target_count:integer performed_count:integer scheduled_for:datetime sidekiq_jid:string created_by:references approved_by:references`
 
           transformer.scaffold_action_model
           transformer.fix_json_column_default("target_ids")

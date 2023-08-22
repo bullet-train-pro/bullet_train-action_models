@@ -30,7 +30,7 @@ module BulletTrain
 
           transformer = Scaffolding::ActionModelTargetsOneParentTransformer.new(action_model, target_model, parent_models)
 
-          puts `yes n | bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParentAction")} #{transformer.transform_string("absolutely_abstract_creative_concept")}:references started_at:datetime completed_at:datetime target_count:integer performed_count:integer scheduled_for:datetime sidekiq_jid:string created_by:references{polymorphic} approved_by:references{polymorphic}`
+          puts `yes n | bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParentAction")} #{transformer.transform_string("absolutely_abstract_creative_concept")}:references started_at:datetime completed_at:datetime target_count:integer performed_count:integer scheduled_for:datetime sidekiq_jid:string created_by:references approved_by:references`
 
           transformer.scaffold_action_model
 
