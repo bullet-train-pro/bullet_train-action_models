@@ -74,6 +74,8 @@ en:
         _: &completed_at Completed At
         label: *completed_at
         heading: *completed_at
+      performed_count_over_target_count:
+        heading: Progress
       # 🚅 super scaffolding will insert new fields above this line.
       created_at:
         _: &created_at Added
