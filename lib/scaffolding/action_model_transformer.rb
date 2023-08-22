@@ -6,6 +6,15 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
   RUBY_NEW_BULK_ACTION_MODEL_BUTTONS_PROCESSING_HOOK = "<%# 🚅 super scaffolding will insert new bulk action model buttons above this line. %>"
   RUBY_NEW_ACTION_MODEL_INDEX_VIEWS_PROCESSING_HOOK = "<%# 🚅 super scaffolding will insert new action model index views above this line. %>"
 
+  # TODO this method was removed from the global scope in super scaffolding and moved to `Scaffolding::Transformer`,
+  # but this gem hasn't been updated yet.
+  def legacy_replace_in_file(file, before, after)
+    puts "Replacing in '#{file}'."
+    target_file_content = File.read(file)
+    target_file_content.gsub!(before, after)
+    File.write(file, target_file_content)
+  end
+
   def initialize(action, child, parents, cli_options = {})
     super(child, parents, cli_options)
     self.action = action
