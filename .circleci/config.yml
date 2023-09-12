@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   ruby: circleci/ruby@0.1.2
-  browser-tools: circleci/browser-tools@1.4.1
+  browser-tools: circleci/browser-tools@1.4.4
   jq: circleci/jq@2.2.0
 aliases:
   - &restore_bundler_cache
@@ -51,8 +51,9 @@ jobs:
     executor: ruby/default
     steps:
       - checkout
-      - browser-tools/install-browser-tools:
-          firefox-version: 108.0.1
+      - browser-tools/install-chrome:
+          chrome-version: "116.0.5845.96" # TODO: remove -> https://github.com/CircleCI-Public/browser-tools-orb/issues/75
+          replace-existing: true # TODO: remove -> https://github.com/CircleCI-Public/browser-tools-orb/issues/75
 
       # Install dependencies
       - run: "bundle install"
@@ -100,13 +101,10 @@ jobs:
     steps:
       - checkout:
           path: ~/project
-      - browser-tools/install-browser-tools:
-          firefox-version: 108.0.1
 
-      # TODO: This is a workaround to get `git clone` working, but it shouldn't be here.
-      # https://github.com/CircleCI-Public/browser-tools-orb/issues/62
-      - run:
-          command: rm LICENSE.chromedriver
+      - browser-tools/install-chrome:
+          chrome-version: "116.0.5845.96" # TODO: remove -> https://github.com/CircleCI-Public/browser-tools-orb/issues/75
+          replace-existing: true # TODO: remove -> https://github.com/CircleCI-Public/browser-tools-orb/issues/75
 
       - run: ../../bin/checkout-and-link-starter-repo
 
@@ -161,13 +159,10 @@ jobs:
     steps:
       - checkout:
           path: ~/project
-      - browser-tools/install-browser-tools:
-          firefox-version: 108.0.1
 
-      # TODO: This is a workaround to get `git clone` working, but it shouldn't be here.
-      # https://github.com/CircleCI-Public/browser-tools-orb/issues/62
-      - run:
-          command: rm LICENSE.chromedriver
+      - browser-tools/install-chrome:
+          chrome-version: "116.0.5845.96" # TODO: remove -> https://github.com/CircleCI-Public/browser-tools-orb/issues/75
+          replace-existing: true # TODO: remove -> https://github.com/CircleCI-Public/browser-tools-orb/issues/75
 
       - run: ../../bin/checkout-and-link-starter-repo
 
@@ -207,13 +202,10 @@ jobs:
     steps:
       - checkout:
           path: ~/project
-      - browser-tools/install-browser-tools:
-          firefox-version: 108.0.1
 
-      # TODO: This is a workaround to get `git clone` working, but it shouldn't be here.
-      # https://github.com/CircleCI-Public/browser-tools-orb/issues/62
-      - run:
-          command: rm LICENSE.chromedriver
+      - browser-tools/install-chrome:
+          chrome-version: "116.0.5845.96" # TODO: remove -> https://github.com/CircleCI-Public/browser-tools-orb/issues/75
+          replace-existing: true # TODO: remove -> https://github.com/CircleCI-Public/browser-tools-orb/issues/75
 
       - run: ../../bin/checkout-and-link-starter-repo
 
