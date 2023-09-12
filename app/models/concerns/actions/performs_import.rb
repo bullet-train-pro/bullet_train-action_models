@@ -1,4 +1,5 @@
 require "csv"
+require "roo"
 
 module Actions::PerformsImport
   extend ActiveSupport::Concern
@@ -16,58 +17,13 @@ module Actions::PerformsImport
     has_one_attached :file
     has_one_attached :rejected_file
     validates :copy_mapping_from, scope: true
+
     before_create :analyze_file
-  end
-
-  def analyze_file
-    # Record the number of rows in this CSV.
-    self.target_count = csv.length
-
-    # Determine the default mapping of columns in the file to attributes of the target model.
-    self.mapping = csv.headers.map do |key|
-      mapped_field = if key.present?
-        if copy_mapping_from&.mapping&.key?(key)
-          # If the user specified another import to try and copy the mapping from,
-          # check whether it has a mapping for the key in question, and if it does, use it.
-          copy_mapping_from.mapping[key]
-        elsif self.class::AVAILABLE_FIELDS.include?(key.to_sym)
-          key
-        end
-      end
-
-      [key, mapped_field]
-    end.to_h
-
-    # Check for closest matches if mapping is nil.
-    if openai_enabled?
-      closest_matches = closest_attribute_matches(subject_class.attribute_names, csv.headers)
-      self.mapping = mapping.map do |key, value|
-        if value.nil?
-          match_data = closest_matches.find { |result| result[:original_value] == key }
-          [key, match_data[:closest_match]]
-        else
-          [key, value]
-        end
-      end.to_h
-    end
+    before_create :attach_parsed_csv_instead
   end
 
   def csv
-    # Because we need to analyze the file before it's saved we to use the `.attachment_changes` method to read the file.
-    # This method is currently an undocumented feature in Rails so it might unexpectedly break in the future.
-    # Docs: https://apidock.com/rails/v6.1.3.1/ActiveStorage/Attached/Model/attachment_changes
-    # Discussion: https://github.com/rails/rails/pull/37005
-    string = if attachment_changes["file"].present?
-      if Rails.version.to_i < 7
-        attachment_changes["file"].attachable.read
-      else
-        attachment_changes["file"].attachment.download
-      end
-    else
-      file.download
-    end
-
-    @csv ||= CSV.parse(string, headers: true)
+    @csv ||= CSV.parse(parsed_csv, headers: true, encoding: "utf-8")
   end
 
   def rejected_file_path
@@ -205,13 +161,13 @@ module Actions::PerformsImport
           mark_row_failed(row, "Couldn't find #{subject.klass.name.humanize} with ID #{row[source_primary_key]}.")
         end
       # If the mapping maps one of the sets of attributes we can find or create by ..
-      elsif find_or_create_by_fields
+      elsif find_or_create_by_fields.present?
         # Construct a where condition to try and find the target by those attributes.
         # e.g. {"name"=>"Testing"}
         where_clause = map_row(row).filter { |key, _| find_or_create_by_fields.include?(key) }
 
         # If we're able to find the target using those attributes ..
-        if (target = subject.find_by(where_clause))
+        if where_clause.present? && (target = subject.find_by(where_clause))
           # Try to update it.
           update_target_with_row(target, row)
         else
@@ -241,5 +197,69 @@ module Actions::PerformsImport
 
     after_page
     after_completion
+  end
+
+  private
+
+  def analyze_file
+    # Record the number of rows in this CSV.
+    self.target_count = csv.length
+
+    # Determine the default mapping of columns in the file to attributes of the target model.
+    self.mapping = csv.headers.map do |key|
+      mapped_field = if key.present?
+        if copy_mapping_from&.mapping&.key?(key)
+          # If the user specified another import to try and copy the mapping from,
+          # check whether it has a mapping for the key in question, and if it does, use it.
+          copy_mapping_from.mapping[key]
+        elsif self.class::AVAILABLE_FIELDS.include?(key.to_sym)
+          key
+        end
+      end
+
+      [key, mapped_field]
+    end.to_h
+
+    # Check for closest matches if mapping is nil.
+    if openai_enabled?
+      closest_matches = closest_attribute_matches(subject_class.attribute_names, csv.headers)
+      self.mapping = mapping.map do |key, value|
+        if value.nil?
+          match_data = closest_matches.find { |result| result[:original_value] == key }
+          [key, match_data[:closest_match]]
+        else
+          [key, value]
+        end
+      end.to_h
+    end
+  end
+
+  def attach_parsed_csv_instead
+    tmp = Tempfile.new
+    tmp.write(parsed_attachment)
+    file.attach(io: tmp.open, filename: "#{file.filename.base}.csv", content_type: "text/csv")
+  end
+
+  def parsed_csv
+    if attachment_changes["file"].present?
+      parsed_attachment
+    else
+      file.download
+    end
+  end
+
+  def parsed_attachment
+    @parsed_attachment ||= begin
+      # attachment_changes["file"].attachable is super weird
+      # IN CI, it comes to us as a String
+      # In local envs, it comes to us as a ActionDispatch::Http::UploadedFile
+      attachment = if attachment_changes["file"].attachable.is_a?(String)
+        ActiveStorage::Blob.service.send(:path_for, file.blob.key)
+      else
+        attachment_changes["file"].attachable
+      end
+
+      Roo::Spreadsheet.open(attachment, {extension: File.extname(file.filename.to_s), csv_options: {liberal_parsing: true, encoding: "bom|utf-8"}}).to_csv
+    end
   end
 end
