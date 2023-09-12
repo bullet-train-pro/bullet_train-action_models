@@ -27,6 +27,10 @@ class Scaffolding::CompletelyConcrete::TangibleThings::PerformsImportAction < Ap
     targeted.completely_concrete_tangible_things
   end
 
+  def subject_class
+    Scaffolding::CompletelyConcrete::TangibleThing
+  end
+
   def valid_copy_mapping_froms
     absolutely_abstract_creative_concept.completely_concrete_tangible_things_performs_import_actions
   end
