@@ -3,15 +3,24 @@ require "scaffolding/action_model_targets_one_transformer"
 module BulletTrain
   module ActionModels
     module Scaffolders
+      # TODO this method was removed from the global scope in super scaffolding and moved to `Scaffolding::Transformer`,
+      # but this gem hasn't been updated yet.
+      def legacy_replace_in_file(file, before, after)
+        puts "Replacing in '#{file}'."
+        target_file_content = File.read(file)
+        target_file_content.gsub!(before, after)
+        File.write(file, target_file_content)
+      end
+
       class TargetsOneScaffolder < SuperScaffolding::Scaffolder
         def run
-          unless argv.count >= 2
+          unless argv.count >= 3
             puts ""
             puts "🚅  usage: bin/super-scaffold action-model:targets-one <ActionModel> <TargetModel> <ParentModel[s]>"
             puts ""
             puts "E.g. a schedulable Publish action for one Listing:"
             puts "  # You do not need to `rails g model`, we'll create the models!"
-            puts "  bin/super-scaffold action-model:targets-one Publish Listing"
+            puts "  bin/super-scaffold action-model:targets-one Publish Listing Team"
             puts ""
             puts "👋 After scaffolding your action model, you can add custom fields to it with the `crud-field` scaffolder, the same way you would a regular model."
             puts ""
@@ -22,10 +31,7 @@ module BulletTrain
             exit
           end
 
-          action_model, target_model = argv
-
-          # E.g. `bin/super-scaffold action-model:targets-one Publish Listing`
-          parent_models ||= "ShouldNotOccur"
+          action_model, target_model, parent_models = argv
 
           parent_models = parent_models.split(",")
           parent_models += ["Team"]
@@ -34,19 +40,6 @@ module BulletTrain
           transformer = Scaffolding::ActionModelTargetsOneTransformer.new(action_model, target_model, parent_models)
 
           `yes n | bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction")} #{transformer.transform_string("tangible_thing")}:references started_at:datetime completed_at:datetime target_count:integer performed_count:integer scheduled_for:datetime sidekiq_jid:string created_by:references approved_by:references`
-
-          migration_file_name = `grep "create_table :#{transformer.transform_string("scaffolding_completely_concrete_tangible_things_targets_one_actions")} do |t|" db/migrate/*`.split(":").first
-
-          legacy_replace_in_file(migration_file_name, "t.references :tangible_thing, null: false, foreign_key: true", "t.references :tangible_thing, null: false, foreign_key: {to_table: \"scaffolding_completely_concrete_tangible_things\"}")
-          legacy_replace_in_file(migration_file_name, "t.integer :performed_count", "t.integer :performed_count, default: 0")
-
-          created_by_index_name = transformer.transform_string("index_scaffolding_completely_concrete_tangible_things_#{action_model.pluralize.underscore.downcase}_on_created_by_id")
-          created_by_index_name = "index_#{action_model.pluralize.underscore.downcase}_on_created_by_id" if created_by_index_name.length > 63
-          legacy_replace_in_file(migration_file_name, "t.references :created_by, null: false, foreign_key: true", "t.references :created_by, null: false, foreign_key: {to_table: \"memberships\"}, index: {name: \"#{created_by_index_name}\"}")
-
-          approved_by_index_name = transformer.transform_string("index_scaffolding_completely_concrete_tangible_things_#{action_model.pluralize.underscore.downcase}_on_approved_by_id")
-          approved_by_index_name = "index_#{action_model.pluralize.underscore.downcase}_on_approved_by_id" if approved_by_index_name.length > 63
-          legacy_replace_in_file(migration_file_name, "t.references :approved_by, null: false, foreign_key: true", "t.references :approved_by, null: true, foreign_key: {to_table: \"memberships\"}, index: {name: \"#{approved_by_index_name}\"}")
 
           transformer.scaffold_action_model
 

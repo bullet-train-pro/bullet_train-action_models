@@ -5,6 +5,7 @@ module Actions::RequiresApproval
     belongs_to :approved_by, class_name: "Membership", optional: true
     validates :approved_by, scope: true
     scope :awaiting_approval, -> { where(approved_by: nil, started_at: nil, completed_at: nil) }
+    skip_callback :commit, :after, :dispatch
   end
 
   def valid_approved_bys

@@ -4,6 +4,15 @@ module BulletTrain
   module ActionModels
     module Scaffolders
       class PerformsExportScaffolder < SuperScaffolding::Scaffolder
+        # TODO this method was removed from the global scope in super scaffolding and moved to `Scaffolding::Transformer`,
+        # but this gem hasn't been updated yet.
+        def legacy_replace_in_file(file, before, after)
+          puts "Replacing in '#{file}'."
+          target_file_content = File.read(file)
+          target_file_content.gsub!(before, after)
+          File.write(file, target_file_content)
+        end
+
         def run
           unless argv.count >= 3
             puts ""
@@ -29,25 +38,12 @@ module BulletTrain
 
           transformer = Scaffolding::ActionModelPerformsExportTransformer.new(action_model, target_model, parent_models)
 
-          `yes n | bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::PerformsExportAction")} #{transformer.transform_string("absolutely_abstract_creative_concept")}:references target_all:boolean target_ids:jsonb started_at:datetime completed_at:datetime target_count:integer performed_count:integer scheduled_for:datetime sidekiq_jid:string created_by:references approved_by:references fields:jsonb`
-
-          migration_file_name = `grep "create_table :#{transformer.transform_string("scaffolding_completely_concrete_tangible_things_performs_export_actions")} do |t|" db/migrate/*`.split(":").first
-
-          legacy_replace_in_file(migration_file_name, "t.references :absolutely_abstract_creative_concept, null: false, foreign_key: true", "t.references :absolutely_abstract_creative_concept, null: false, foreign_key: {to_table: \"scaffolding_absolutely_abstract_creative_concepts\"}")
-          legacy_replace_in_file(migration_file_name, "t.boolean :target_all", "t.boolean :target_all, default: false")
-          legacy_replace_in_file(migration_file_name, "t.jsonb :target_ids", "t.jsonb :target_ids, default: []")
-          legacy_replace_in_file(migration_file_name, "t.jsonb :fields", "t.jsonb :fields, default: []")
-          legacy_replace_in_file(migration_file_name, "t.integer :performed_count", "t.integer :performed_count, default: 0")
-
-          created_by_index_name = transformer.transform_string("index_scaffolding_completely_concrete_tangible_things_#{action_model.pluralize.underscore.downcase}_on_created_by_id")
-          created_by_index_name = "index_#{action_model.pluralize.underscore.downcase}_on_created_by_id" if created_by_index_name.length > 63
-          legacy_replace_in_file(migration_file_name, "t.references :created_by, null: false, foreign_key: true", "t.references :created_by, null: false, foreign_key: {to_table: \"memberships\"}, index: {name: \"#{created_by_index_name}\"}")
-
-          approved_by_index_name = transformer.transform_string("index_scaffolding_completely_concrete_tangible_things_#{action_model.pluralize.underscore.downcase}_on_approved_by_id")
-          approved_by_index_name = "index_#{action_model.pluralize.underscore.downcase}_on_approved_by_id" if approved_by_index_name.length > 63
-          legacy_replace_in_file(migration_file_name, "t.references :approved_by, null: false, foreign_key: true", "t.references :approved_by, null: true, foreign_key: {to_table: \"memberships\"}, index: {name: \"#{approved_by_index_name}\"}")
+          `yes n | bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::PerformsExportAction")} #{transformer.transform_string("absolutely_abstract_creative_concept")}:references target_all:boolean target_ids:#{Scaffolding.mysql? ? "json" : "jsonb"} failed_ids:#{Scaffolding.mysql? ? "json" : "jsonb"} last_completed_id:integer started_at:datetime completed_at:datetime target_count:integer performed_count:integer scheduled_for:datetime sidekiq_jid:string created_by:references approved_by:references fields:#{Scaffolding.mysql? ? "json" : "jsonb"}`
 
           transformer.scaffold_action_model
+          transformer.fix_json_column_default("target_ids")
+          transformer.fix_json_column_default("failed_ids")
+          transformer.fix_json_column_default("fields")
 
           # If the target model belongs directly to Team, we end up with delegate :team, to :team in the model file so we remove it here.
           # We would need this for a deeply nested resource (I _think_??)

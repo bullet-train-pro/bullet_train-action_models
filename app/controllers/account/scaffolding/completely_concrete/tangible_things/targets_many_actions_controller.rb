@@ -5,7 +5,7 @@ class Account::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
   # GET /account/scaffolding/absolutely_abstract/creative_concepts/:absolutely_abstract_creative_concept_id/completely_concrete/tangible_things/targets_many_actions.json
   def index
     # if you only want these objects shown on their parent's show page, uncomment this:
-    redirect_to [:account, @absolutely_abstract_creative_concept]
+    redirect_to [:account, @absolutely_abstract_creative_concept, :completely_concrete_tangible_things]
   end
 
   # GET /account/scaffolding/completely_concrete/tangible_things/targets_many_actions/:id
@@ -78,22 +78,12 @@ class Account::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
 
   private
 
-  # Never trust parameters from the scary internet, only allow the white list through.
-  def targets_many_action_params
-    strong_params = params.require(:scaffolding_completely_concrete_tangible_things_targets_many_action).permit(
-      :target_all,
-      :scheduled_for,
-      # 🚅 super scaffolding will insert new fields above this line.
-      target_ids: [],
-      # 🚅 super scaffolding will insert new arrays above this line.
-    )
+  include strong_parameters_from_api
 
-    # 🚅 super scaffolding will insert processing for new fields above this line.
-
+  def process_params(strong_params)
     assign_boolean(strong_params, :target_all)
     assign_select_options(strong_params, :target_ids)
     assign_date_and_time(strong_params, :scheduled_for)
-
-    strong_params
+    # 🚅 super scaffolding will insert processing for new fields above this line.
   end
 end

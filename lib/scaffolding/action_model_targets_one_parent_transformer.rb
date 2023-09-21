@@ -5,8 +5,20 @@ class Scaffolding::ActionModelTargetsOneParentTransformer < Scaffolding::ActionM
     "targets_one_parent"
   end
 
-  # Disable this, we don't want it.
+  def has_one_through
+    "absolutely_abstract_creative_concept"
+  end
+
   def add_button_to_index_rows
+  end
+
+  def add_button_to_index
+    {
+      "./app/views/account/scaffolding/completely_concrete/tangible_things/index.html.erb" => "<%= render \"account/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions/new_button_many\", absolutely_abstract_creative_concept: @absolutely_abstract_creative_concept %>",
+      "./app/views/account/scaffolding/completely_concrete/tangible_things/_index.html.erb" => "<%= render \"account/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions/new_button_many\", absolutely_abstract_creative_concept: absolutely_abstract_creative_concept %>",
+    }.each do |file, code|
+      scaffold_add_line_to_file(file, code, RUBY_NEW_TARGETS_ONE_PARENT_ACTION_MODEL_BUTTONS_HOOK, prepend: true)
+    end
   end
 
   def scaffold_action_model
@@ -14,19 +26,6 @@ class Scaffolding::ActionModelTargetsOneParentTransformer < Scaffolding::ActionM
 
     # Restart the server to pick up the translation files
     restart_server
-
-    lines = File.read("config/routes.rb").lines.map(&:chomp)
-
-    lines.each_with_index do |line, index|
-      if line.include?(transform_string("resources :targets_one_parent_actions"))
-        lines[index] = "#{line} do\nmember do\npost :approve\nend\nend\n"
-        break
-      end
-    end
-
-    File.write("config/routes.rb", lines.join("\n"))
-
-    puts `standardrb --fix ./config/routes.rb #{transform_string("./app/models/scaffolding/completely_concrete/tangible_things/targets_one_parent_action.rb")}`
 
     additional_steps.each_with_index do |additional_step, index|
       color, message = additional_step

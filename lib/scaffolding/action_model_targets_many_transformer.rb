@@ -5,6 +5,10 @@ class Scaffolding::ActionModelTargetsManyTransformer < Scaffolding::ActionModelT
     "targets_many"
   end
 
+  def has_one_through
+    "absolutely_abstract_creative_concept"
+  end
+
   def scaffold_action_model
     super
 
@@ -13,19 +17,6 @@ class Scaffolding::ActionModelTargetsManyTransformer < Scaffolding::ActionModelT
 
     # Restart the server to pick up the translation files
     restart_server
-
-    lines = File.read("config/routes.rb").lines.map(&:chomp)
-
-    lines.each_with_index do |line, index|
-      if line.include?(transform_string("resources :#{targets_n}_actions"))
-        lines[index] = "#{line} do\nmember do\npost :approve\nend\nend\n"
-        break
-      end
-    end
-
-    File.write("config/routes.rb", lines.join("\n"))
-
-    puts `standardrb --fix ./config/routes.rb #{transform_string("./app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb")}`
 
     additional_steps.each_with_index do |additional_step, index|
       color, message = additional_step
