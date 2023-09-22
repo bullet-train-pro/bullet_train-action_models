@@ -7,6 +7,7 @@ module Actions::PerformsImport
   include Actions::HasProgress
   include Actions::TracksCreator
   include Actions::RequiresApproval
+  include Actions::ComparesAttributes
 
   PRIMARY_KEY_FIELD = :id
 
@@ -218,6 +219,19 @@ module Actions::PerformsImport
 
       [key, mapped_field]
     end.to_h
+
+    # Check for closest matches if mapping is nil.
+    if openai_enabled?
+      closest_matches = closest_attribute_matches(subject_class.attribute_names, csv.headers)
+      self.mapping = mapping.map do |key, value|
+        if value.nil?
+          match_data = closest_matches.find { |result| result[:original_value] == key }
+          [key, match_data[:closest_match]]
+        else
+          [key, value]
+        end
+      end.to_h
+    end
   end
 
   def attach_parsed_csv_instead
