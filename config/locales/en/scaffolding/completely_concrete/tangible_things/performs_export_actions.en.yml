@@ -20,6 +20,9 @@ en:
         dismiss: Dismiss
         approve: Approve
         create: Performs Export
+      form:
+        if_all_value: Performs Export (All)
+        if_ids_value: Performs Export
       confirmations:
         # TODO customize for your use-case.
         destroy: Are you sure you want to remove this operation receipt?

@@ -4,6 +4,15 @@ module BulletTrain
   module ActionModels
     module Scaffolders
       class PerformsExportScaffolder < SuperScaffolding::Scaffolder
+        # TODO this method was removed from the global scope in super scaffolding and moved to `Scaffolding::Transformer`,
+        # but this gem hasn't been updated yet.
+        def legacy_replace_in_file(file, before, after)
+          puts "Replacing in '#{file}'."
+          target_file_content = File.read(file)
+          target_file_content.gsub!(before, after)
+          File.write(file, target_file_content)
+        end
+
         def run
           unless argv.count >= 3
             puts ""
@@ -29,10 +38,11 @@ module BulletTrain
 
           transformer = Scaffolding::ActionModelPerformsExportTransformer.new(action_model, target_model, parent_models)
 
-          `yes n | bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::PerformsExportAction")} #{transformer.transform_string("absolutely_abstract_creative_concept")}:references target_all:boolean target_ids:#{Scaffolding.mysql? ? "json" : "jsonb"} started_at:datetime completed_at:datetime target_count:integer performed_count:integer scheduled_for:datetime sidekiq_jid:string created_by:references approved_by:references fields:#{Scaffolding.mysql? ? "json" : "jsonb"}`
+          `yes n | bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::PerformsExportAction")} #{transformer.transform_string("absolutely_abstract_creative_concept")}:references target_all:boolean target_ids:#{Scaffolding.mysql? ? "json" : "jsonb"} failed_ids:#{Scaffolding.mysql? ? "json" : "jsonb"} last_completed_id:integer started_at:datetime completed_at:datetime target_count:integer performed_count:integer scheduled_for:datetime sidekiq_jid:string created_by:references approved_by:references fields:#{Scaffolding.mysql? ? "json" : "jsonb"}`
 
           transformer.scaffold_action_model
           transformer.fix_json_column_default("target_ids")
+          transformer.fix_json_column_default("failed_ids")
           transformer.fix_json_column_default("fields")
 
           # If the target model belongs directly to Team, we end up with delegate :team, to :team in the model file so we remove it here.

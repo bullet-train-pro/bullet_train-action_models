@@ -13,14 +13,12 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
       create(:completely_concrete_tangible_things_targets_one_action,
         team: @team,
         completely_concrete_tangible_thing: @completely_concrete_tangible_thing,
-        created_by: @user.memberships.first
-      )
+        created_by: @user.memberships.first)
     @other_completely_concrete_tangible_things_targets_one_actions =
       create_list(:completely_concrete_tangible_things_targets_one_action, 3,
         team: @another_user.current_team,
         completely_concrete_tangible_thing: @other_completely_concrete_tangible_thing,
-        created_by: @another_user.memberships.first
-      )
+        created_by: @another_user.memberships.first)
   end
 
   def assert_proper_object_serialization(completely_concrete_tangible_things_targets_one_action_data)
@@ -94,19 +92,19 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction
     assert_equal @completely_concrete_tangible_things_targets_one_action.target_count, 1
 
     # Also ensure we can't do that same action as another user.
-    put "/api/v1/scaffolding/completely_concrete/tangible_things/targets_one_actions/#{@completely_concrete_tangible_things_targets_one_action.id}", params: { access_token: another_access_token }
+    put "/api/v1/scaffolding/completely_concrete/tangible_things/targets_one_actions/#{@completely_concrete_tangible_things_targets_one_action.id}", params: {access_token: another_access_token}
     assert_response :not_found
   end
 
   test "destroy" do
     # Delete and ensure it actually went away.
     assert_difference("Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction.count", -1) do
-      delete "/api/v1/scaffolding/completely_concrete/tangible_things/targets_one_actions/#{@completely_concrete_tangible_things_targets_one_action.id}", params: { access_token: access_token }
+      delete "/api/v1/scaffolding/completely_concrete/tangible_things/targets_one_actions/#{@completely_concrete_tangible_things_targets_one_action.id}", params: {access_token: access_token}
       assert_response :success
     end
 
     # Also ensure we can't do that same action as another user.
-    delete "/api/v1/scaffolding/completely_concrete/tangible_things/targets_one_actions/#{@completely_concrete_tangible_things_targets_one_action.id}", params: { access_token: another_access_token }
+    delete "/api/v1/scaffolding/completely_concrete/tangible_things/targets_one_actions/#{@completely_concrete_tangible_things_targets_one_action.id}", params: {access_token: another_access_token}
     assert_response :not_found
   end
 end

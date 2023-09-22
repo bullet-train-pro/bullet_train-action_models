@@ -22,18 +22,28 @@ module Actions::PerformsExport
 
   def before_start
     super
+
     @tempfile = Tempfile.new("#{export_file_path}.#{id}.csv")
     @csv = CSV.new(@tempfile)
     @csv << fields
   end
 
-  def after_completion
+  def before_each
+    unless @tempfile
+      @tempfile = Tempfile.new
+      @tempfile.binmode
+      @tempfile.write(file.download)
+      @csv = CSV.new(@tempfile)
+      # We specifically don't rewind the file here because we're only opening it to continue writing to it.
+    end
+  end
+
+  def after_page
     @tempfile.rewind
     file.attach(io: @tempfile, filename: "#{export_file_path}.csv", content_type: "text/csv")
     @csv.close
     @tempfile.close
     @tempfile.unlink
-    super
   end
 
   def perform_on_target(object)

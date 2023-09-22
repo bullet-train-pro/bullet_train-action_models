@@ -5,6 +5,10 @@ class Scaffolding::ActionModelPerformsExportTransformer < Scaffolding::ActionMod
     "performs_export"
   end
 
+  def has_one_through
+    "absolutely_abstract_creative_concept"
+  end
+
   def add_button_to_index_rows
   end
 
@@ -22,7 +26,7 @@ class Scaffolding::ActionModelPerformsExportTransformer < Scaffolding::ActionMod
     add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb"), "include Actions::PerformsExport", "include Actions::ProcessesAsync", prepend: true)
 
     presentable_attributes.each do |attribute|
-      add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb"), "#{attribute}: #{attribute == transform_string("absolutely_abstract_creative_concept_id") ? "false" : "true"},", RUBY_NEW_FIELDS_HOOK, prepend: true)
+      add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb"), "#{attribute}: #{(attribute == transform_string("absolutely_abstract_creative_concept_id")) ? "false" : "true"},", RUBY_NEW_FIELDS_HOOK, prepend: true)
     end
 
     # Restart the server to pick up the translation files

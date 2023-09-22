@@ -6,6 +6,15 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
   RUBY_NEW_BULK_ACTION_MODEL_BUTTONS_PROCESSING_HOOK = "<%# 🚅 super scaffolding will insert new bulk action model buttons above this line. %>"
   RUBY_NEW_ACTION_MODEL_INDEX_VIEWS_PROCESSING_HOOK = "<%# 🚅 super scaffolding will insert new action model index views above this line. %>"
 
+  # TODO this method was removed from the global scope in super scaffolding and moved to `Scaffolding::Transformer`,
+  # but this gem hasn't been updated yet.
+  def legacy_replace_in_file(file, before, after)
+    puts "Replacing in '#{file}'."
+    target_file_content = File.read(file)
+    target_file_content.gsub!(before, after)
+    File.write(file, target_file_content)
+  end
+
   def initialize(action, child, parents, cli_options = {})
     super(child, parents, cli_options)
     self.action = action
@@ -121,9 +130,11 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
   end
 
   def fix_database_defaults
+    legacy_replace_in_file(migration_file_name, "t.integer :last_completed_id", "t.integer :last_completed_id, default: 0")
     legacy_replace_in_file(migration_file_name, "t.integer :performed_count", "t.integer :performed_count, default: 0")
     legacy_replace_in_file(migration_file_name, "t.integer :succeeded_count", "t.integer :succeeded_count, default: 0")
     legacy_replace_in_file(migration_file_name, "t.integer :failed_count", "t.integer :failed_count, default: 0")
+    legacy_replace_in_file(migration_file_name, "t.integer :last_processed_row", "t.integer :last_processed_row, default: -1")
     legacy_replace_in_file(migration_file_name, "t.boolean :target_all", "t.boolean :target_all, default: false")
   end
 
@@ -135,9 +146,22 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     )
   end
 
+  def remove_team_has_one_team
+    scaffold_replace_line_in_file(
+      "./app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb",
+      # TODO Why can't this be ""?
+      "# TODO Remove this TODO, but not the comment after it. This TODO is a result of a bug we need to fix in Super Scaffolding.",
+      "has_one :team, through: :team",
+    )
+  end
+
   # This is a super hacky way to let the targets one transformer return false all the time.
   def skip_parent_join
     yield
+  end
+
+  def has_one_through
+    raise "`#{self.class.name}` needs to implement `has_one_through`."
   end
 
   def add_permit_joins_and_delegations
@@ -147,7 +171,7 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
 
     joins.each do |join|
       unless skip_parent_join { parent == join }
-        scaffold_add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb"), "has_one :#{join.underscore}, through: :tangible_thing", HAS_ONE_HOOK, prepend: true)
+        scaffold_add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb"), "has_one :#{join.underscore}, through: :#{has_one_through}", HAS_ONE_HOOK, prepend: true)
       end
     end
 
@@ -168,7 +192,7 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     [
       "resources",
       "namespace"
-    ]. each do |block_type|
+    ].each do |block_type|
       # targets-one is the only action which generates a namespace,
       # so we skip this part for every other action.
       break if block_type == "namespace" && targets_n != "targets_one"
@@ -202,14 +226,17 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     files = [
       "./app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb",
       "./app/controllers/account/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions_controller.rb",
-      "./app/controllers/api/v1/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions_controller.rb",
       "./app/views/account/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions",
-      "./app/views/api/v1/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions",
       "./test/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action_test.rb",
       "./test/factories/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions.rb",
-      "./test/controllers/api/v1/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions_controller_test.rb",
       "./config/locales/en/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions.en.yml",
     ]
+
+    unless ["performs_import", "performs_export"].include?(targets_n)
+      files << "./app/views/api/v1/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions"
+      files << "./app/controllers/api/v1/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions_controller.rb"
+      files << "./test/controllers/api/v1/scaffolding/completely_concrete/tangible_things/#{targets_n}_actions_controller_test.rb"
+    end
 
     files.each do |name|
       if File.directory?(resolve_template_path(name))
@@ -219,6 +246,7 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
       end
     end
 
+    remove_team_has_one_team
     add_locale_helper_export_fix
     add_button_to_index
     add_button_to_index_rows
@@ -227,6 +255,7 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     update_action_models_abstract_class(targets_n)
     add_permit_joins_and_delegations
     add_ability_line_to_roles_yml unless admin_namespace?
+    remove_team_has_one_team
 
     begin
       # Update the routes to add the namespace and action routes
@@ -242,14 +271,14 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
       ]
 
       # TODO: Check if this covers all of the other action models properly.
-      parent = targets_n == "targets_one" ?
+      parent = (targets_n == "targets_one") ?
         transform_string("Scaffolding::CompletelyConcrete::TangibleThing") : transform_string("Scaffolding::AbsolutelyAbstract::CreativeConcept")
       child = transform_string("Scaffolding::CompletelyConcrete::TangibleThings::#{targets_n.classify}Action")
 
       routing_details.each do |details|
         routes_manipulator = Scaffolding::RoutesFileManipulator.new(details[:file_name], child, parent)
         routes_manipulator.apply([details[:namespace]])
-        add_line_to_action_resource("  post 'approve'", routes_manipulator)
+        add_line_to_action_resource("  member do\npost 'approve'\nend", routes_manipulator)
         Scaffolding::FileManipulator.write(details[:file_name], routes_manipulator.lines)
       end
     rescue BulletTrain::SuperScaffolding::CannotFindParentResourceException => exception

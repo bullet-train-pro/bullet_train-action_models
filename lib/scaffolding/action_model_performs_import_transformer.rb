@@ -5,6 +5,10 @@ class Scaffolding::ActionModelPerformsImportTransformer < Scaffolding::ActionMod
     "performs_import"
   end
 
+  def has_one_through
+    "absolutely_abstract_creative_concept"
+  end
+
   # Duplicated from `Scaffolding::ActionModelTargetsOneParentTransformer`.
   def add_button_to_index_rows
   end
@@ -23,7 +27,7 @@ class Scaffolding::ActionModelPerformsImportTransformer < Scaffolding::ActionMod
     super
 
     # Add the concern we have to add manually because otherwise it gets transformed.
-    add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb"), "include Actions::PerformsImport", CONCERNS_HOOK, prepend: true)
+    add_line_to_file(transform_string("app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb"), "include Actions::PerformsImport", "include Actions::ProcessesAsync", prepend: true)
 
     # Add current attributes of the target model to the import options.
     presentable_attributes.each do |attribute|
