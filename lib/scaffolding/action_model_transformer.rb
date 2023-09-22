@@ -149,8 +149,7 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
   def remove_team_has_one_team
     scaffold_replace_line_in_file(
       "./app/models/scaffolding/completely_concrete/tangible_things/#{targets_n}_action.rb",
-      # TODO Why can't this be ""?
-      "# TODO Remove this TODO, but not the comment after it. This TODO is a result of a bug we need to fix in Super Scaffolding.",
+      "",
       "has_one :team, through: :team",
     )
   end
