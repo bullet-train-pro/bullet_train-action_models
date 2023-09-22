@@ -10,6 +10,7 @@ module Actions::ProcessesAsync
 
   def schedule_health_check
     return false if Rails.env.test?
+    return false unless BulletTrain::ActionModels.health_check_worker
     Actions::BackgroundActionHealthCheckWorker.perform_at(health_check_frequency.from_now, self.class.name, id)
   end
 

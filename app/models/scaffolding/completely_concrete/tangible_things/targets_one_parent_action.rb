@@ -36,9 +36,14 @@ class Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParentAction < 
     absolutely_abstract_creative_concept
   end
 
-  # def calculate_target_count
-  #   # Implement a calculation here.
-  # end
+  def calculate_target_count
+    # 🚅 skip this section when scaffolding.
+    return 3
+    # 🚅 stop any skipping we're doing now.
+
+    # This is where you calculate the total number of items that are going to be processed.
+    1
+  end
 
   def label_string
     "Targets One Parent Action"

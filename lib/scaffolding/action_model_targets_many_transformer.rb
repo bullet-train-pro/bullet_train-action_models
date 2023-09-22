@@ -5,6 +5,10 @@ class Scaffolding::ActionModelTargetsManyTransformer < Scaffolding::ActionModelT
     "targets_many"
   end
 
+  def has_one_through
+    "absolutely_abstract_creative_concept"
+  end
+
   def scaffold_action_model
     super
 
