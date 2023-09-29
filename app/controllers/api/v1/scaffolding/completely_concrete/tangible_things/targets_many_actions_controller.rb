@@ -41,7 +41,8 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsManyActio
         *permitted_fields,
         :target_all,
         :scheduled_for,
-        :created_by_id,
+        :created_by,
+        :approved_by,
         # 🚅 super scaffolding will insert new fields above this line.
         *permitted_arrays,
         target_ids: [],
