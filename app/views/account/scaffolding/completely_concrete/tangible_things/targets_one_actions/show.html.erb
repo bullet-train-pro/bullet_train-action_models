@@ -18,7 +18,7 @@
             <%= render 'shared/attributes/text', attribute: :target_count %>
             <%= render 'shared/attributes/text', attribute: :performed_count %>
             <%= render 'shared/attributes/belongs_to', attribute: :created_by %>
-            <%= render 'shared/attributes/belongs_to', attribute: :approved_by %>
+            <%= render 'shared/attributes/belongs_to', attribute: :approved_by if Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction.include?(Actions::RequiresApproval) %>
             <%= render 'shared/attributes/date_and_time', attribute: :scheduled_for %>
             <%= render 'shared/attributes/date_and_time', attribute: :started_at %>
             <%= render 'shared/attributes/date_and_time', attribute: :completed_at %>

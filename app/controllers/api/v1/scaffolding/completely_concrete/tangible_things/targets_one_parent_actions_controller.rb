@@ -42,7 +42,7 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParent
         *permitted_fields,
         :target_count,
         :performed_count,
-        :created_by_id,
+        :created_by,
         :approved_by,
         :scheduled_for,
         :started_at,
