@@ -95,22 +95,25 @@ class Scaffolding::ActionModelTargetsOneTransformer < Scaffolding::ActionModelTr
   end
 
   def replacement_for(string)
+    # I'm not sure at what point we broke this, but `action` started including the namespace and that broke this method.
+    action_without_namespace = action.split("::").last
+
     case string
     # Some weird edge cases we unwittingly introduced in the emoji example.
     when "Targets One to"
       # e.g. "Archive"
       # If someone wants language like "Targets One to", they have to add it manually or name their model that.
-      action.titlecase
+      action_without_namespace.titlecase
     when "append an emoji to"
       # e.g. "archive"
       # If someone wants language like "append an emoji to", they have to add it manually.
-      action.humanize
+      action_without_namespace.humanize
     when "TargetsOne"
-      action
+      action_without_namespace
     when "targets_one"
-      action.underscore
+      action_without_namespace.underscore
     when "Targets One"
-      action.titlecase
+      action_without_namespace.titlecase
     else
       "🛑"
     end
