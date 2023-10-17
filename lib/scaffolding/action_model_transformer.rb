@@ -33,7 +33,7 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     child_parts = child.split("::")
     if action_parts.shift.singularize == child_parts.shift
       puts "When creating an Action Model, you don't have to namespace the action to the model you want to perform the action on.".red
-      puts "i.e. - bin/super-scaffold action-model:#{targets_n.gsub(/_/, "-")} #{action_parts.join("::")} #{child} #{parent}"
+      puts "i.e. - bin/super-scaffold action-model:#{targets_n.tr("_", "-")} #{action_parts.join("::")} #{child} #{parent}"
       exit
     end
   end
