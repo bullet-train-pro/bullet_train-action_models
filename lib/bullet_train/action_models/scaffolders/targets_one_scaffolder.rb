@@ -38,6 +38,7 @@ module BulletTrain
           parent_models = parent_models.map(&:classify).uniq
 
           transformer = Scaffolding::ActionModelTargetsOneTransformer.new(action_model, target_model, parent_models)
+          transformer.check_namespace
 
           `yes n | bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneAction")} #{transformer.transform_string("tangible_thing")}:references started_at:datetime completed_at:datetime target_count:integer performed_count:integer scheduled_for:datetime sidekiq_jid:string created_by:references approved_by:references`
 
