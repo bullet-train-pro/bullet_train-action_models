@@ -37,6 +37,7 @@ module BulletTrain
           parent_models = parent_models.map(&:classify).uniq
 
           transformer = Scaffolding::ActionModelPerformsImportTransformer.new(action_model, target_model, parent_models)
+          transformer.check_namespace
 
           `yes n | bin/rails g model #{transformer.transform_string("Scaffolding::CompletelyConcrete::TangibleThings::PerformsImportAction")} #{transformer.transform_string("absolutely_abstract_creative_concept")}:references target_all:boolean target_ids:#{Scaffolding.mysql? ? "json" : "jsonb"} started_at:datetime completed_at:datetime target_count:integer performed_count:integer scheduled_for:datetime sidekiq_jid:string created_by:references approved_by:references mapping:#{Scaffolding.mysql? ? "json" : "jsonb"} copy_mapping_from:references succeeded_count:integer failed_count:integer last_processed_row:integer`
 
