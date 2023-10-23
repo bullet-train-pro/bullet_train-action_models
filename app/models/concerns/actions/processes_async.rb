@@ -14,8 +14,11 @@ module Actions::ProcessesAsync
     Actions::BackgroundActionHealthCheckWorker.perform_at(health_check_frequency.from_now, self.class.name, id)
   end
 
+  def sidekiq_queue
+  end
+
   def dispatch
-    self.sidekiq_jid = Actions::BackgroundActionWorker.perform_async(self.class.name, id)
+    self.sidekiq_jid = Actions::BackgroundActionWorker.set(sidekiq_queue ? {queue: sidekiq_queue} : {}).perform_async(self.class.name, id)
     save
   end
 end
