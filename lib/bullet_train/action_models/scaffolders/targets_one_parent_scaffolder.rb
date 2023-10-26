@@ -11,7 +11,7 @@ module BulletTrain
             puts ""
             puts "E.g. a CSV Importer that creates many Listings on a Team:"
             puts "  # You do not need to `rails g model`, we'll create the models!"
-            puts "  bin/super-scaffold action-model:targets-one CsvImport Listing Team"
+            puts "  bin/super-scaffold action-model:targets-one-parent CsvImport Listing Team"
             puts ""
             puts "Also: After scaffolding your action model, you can add custom fields to it the same way you would a regular model."
             puts ""
