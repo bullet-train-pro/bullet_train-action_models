@@ -1,5 +1,3 @@
-require "masamune"
-
 module Account::ActionModelHelper
   def export_field_options(export_action)
     export_action.class::AVAILABLE_FIELDS.keys.map do |key|
