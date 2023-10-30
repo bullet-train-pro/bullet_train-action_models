@@ -3,6 +3,6 @@
 <%= render 'account/scaffolding/completely_concrete/tangible_things/breadcrumbs', creative_concept: absolutely_abstract_creative_concept %>
 <%= render 'account/shared/breadcrumb', label: t('.label'), url: [:account, absolutely_abstract_creative_concept, :completely_concrete_tangible_things_targets_one_parent_actions] %>
 <% if targets_one_parent_action&.persisted? %>
-  <%= render 'account/shared/breadcrumb', label: targets_one_parent_action.label_string, url: [:account, targets_one_parent_action] %>
+  <%= render 'account/shared/breadcrumb', label: targets_one_parent_action.label_string, url: build_action_model_path(targets_one_parent_action) %>
 <% end %>
 <%= render 'account/shared/breadcrumbs/actions', only_for: 'scaffolding/completely_concrete/tangible_things/targets_one_parent_actions' %>
