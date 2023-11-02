@@ -1,4 +1,4 @@
-<%= form_with model: targets_one_parent_action, url: (targets_one_parent_action.persisted? ? [:account, targets_one_parent_action] : [:account, @absolutely_abstract_creative_concept, :completely_concrete_tangible_things_targets_one_parent_actions]), local: true, class: 'form' do |form| %>
+<%= form_with model: targets_one_parent_action, url: (targets_one_parent_action.persisted? ? build_action_model_path(targets_one_parent_action) : [:account, @absolutely_abstract_creative_concept, :completely_concrete_tangible_things_targets_one_parent_actions]), local: true, class: 'form' do |form| %>
   <%= render 'account/shared/forms/errors', form: form %>
   <%= form.hidden_field :allow_empty_form, value: nil %>
 
@@ -11,7 +11,7 @@
   <div class="buttons">
     <%= form.submit (form.object.persisted? ? t('.buttons.update') : t('.buttons.create')), class: "button" %>
     <% if form.object.persisted? %>
-    <%= link_to t('global.buttons.cancel'), [:account, targets_one_parent_action], class: "button-secondary" %>
+    <%= link_to t('global.buttons.cancel'), build_action_model_path(targets_one_parent_action), class: "button-secondary" %>
     <% else %>
     <%= link_to t('global.buttons.cancel'), [:account, @absolutely_abstract_creative_concept, :completely_concrete_tangible_things_targets_one_parent_actions], class: "button-secondary" %>
     <% end %>

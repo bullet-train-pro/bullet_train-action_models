@@ -26,7 +26,7 @@ class Account::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParent
     respond_to do |format|
       if @targets_one_parent_action.approve_by(current_membership)
         format.html { redirect_to [:account, @absolutely_abstract_creative_concept, :completely_concrete_tangible_things], notice: I18n.t("scaffolding/completely_concrete/tangible_things/targets_one_parent_actions.notifications.approved") }
-        format.json { render :show, status: :ok, location: [:account, @targets_one_parent_action] }
+        format.json { render :show, status: :ok, location: helpers.build_action_model_path(@targets_one_parent_action) }
       else
         format.html { render :show, status: :unprocessable_entity }
         format.json { render json: @targets_one_parent_action.errors, status: :unprocessable_entity }
@@ -44,7 +44,7 @@ class Account::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParent
 
       if @targets_one_parent_action.save
         format.html { redirect_to [:account, @absolutely_abstract_creative_concept, :completely_concrete_tangible_things_targets_one_parent_actions], notice: I18n.t("scaffolding/completely_concrete/tangible_things/targets_one_parent_actions.notifications.created") }
-        format.json { render :show, status: :created, location: [:account, @targets_one_parent_action] }
+        format.json { render :show, status: :created, location: helpers.build_action_model_path(@targets_one_parent_action) }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @targets_one_parent_action.errors, status: :unprocessable_entity }
@@ -57,8 +57,8 @@ class Account::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParent
   def update
     respond_to do |format|
       if @targets_one_parent_action.update(targets_one_parent_action_params)
-        format.html { redirect_to [:account, @targets_one_parent_action], notice: I18n.t("scaffolding/completely_concrete/tangible_things/targets_one_parent_actions.notifications.updated") }
-        format.json { render :show, status: :ok, location: [:account, @targets_one_parent_action] }
+        format.html { redirect_to helpers.build_action_model_path(@targets_one_parent_action), notice: I18n.t("scaffolding/completely_concrete/tangible_things/targets_one_parent_actions.notifications.updated") }
+        format.json { render :show, status: :ok, location: helpers.build_action_model_path(@targets_one_parent_action) }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @targets_one_parent_action.errors, status: :unprocessable_entity }

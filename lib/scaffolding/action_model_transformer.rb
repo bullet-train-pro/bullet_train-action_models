@@ -287,7 +287,7 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
       routing_details.each do |details|
         routes_manipulator = Scaffolding::RoutesFileManipulator.new(details[:file_name], child, parent)
         routes_manipulator.apply([details[:namespace]])
-        add_line_to_action_resource("  member do\npost 'approve'\nend", routes_manipulator)
+        add_line_to_action_resource("member do\n  post 'approve'\nend", routes_manipulator)
         Scaffolding::FileManipulator.write(details[:file_name], routes_manipulator.lines)
       end
     rescue BulletTrain::SuperScaffolding::CannotFindParentResourceException => exception
