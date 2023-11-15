@@ -57,7 +57,7 @@ class Account::Scaffolding::CompletelyConcrete::TangibleThings::PerformsImportAc
   # PATCH/PUT /account/scaffolding/completely_concrete/tangible_things/performs_import_actions/:id
   # PATCH/PUT /account/scaffolding/completely_concrete/tangible_things/performs_import_actions/:id.json
   def update
-    populate_mappings(params["scaffolding_completely_concrete_tangible_things_csv_import_action"])
+    populate_mappings(params["scaffolding_completely_concrete_tangible_things_performs_import_action"])
 
     respond_to do |format|
       if @performs_import_action.update(performs_import_action_params)
@@ -105,7 +105,7 @@ class Account::Scaffolding::CompletelyConcrete::TangibleThings::PerformsImportAc
   def populate_mappings(mappings)
     mappings.each do |mapping|
       attribute = mapping.first.gsub(/^mapping_/, "")
-      @csv_import_action.mapping[attribute] = mapping.last.empty? ? nil : mapping.last
+      @performs_import_action.mapping[attribute] = mapping.last.empty? ? nil : mapping.last
     end
   end
 end
