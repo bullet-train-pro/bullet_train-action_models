@@ -3,7 +3,7 @@ module Actions::ControllerSupport
 
   def assign_mapping(strong_params, subject, attribute)
     strong_params[attribute] = subject.send(attribute).keys.map do |key|
-      [key, params[subject.class.name.underscore.gsub("/", "_")]["mapping_#{key.underscore}"]]
+      [key, params[subject.class.name.underscore.tr("/", "_")]["mapping_#{key.underscore}"]]
     end.to_h
   end
 end
