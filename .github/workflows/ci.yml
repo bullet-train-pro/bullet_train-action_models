@@ -112,6 +112,10 @@ jobs:
           cache: 'yarn'
           cache-dependency-path: tmp/starter/yarn.lock
 
+      - name: Allow adding of bullet_train-action_models & spring gems
+        run: bundle config unset deployment
+        working-directory: tmp/starter
+
       - name: Link This Repo
         uses: bullet-train-co/link-local-gem@v1
         with:
@@ -144,10 +148,7 @@ jobs:
         run: bin/rails db:schema:load
         working-directory: tmp/starter
 
-      # TODO: This might be a bad idea. Maybe we should just have spring in the Gemfile all the time.
-      - name: Allow adding of spring
-        run: bundle config unset deployment
-        working-directory: tmp/starter
+      
 
       - name: Add Spring
         run: bundle add spring
