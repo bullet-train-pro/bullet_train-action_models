@@ -124,6 +124,14 @@ jobs:
           application_dir: tmp/starter
           core_dir: tmp/core
 
+      - name: Debug Gemfile
+        run: cat Gemfile
+        working-directory: ./tmp/starter
+
+      - name: Debug Gemfile.lock
+        run: cat Gemfile.lock
+        working-directory: ./tmp/starter
+
       - name: Set up database schema
         run: bin/rails db:schema:load
         working-directory: ./tmp/starter
@@ -131,7 +139,7 @@ jobs:
       # TODO: This might be a bad idea. Maybe we should just have spring in the Gemfile all the time.
       - name: Allow adding of spring
         run: bundle config unset deployment
-        working-directory: tmp/starter
+        working-directory: ./tmp/starter
 
       - name: Add Spring
         run: bundle add spring
