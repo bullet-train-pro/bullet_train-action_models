@@ -5,6 +5,7 @@ PATH
       bullet_train
       bullet_train-fields
       bullet_train-super_scaffolding
+      matrix
       rails (>= 6.0.0)
       roo
 
@@ -223,6 +224,7 @@ GEM
     masamune-ast (2.0.2)
       activesupport
       prism (>= 0.14.0)
+    matrix (0.4.2)
     method_source (1.0.0)
     microscope (1.1.1)
       activerecord (>= 4.1.0)
