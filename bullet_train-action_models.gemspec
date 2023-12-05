@@ -28,5 +28,7 @@ Gem::Specification.new do |spec|
   # TODO: This is here because the main `bullet_train` gem needs it, but doesn't declare the dependency
   spec.add_dependency "bullet_train-fields"
 
+  spec.add_development_dependency "standardrb"
+
   spec.license = "Nonstandard"
 end

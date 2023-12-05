@@ -48,7 +48,7 @@ jobs:
           ruby-version: "3.0"
           bundler-cache: true
       - name: Run Standard
-        run: bundle exec standard
+        run: bundle exec standardrb
 
   starter_repo:
     runs-on: ubuntu-latest
