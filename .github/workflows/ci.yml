@@ -128,6 +128,11 @@ jobs:
         run: bin/rails db:schema:load
         working-directory: ./tmp/starter
 
+      # TODO: This might be a bad idea. Maybe we should just have spring in the Gemfile all the time.
+      - name: Allow adding of spring
+        run: bundle config unset deployment
+        working-directory: tmp/starter
+
       - name: Add Spring
         run: bundle add spring
         working-directory: ./tmp/starter
