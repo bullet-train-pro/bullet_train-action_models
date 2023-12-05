@@ -23,6 +23,10 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "rails", ">= 6.0.0"
   spec.add_dependency "roo"
+  spec.add_dependency "bullet_train"
+  spec.add_dependency "bullet_train-super_scaffolding"
+  # TODO: This is here because the main `bullet_train` gem needs it, but doesn't declare the dependency
+  spec.add_dependency "bullet_train-fields"
 
   spec.license = "Nonstandard"
 end
