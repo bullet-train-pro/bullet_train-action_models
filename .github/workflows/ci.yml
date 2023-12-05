@@ -118,6 +118,14 @@ jobs:
           application_dir: tmp/starter
           local_gem_dir: .
 
+      - name: Debug Gemfile
+        run: cat Gemfile
+        working-directory: tmp/starter
+
+      - name: Debug Gemfile.lock
+        run: cat Gemfile.lock
+        working-directory: tmp/starter
+
       - name: Link Core Repo
         uses: bullet-train-co/link-core-gems@v1
         with:
@@ -126,33 +134,33 @@ jobs:
 
       - name: Debug Gemfile
         run: cat Gemfile
-        working-directory: ./tmp/starter
+        working-directory: tmp/starter
 
       - name: Debug Gemfile.lock
         run: cat Gemfile.lock
-        working-directory: ./tmp/starter
+        working-directory: tmp/starter
 
       - name: Set up database schema
         run: bin/rails db:schema:load
-        working-directory: ./tmp/starter
+        working-directory: tmp/starter
 
       # TODO: This might be a bad idea. Maybe we should just have spring in the Gemfile all the time.
       - name: Allow adding of spring
         run: bundle config unset deployment
-        working-directory: ./tmp/starter
+        working-directory: tmp/starter
 
       - name: Add Spring
         run: bundle add spring
-        working-directory: ./tmp/starter
+        working-directory: tmp/starter
 
       - name: Setup Action Models Tests
         run: bundle exec test/bin/setup-action-models-system-test
-        working-directory: ./tmp/starter
+        working-directory: tmp/starter
 
       - name: Run Action Models Tests
         id: run-tests
         run : bundle exec rails test test/system/action_models_test.rb
-        working-directory: ./tmp/starter
+        working-directory: tmp/starter
 
       - name: Test Summary
         uses: test-summary/action@v2
