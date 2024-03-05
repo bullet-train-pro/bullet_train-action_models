@@ -274,8 +274,8 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
           namespace: "account"
         },
         {
-          file_name: "config/routes/api/v1.rb",
-          namespace: "v1"
+          file_name: "config/routes/api/#{BulletTrain::Api.current_version}.rb",
+          namespace: BulletTrain::Api.current_version
         }
       ]
 
