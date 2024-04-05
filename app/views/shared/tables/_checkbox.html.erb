@@ -1,7 +1,7 @@
 <td class="bulk-actions-checkbox-cell">
   <label>
     <%= render 'shared/fields/option', method: :bulk_actions_ids, single_check_box: true, append_class: '-mt-0.5',
-      option_field_options: {
+      options: {
         value: object.id,
         checked: false,
         data: { 'bulk-actions-target': 'checkbox', 'action': 'bulk-actions#updateSelectedIds' }
