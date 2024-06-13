@@ -53,6 +53,11 @@ jobs:
   starter_repo:
     runs-on: ubuntu-latest
     name: Bullet Train Starter Repo Action Models Tests
+    strategy:
+      fail-fast: false
+      matrix:
+        # For action model super scaffolding tests we need to have exactly 5 runners.
+        ci_runners: ["Projects::ArchiveAction", "Listings::PublishAction", "Notifications::MarkAllAsReadAction", "Articles::CsvImportAction", "Visitors::CsvExportAction" ]
     services:
       postgres:
         image: postgres:11-alpine
