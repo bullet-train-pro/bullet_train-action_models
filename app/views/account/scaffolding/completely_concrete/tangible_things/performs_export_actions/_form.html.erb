@@ -16,7 +16,7 @@
         choices: @performs_export_action.valid_targets.map { |performs_export_action| [performs_export_action.label_string, performs_export_action.id] } %>
     </div>
 
-    <%= render 'shared/fields/options', method: :fields, multiple: true, options: export_field_options(performs_export_action) %>
+    <%= render 'shared/fields/options', method: :fields, multiple: true, option_field_options: export_field_options(performs_export_action) %>
     <%# 🚅 super scaffolding will insert new fields above this line. %>
 
     <%= render "shared/actions/scheduling" %>
