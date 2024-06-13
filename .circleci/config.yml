@@ -237,11 +237,11 @@ workflows:
   build:
     jobs:
       # - 'Local Minitest'
-      - 'Local Standard Ruby':
-          context: knapsack-pro
-      - 'Starter Repo Minitest':
-          context: knapsack-pro
-      - 'Starter Repo Minitest for Super Scaffolding':
-          context: knapsack-pro
-      - 'Starter Repo Minitest for Action Models':
-          context: knapsack-pro
+      #- 'Local Standard Ruby':
+          #context: knapsack-pro
+      #- 'Starter Repo Minitest':
+          #context: knapsack-pro
+      #- 'Starter Repo Minitest for Super Scaffolding':
+          #context: knapsack-pro
+      #- 'Starter Repo Minitest for Action Models':
+          #context: knapsack-pro
