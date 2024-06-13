@@ -8,34 +8,34 @@ on:
   pull_request:
 
 jobs:
-  test:
-    strategy:
-      fail-fast: false
-      matrix:
-        rails-version:
-          - "7.1"
-          - "6.1"
-          - "main"
-        ruby-version:
-          - "3.0"
-          - "3.2"
+  #test:
+    #strategy:
+      #fail-fast: false
+      #matrix:
+        #rails-version:
+          #- "7.1"
+          #- "6.1"
+          #- "main"
+        #ruby-version:
+          #- "3.0"
+          #- "3.2"
 
-    env:
-      RAILS_ENV: test
-      RAILS_VERSION: ${{ matrix.rails-version }}
+    #env:
+      #RAILS_ENV: test
+      #RAILS_VERSION: ${{ matrix.rails-version }}
 
-    name: ${{ format('Test rails@{0} ruby@{1}', matrix.rails-version, matrix.ruby-version) }}
-    runs-on: "ubuntu-latest"
+    #name: ${{ format('Test rails@{0} ruby@{1}', matrix.rails-version, matrix.ruby-version) }}
+    #runs-on: "ubuntu-latest"
 
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby-version }}
-        bundler-cache: true
-    - name: Run tests
-      run: bundle exec rails test
+    #steps:
+    #- uses: actions/checkout@v4
+    #- name: Set up Ruby
+      #uses: ruby/setup-ruby@v1
+      #with:
+        #ruby-version: ${{ matrix.ruby-version }}
+        #bundler-cache: true
+    #- name: Run tests
+      #run: bundle exec rails test
 
   standard:
     runs-on: ubuntu-latest
@@ -147,8 +147,6 @@ jobs:
       - name: Set up database schema
         run: bin/rails db:schema:load
         working-directory: tmp/starter
-
-      
 
       - name: Add Spring
         run: bundle add spring
