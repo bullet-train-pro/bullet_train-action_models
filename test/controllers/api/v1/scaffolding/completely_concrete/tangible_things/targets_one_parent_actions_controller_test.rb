@@ -10,11 +10,11 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParent
     @other_absolutely_abstract_creative_concept = @another_user.current_team
 
     @completely_concrete_tangible_things_targets_one_parent_action =
-      create(:completely_concrete_tangible_things_targets_one_parent_action,
+      create(:scaffolding_completely_concrete_tangible_things_targets_one_parent_action,
         team: @team,
         created_by: @user.memberships.first)
     @other_completely_concrete_tangible_things_targets_one_parent_actions =
-      create_list(:completely_concrete_tangible_things_targets_one_parent_action, 3,
+      create_list(:scaffolding_completely_concrete_tangible_things_targets_one_parent_action, 3,
         team: @another_user.current_team,
         created_by: @another_user.memberships.first)
   end
@@ -55,7 +55,7 @@ class Api::V1::Scaffolding::CompletelyConcrete::TangibleThings::TargetsOneParent
 
   test "create" do
     params = {access_token: access_token}
-    targets_one_parent_actions_data = JSON.parse(build(:completely_concrete_tangible_things_targets_one_parent_action, team: nil, created_by: @user.memberships.first).to_json)
+    targets_one_parent_actions_data = JSON.parse(build(:scaffolding_completely_concrete_tangible_things_targets_one_parent_action, team: nil, created_by: @user.memberships.first).to_json)
     targets_one_parent_actions_data = targets_one_parent_actions_data.slice("target_count", "scheduled_for", "created_by_id")
     params[:completely_concrete_tangible_things_targets_one_parent_action] = targets_one_parent_actions_data
 

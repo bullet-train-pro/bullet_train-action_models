@@ -6,6 +6,11 @@ require "rails/all"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 require "bullet_train/action_models"
+require "bullet_train/api"
+require "bullet_train/super_scaffolding"
+
+require 'doorkeeper'
+
 
 module Dummy
   class Application < Rails::Application

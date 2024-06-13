@@ -26,10 +26,14 @@ Gem::Specification.new do |spec|
   spec.add_dependency "roo"
   spec.add_dependency "bullet_train"
   spec.add_dependency "bullet_train-super_scaffolding"
+  spec.add_dependency "bullet_train-api"
   # TODO: This is here because the main `bullet_train` gem needs it, but doesn't declare the dependency
   spec.add_dependency "bullet_train-fields"
 
   spec.add_development_dependency "standardrb"
+  spec.add_development_dependency "factory_bot_rails"
+  spec.add_development_dependency "pg", "~> 1.3"
+  spec.add_development_dependency "doorkeeper"
 
   spec.license = "Nonstandard"
 end
