@@ -50,9 +50,11 @@ jobs:
       - name: Run Standard
         run: bundle exec standardrb
 
+  # This runs the tests in the starter repo that are specifically for ActionModels. They live in
+  # test/system/action_models_test.rb in the starter repo.
   starter_repo:
     runs-on: ubuntu-latest
-    name: Bullet Train Starter Repo Action Models Tests
+    name: "🏗️"
     strategy:
       fail-fast: false
       matrix:
@@ -163,6 +165,8 @@ jobs:
       - name: Setup Action Models Tests
         run: bundle exec test/bin/setup-action-models-system-test
         working-directory: tmp/starter
+        env:
+          CIRCLE_NODE_INDEX: ${{ strategy.job-index }}
 
       - name: Run Action Models Tests
         id: run-tests
