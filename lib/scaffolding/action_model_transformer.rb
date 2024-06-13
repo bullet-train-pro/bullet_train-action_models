@@ -174,7 +174,7 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
   end
 
   def add_permit_joins_and_delegations
-    sorted_permit_parents = (permit_parents && parents)
+    sorted_permit_parents = permit_parents && parents
     joins, delegates = sorted_permit_parents.split(last_joinable_parent)
     joins << last_joinable_parent
 
