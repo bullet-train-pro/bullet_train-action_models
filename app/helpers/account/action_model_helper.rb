@@ -26,9 +26,9 @@ module Account::ActionModelHelper
 
     # Check each namespace part and get the object if necessary.
     path_parts = class_names.map do |class_name|
-      if action.respond_to?("#{class_name.underscore.singularize}_id".to_sym)
+      if action.respond_to?(:"#{class_name.underscore.singularize}_id")
         klass = class_name.singularize.constantize
-        attribute_id = action.send("#{class_name.underscore.singularize}_id".to_sym)
+        attribute_id = action.send(:"#{class_name.underscore.singularize}_id")
         object_arguments << klass.find(attribute_id)
         class_name.underscore.singularize
       else
