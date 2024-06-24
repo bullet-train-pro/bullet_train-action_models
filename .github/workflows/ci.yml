@@ -43,7 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v4
         with:
           ruby-version: "3.0"
           bundler-cache: true
@@ -107,7 +107,7 @@ jobs:
           repository: bullet-train-co/bullet_train-core
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v4
         with:
           working-directory: tmp/starter
           bundler-cache: true
@@ -116,7 +116,7 @@ jobs:
         run: corepack enable
 
       - name: Set up Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: tmp/starter/.nvmrc
           cache: 'yarn'
