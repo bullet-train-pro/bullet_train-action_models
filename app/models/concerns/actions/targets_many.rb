@@ -33,7 +33,8 @@ module Actions::TargetsMany
   end
 
   def remaining_targets
-    targeted.where("id > ?", last_completed_id).where.not(id: failed_ids).reorder(:id)
+    next_possible_target_id = last_completed_id + 1
+    targeted.where(id: next_possible_target_id..).where.not(id: failed_ids).reorder(:id)
   end
 
   def health_check_frequency
