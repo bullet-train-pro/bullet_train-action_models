@@ -103,7 +103,7 @@ class Scaffolding::ActionModelTransformer < Scaffolding::Transformer
     # Add the has_many to the parent model (not the target)
     scaffold_add_line_to_file(
       "./app/models/scaffolding/absolutely_abstract/creative_concept.rb",
-      "has_many :completely_concrete_tangible_things_#{targets_n}_actions, class_name: \"Scaffolding::CompletelyConcrete::TangibleThings::#{targets_n.classify}Action\", dependent: :destroy, foreign_key: :absolutely_abstract_creative_concept_id, enable_updates: true, inverse_of: :absolutely_abstract_creative_concept",
+      "has_many :completely_concrete_tangible_things_#{targets_n}_actions, class_name: \"Scaffolding::CompletelyConcrete::TangibleThings::#{targets_n.classify}Action\", dependent: :destroy, foreign_key: :absolutely_abstract_creative_concept_id, enable_cable_ready_updates: true, inverse_of: :absolutely_abstract_creative_concept",
       HAS_MANY_HOOK,
       prepend: true
     )
