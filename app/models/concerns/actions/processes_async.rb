@@ -18,7 +18,15 @@ module Actions::ProcessesAsync
   end
 
   def dispatch
-    self.sidekiq_jid = Actions::BackgroundActionWorker.set(sidekiq_queue ? {queue: sidekiq_queue} : {}).perform_async(self.class.name, id)
+    self.sidekiq_jid = worker_class.set(job_options).perform_async(self.class.name, id)
     save
+  end
+
+  def job_options
+    sidekiq_queue ? {queue: sidekiq_queue} : {}
+  end
+
+  def worker_class
+    Actions::BackgroundActionWorker
   end
 end
