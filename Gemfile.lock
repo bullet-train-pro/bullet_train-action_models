@@ -152,7 +152,7 @@ GEM
       railties (>= 5.2)
       thread-local (>= 1.1.0)
     cancancan (3.5.0)
-    charlock_holmes (0.7.7)
+    charlock_holmes (0.7.9)
     chronic (0.10.2)
     cloudinary (1.28.0)
       aws_cf_signer
@@ -399,6 +399,7 @@ GEM
 PLATFORMS
   arm64-darwin-22
   arm64-darwin-23
+  arm64-darwin-24
   x86_64-linux
 
 DEPENDENCIES
