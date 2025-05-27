@@ -21,9 +21,10 @@ Gem::Specification.new do |spec|
     Dir["{app,config,db,lib}/**/*", "test/controllers/**/*", "test/models/scaffolding/**/*", "test/factories/scaffolding/**/*", "LICENSE", "Rakefile", "README.md", ".bt-link"]
   end
 
-  spec.add_dependency "rails", ">= 6.0.0"
+  spec.add_dependency "rails", ">= 6.0.0", "< 8"
   spec.add_dependency "matrix"
   spec.add_dependency "roo"
+  spec.add_dependency "csv"
   spec.add_dependency "bullet_train"
   spec.add_dependency "bullet_train-super_scaffolding"
   # TODO: This is here because the main `bullet_train` gem needs it, but doesn't declare the dependency
