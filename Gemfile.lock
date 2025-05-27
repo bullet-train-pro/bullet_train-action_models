@@ -5,6 +5,7 @@ PATH
       bullet_train
       bullet_train-fields
       bullet_train-super_scaffolding
+      csv
       matrix
       rails (>= 6.0.0)
       roo
@@ -87,7 +88,7 @@ GEM
     base64 (0.2.0)
     bcrypt (3.1.20)
     builder (3.2.4)
-    bullet_train (1.6.21)
+    bullet_train (1.6.25)
       awesome_print
       bullet_train-has_uuid
       bullet_train-roles
@@ -120,7 +121,7 @@ GEM
       unicode-emoji
       valid_email
       xxhash
-    bullet_train-fields (1.6.21)
+    bullet_train-fields (1.20.0)
       chronic
       cloudinary
       phonelib
@@ -138,8 +139,8 @@ GEM
     bullet_train-super_load_and_authorize_resource (1.6.21)
       cancancan
       rails (>= 6.0.0)
-    bullet_train-super_scaffolding (1.6.21)
-      colorizer
+    bullet_train-super_scaffolding (1.20.0)
+      colorize
       indefinite_article
       masamune-ast (~> 2.0.2)
       rails (>= 6.0.0)
@@ -152,11 +153,12 @@ GEM
       railties (>= 5.2)
       thread-local (>= 1.1.0)
     cancancan (3.5.0)
-    charlock_holmes (0.7.7)
+    charlock_holmes (0.7.9)
     chronic (0.10.2)
     cloudinary (1.28.0)
       aws_cf_signer
       rest-client (>= 2.0.0)
+    colorize (1.1.0)
     colorizer (0.0.2)
     commonmarker (0.23.10)
     concurrent-ruby (1.2.0)
@@ -164,6 +166,7 @@ GEM
     crass (1.0.6)
     css_parser (1.16.0)
       addressable
+    csv (3.3.4)
     date (3.3.3)
     devise (4.9.3)
       bcrypt (~> 3.0)
@@ -399,6 +402,7 @@ GEM
 PLATFORMS
   arm64-darwin-22
   arm64-darwin-23
+  arm64-darwin-24
   x86_64-linux
 
 DEPENDENCIES
