@@ -5,8 +5,9 @@ PATH
       bullet_train
       bullet_train-fields
       bullet_train-super_scaffolding
+      csv
       matrix
-      rails (>= 6.0.0)
+      rails (>= 6.0.0, < 8)
       roo
 
 GEM
@@ -165,6 +166,7 @@ GEM
     crass (1.0.6)
     css_parser (1.16.0)
       addressable
+    csv (3.3.4)
     date (3.3.3)
     devise (4.9.3)
       bcrypt (~> 3.0)
