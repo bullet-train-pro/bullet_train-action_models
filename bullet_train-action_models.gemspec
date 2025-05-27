@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
     Dir["{app,config,db,lib}/**/*", "test/controllers/**/*", "test/models/scaffolding/**/*", "test/factories/scaffolding/**/*", "LICENSE", "Rakefile", "README.md", ".bt-link"]
   end
 
-  spec.add_dependency "rails", ">= 6.0.0", "< 8"
+  spec.add_dependency "rails", ">= 6.0.0"
   spec.add_dependency "matrix"
   spec.add_dependency "roo"
   spec.add_dependency "csv"

@@ -7,7 +7,7 @@ PATH
       bullet_train-super_scaffolding
       csv
       matrix
-      rails (>= 6.0.0, < 8)
+      rails (>= 6.0.0)
       roo
 
 GEM
